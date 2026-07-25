@@ -9780,9 +9780,9 @@
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="added"><i>3</i><span><strong>加入个人日报</strong><small>沉淀单一关注指标</small></span></button>
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="skill"><i>4</i><span><strong>生成个人 Skill</strong><small>持续维护关注指标</small></span></button>
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="summary"><i>5</i><span><strong>查看通用分析</strong><small>成本、未决、服务与大灾</small></span></button>
-            <button class="analytics-demo-step" type="button" data-analytics-demo-step="cost-breakdown"><i>6</i><span><strong>成本拆解分析</strong><small>车均定损金额配件/工时/辅料</small></span></button>
-            <button class="analytics-demo-step" type="button" data-analytics-demo-step="risk-leakage"><i>7</i><span><strong>渗漏风险减损</strong><small>配件/工时/辅料渗漏拦截效果</small></span></button>
-            <button class="analytics-demo-step" type="button" data-analytics-demo-step="industry-benchmark"><i>8</i><span><strong>行业对标分析</strong><small>7维度×3角度×50指标对比</small></span></button>
+            <button class="analytics-demo-step" type="button" data-analytics-demo-step="cost-breakdown"><i>6</i><span><strong>成本拆解分析</strong><small>主动推送配件/工时/辅料拆解</small></span></button>
+            <button class="analytics-demo-step" type="button" data-analytics-demo-step="risk-leakage"><i>7</i><span><strong>渗漏风险减损</strong><small>主动推送配件/工时渗漏拦截效果</small></span></button>
+            <button class="analytics-demo-step" type="button" data-analytics-demo-step="industry-benchmark"><i>8</i><span><strong>行业对标分析</strong><small>主动推送 7 维度×3 角度对标</small></span></button>
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="consulting"><i>9</i><span><strong>咨询分析报告库</strong><small>5 类定期报告与定制生成</small></span></button>
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="skill-management"><i>10</i><span><strong>打开 Skill 管理</strong><small>查看已沉淀的个人 Skill</small></span></button>
           </nav>
@@ -13933,19 +13933,25 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     const renderCostBreakdownChart = (roleKey) => {
       const chartId = `${roleKey}-cost-breakdown`;
       const seg = analyticsCostBreakdownData.segments;
-      const barX = 150, barW = 480, barY = 40, barH = 30;
+      const barX = 130, barW = 520, barY = 40, barH = 28;
       let cursor = barX;
       const segRects = seg.map((s) => {
         const w = barW * s.ratio / 100;
-        const rect = `<rect x="${cursor}" y="${barY}" width="${w}" height="${barH}" fill="${s.color}" data-chart-series="${s.key}" tabindex="0" role="img" aria-label="${s.label}${s.ratio}%" data-analytics-tooltip="${s.label} · 占比 ${s.ratio}% · 车均 ${s.amount}"><title>${s.label} · 占比 ${s.ratio}% · 车均 ${s.amount}</title></rect><text x="${cursor + w / 2}" y="${barY + 20}" fill="#fff" font-size="11" font-weight="600" text-anchor="middle" data-chart-series="${s.key}">${s.ratio}%</text>`;
+        const rect = `<rect x="${cursor}" y="${barY}" width="${w}" height="${barH}" fill="${s.color}" data-chart-series="${s.key}" tabindex="0" role="img" aria-label="${s.label}${s.ratio}%" data-analytics-tooltip="${s.label} · 占比 ${s.ratio}% · 车均 ${s.amount}"><title>${s.label} · 占比 ${s.ratio}% · 车均 ${s.amount}</title></rect><text x="${cursor + w / 2}" y="${barY + 19}" fill="#fff" font-size="11" font-weight="600" text-anchor="middle" data-chart-series="${s.key}">${s.ratio}%</text>`;
         cursor += w;
         return rect;
       }).join("");
+      const segLabels = seg.map((s) => { const p = barX + barW * seg.slice(0, seg.indexOf(s)).reduce((a, x) => a + x.ratio, 0) / 100 + barW * s.ratio / 200; return `<text x="${p}" y="${barY + barH + 15}" text-anchor="middle" class="analytics-chart-axis-label">${s.label} ${s.amount}</text>`; }).join("");
       const laborRows = analyticsCostBreakdownData.laborDetail.map((l, i) => {
-        const w = l.ratio * 4.8;
-        return `<text x="12" y="${112 + i * 28}" class="analytics-chart-axis-label">${l.label}</text><rect x="80" y="${98 + i * 28}" width="${w}" height="16" rx="3" fill="#f3982d" opacity="${0.45 + i * 0.12}" data-chart-series="labor" tabindex="0" data-analytics-tooltip="${l.label} · 占比 ${l.ratio}% · ${l.amount}"><title>${l.label} · 占比 ${l.ratio}% · ${l.amount}</title></rect><text x="${88 + w}" y="${110 + i * 28}" class="analytics-chart-value-label" data-chart-series="labor">${l.ratio}%</text>`;
+        const w = l.ratio * 10;
+        const y = 120 + i * 26;
+        return `<text x="12" y="${y + 12}" class="analytics-chart-axis-label">${l.label}</text><rect x="100" y="${y}" width="${w}" height="14" rx="3" fill="#f3982d" opacity="${0.5 + i * 0.1}" data-chart-series="labor" tabindex="0" data-analytics-tooltip="${l.label} · 占比 ${l.ratio}% · ${l.amount}"><title>${l.label} · 占比 ${l.ratio}% · ${l.amount}</title></rect><text x="${108 + w}" y="${y + 11}" class="analytics-chart-value-label" data-chart-series="labor">${l.ratio}% · ${l.amount}</text>`;
       }).join("");
-      const cityRows = analyticsCostBreakdownData.cityTier.map((c, i) => `<text x="430" y="${112 + i * 28}" class="analytics-chart-axis-label">${c.label}</text><rect x="500" y="${98 + i * 28}" width="${c.value * 14}" height="16" rx="3" fill="#175dff" opacity="${0.4 + i * 0.2}" data-chart-series="city" tabindex="0" data-analytics-tooltip="${c.label} · 车均定损 ${c.value} 万"><title>${c.label} · 车均定损 ${c.value} 万</title></rect><text x="${508 + c.value * 14}" y="${110 + i * 28}" class="analytics-chart-value-label" data-chart-series="city">${c.value} 万</text>`).join("");
+      const cityRows = analyticsCostBreakdownData.cityTier.map((c, i) => {
+        const w = c.value * 26;
+        const y = 266 + i * 26;
+        return `<text x="12" y="${y + 12}" class="analytics-chart-axis-label">${c.label}</text><rect x="100" y="${y}" width="${w}" height="14" rx="3" fill="#175dff" opacity="${0.4 + i * 0.2}" data-chart-series="city" tabindex="0" data-analytics-tooltip="${c.label} · 车均定损 ${c.value} 万"><title>${c.label} · 车均定损 ${c.value} 万</title></rect><text x="${108 + w}" y="${y + 11}" class="analytics-chart-value-label" data-chart-series="city">${c.value} 万</text>`;
+      }).join("");
       return analyticsChartCard({
         id: chartId,
         title: "车均定损金额拆解",
@@ -13955,7 +13961,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
           { key: "labor", label: "工时", color: "#f3982d" },
           { key: "material", label: "辅料", color: "#00c070" }
         ],
-        svg: `<svg viewBox="0 0 720 280" aria-label="车均定损金额拆解图"><text x="12" y="30" class="analytics-chart-axis-label">车均定损金额构成</text>${segRects}<text x="12" y="92" class="analytics-chart-axis-label" style="font-weight:600">工时明细占比</text>${laborRows}<text x="430" y="92" class="analytics-chart-axis-label" style="font-weight:600">城市分级对比（万元）</text>${cityRows}</svg>`,
+        svg: `<svg viewBox="0 0 720 360" aria-label="车均定损金额拆解图"><text x="12" y="28" class="analytics-chart-axis-label">车均定损金额构成</text>${segRects}${segLabels}<text x="12" y="110" class="analytics-chart-axis-label" style="font-weight:600">工时明细占比</text>${laborRows}<text x="12" y="256" class="analytics-chart-axis-label" style="font-weight:600">城市分级对比（万元）</text>${cityRows}</svg>`,
         insight: analyticsCostBreakdownData.insight,
         source: "车损平台定损数据 · 7维度×3角度×50指标框架"
       });
@@ -13964,16 +13970,21 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const chartId = `${roleKey}-risk-leakage`;
       const cats = analyticsRiskLeakageData.categories;
       const catRows = cats.map((c, i) => {
-        const w = c.count * 2.8;
-        return `<text x="12" y="${47 + i * 38}" class="analytics-chart-axis-label">${c.label}</text><rect x="110" y="${31 + i * 38}" width="${w}" height="22" rx="4" fill="${c.color}" data-chart-series="${c.key}" tabindex="0" role="img" aria-label="${c.label}${c.count}件" data-analytics-tooltip="${c.label} · ${c.count} 件 · 减损 ${c.amount} · 拦截率 ${c.rate}"><title>${c.label} · ${c.count} 件 · 减损 ${c.amount} · 拦截率 ${c.rate}</title></rect><text x="${120 + w}" y="${46 + i * 38}" class="analytics-chart-value-label" data-chart-series="${c.key}">${c.count} 件 · ${c.amount}</text>`;
+        const w = c.count * 2.2;
+        const y = 34 + i * 36;
+        return `<text x="12" y="${y + 15}" class="analytics-chart-axis-label">${c.label}</text><rect x="110" y="${y}" width="${w}" height="20" rx="4" fill="${c.color}" data-chart-series="${c.key}" tabindex="0" role="img" aria-label="${c.label}${c.count}件" data-analytics-tooltip="${c.label} · ${c.count} 件 · 减损 ${c.amount} · 拦截率 ${c.rate}"><title>${c.label} · ${c.count} 件 · 减损 ${c.amount} · 拦截率 ${c.rate}</title></rect><text x="${120 + w}" y="${y + 14}" class="analytics-chart-value-label" data-chart-series="${c.key}">${c.count} 件 · ${c.amount} · 拦截 ${c.rate}</text>`;
       }).join("");
-      const detailRows = analyticsRiskLeakageData.detail.map((d, i) => `<text x="400" y="${47 + i * 32}" class="analytics-chart-axis-label">${d.label}</text><rect x="490" y="${33 + i * 32}" width="${d.count * 3}" height="18" rx="3" fill="#ff5e5e" opacity="${0.4 + i * 0.15}" data-chart-series="detail" tabindex="0" data-analytics-tooltip="${d.label} · ${d.count} 件 · ${d.amount}"><title>${d.label} · ${d.count} 件 · ${d.amount}</title></rect><text x="${498 + d.count * 3}" y="${47 + i * 32}" class="analytics-chart-value-label" data-chart-series="detail">${d.count}</text>`).join("");
+      const detailRows = analyticsRiskLeakageData.detail.map((d, i) => {
+        const w = d.count * 4;
+        const y = 200 + i * 30;
+        return `<text x="12" y="${y + 12}" class="analytics-chart-axis-label">${d.label}</text><rect x="120" y="${y}" width="${w}" height="16" rx="3" fill="#ff5e5e" opacity="${0.45 + i * 0.12}" data-chart-series="detail" tabindex="0" data-analytics-tooltip="${d.label} · ${d.count} 件 · ${d.amount}"><title>${d.label} · ${d.count} 件 · ${d.amount}</title></rect><text x="${128 + w}" y="${y + 12}" class="analytics-chart-value-label" data-chart-series="detail">${d.count} 件 · ${d.amount}</text>`;
+      }).join("");
       return analyticsChartCard({
         id: chartId,
         title: "渗漏风险减损分析",
-        subtitle: "配件 / 工时 / 辅料 / 碰撞部位预警 + 配件风险明细",
+        subtitle: "按风险类型汇总 + 配件渗漏明细",
         legends: cats.map((c) => ({ key: c.key, label: c.label, color: c.color })),
-        svg: `<svg viewBox="0 0 720 220" aria-label="渗漏风险减损分析图"><text x="12" y="18" class="analytics-chart-axis-label" style="font-weight:600">按风险类型</text>${catRows}<text x="400" y="18" class="analytics-chart-axis-label" style="font-weight:600">配件风险明细</text>${detailRows}</svg>`,
+        svg: `<svg viewBox="0 0 720 340" aria-label="渗漏风险减损分析图"><text x="12" y="20" class="analytics-chart-axis-label" style="font-weight:600">按风险类型</text>${catRows}<text x="12" y="188" class="analytics-chart-axis-label" style="font-weight:600">配件渗漏明细</text>${detailRows}</svg>`,
         insight: analyticsRiskLeakageData.insight,
         source: "风控规则引擎与定核损拦截记录"
       });
@@ -13981,24 +13992,32 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     const renderBenchmarkChart = (roleKey) => {
       const chartId = `${roleKey}-benchmark`;
       const metrics = analyticsBenchmarkData.metrics;
-      const brandRows = analyticsBenchmarkData.brands.map((b, i) => `<text x="12" y="${47 + i * 28}" class="analytics-chart-axis-label">${b.name}</text><rect x="80" y="${33 + i * 28}" width="${b.value * 20}" height="16" rx="3" fill="#175dff" data-chart-series="brand" tabindex="0" data-analytics-tooltip="${b.name} · 车均定损 ${b.value} 万"><title>${b.name} · 车均定损 ${b.value} 万</title></rect><text x="${88 + b.value * 20}" y="${45 + i * 28}" class="analytics-chart-value-label" data-chart-series="brand">${b.value} 万</text>`).join("");
-      const policyRows = analyticsBenchmarkData.policy.map((p, i) => `<text x="400" y="${47 + i * 30}" class="analytics-chart-axis-label">${p.label}</text><rect x="490" y="${33 + i * 30}" width="${p.value * 20}" height="18" rx="3" fill="${i === 0 ? "#f3982d" : "#00c070"}" data-chart-series="policy" tabindex="0" data-analytics-tooltip="${p.label} · 车均 ${p.value} 万"><title>${p.label} · 车均 ${p.value} 万</title></rect><text x="${498 + p.value * 20}" y="${47 + i * 30}" class="analytics-chart-value-label" data-chart-series="policy">${p.value} 万</text>`).join("");
+      const brandRows = analyticsBenchmarkData.brands.map((b, i) => {
+        const w = b.value * 24;
+        const y = 34 + i * 26;
+        return `<text x="12" y="${y + 12}" class="analytics-chart-axis-label">${b.name}</text><rect x="80" y="${y}" width="${w}" height="14" rx="3" fill="#175dff" data-chart-series="brand" tabindex="0" data-analytics-tooltip="${b.name} · 车均定损 ${b.value} 万"><title>${b.name} · 车均定损 ${b.value} 万</title></rect><text x="${88 + w}" y="${y + 11}" class="analytics-chart-value-label" data-chart-series="brand">${b.value} 万</text>`;
+      }).join("");
+      const policyRows = analyticsBenchmarkData.policy.map((p, i) => {
+        const w = p.value * 24;
+        const y = 180 + i * 28;
+        return `<text x="12" y="${y + 12}" class="analytics-chart-axis-label">${p.label}</text><rect x="120" y="${y}" width="${w}" height="16" rx="3" fill="${i === 0 ? "#f3982d" : "#00c070"}" data-chart-series="policy" tabindex="0" data-analytics-tooltip="${p.label} · 车均 ${p.value} 万"><title>${p.label} · 车均 ${p.value} 万</title></rect><text x="${128 + w}" y="${y + 12}" class="analytics-chart-value-label" data-chart-series="policy">${p.value} 万</text>`;
+      }).join("");
       const metricRows = metrics.map((m, i) => {
-        const yBase = 140 + i * 32;
+        const yBase = 260 + i * 38;
         const maxVal = Math.max(m.self, m.industry, m.top);
-        const scale = 180 / maxVal;
-        return `<text x="12" y="${yBase + 12}" class="analytics-chart-axis-label">${m.label}</text><rect x="110" y="${yBase}" width="${m.self * scale}" height="14" rx="3" fill="#175dff" data-chart-series="self" tabindex="0" data-analytics-tooltip="本公司 · ${m.self}${m.unit}"><title>本公司 · ${m.self}${m.unit}</title></rect><rect x="110" y="${yBase + 15}" width="${m.industry * scale}" height="14" rx="3" fill="#909090" data-chart-series="industry" tabindex="0" data-analytics-tooltip="行业均值 · ${m.industry}${m.unit}"><title>行业均值 · ${m.industry}${m.unit}</title></rect><rect x="110" y="${yBase + 30}" width="${m.top * scale}" height="14" rx="3" fill="#00c070" data-chart-series="top" tabindex="0" data-analytics-tooltip="行业头部 · ${m.top}${m.unit}"><title>行业头部 · ${m.top}${m.unit}</title></rect><text x="${116 + m.self * scale}" y="${yBase + 11}" class="analytics-chart-value-label" data-chart-series="self">${m.self}</text>`;
+        const scale = 300 / maxVal;
+        return `<text x="12" y="${yBase + 11}" class="analytics-chart-axis-label">${m.label}</text><rect x="120" y="${yBase - 2}" width="${m.self * scale}" height="10" rx="3" fill="#175dff" data-chart-series="self" tabindex="0" data-analytics-tooltip="本公司 · ${m.self}${m.unit}"><title>本公司 · ${m.self}${m.unit}</title></rect><text x="${126 + m.self * scale}" y="${yBase + 6}" class="analytics-chart-value-label" data-chart-series="self">${m.self}</text><rect x="120" y="${yBase + 11}" width="${m.industry * scale}" height="10" rx="3" fill="#909090" data-chart-series="industry" tabindex="0" data-analytics-tooltip="行业均值 · ${m.industry}${m.unit}"><title>行业均值 · ${m.industry}${m.unit}</title></rect><text x="${126 + m.industry * scale}" y="${yBase + 19}" class="analytics-chart-value-label" data-chart-series="industry">${m.industry}</text><rect x="120" y="${yBase + 24}" width="${m.top * scale}" height="10" rx="3" fill="#00c070" data-chart-series="top" tabindex="0" data-analytics-tooltip="行业头部 · ${m.top}${m.unit}"><title>行业头部 · ${m.top}${m.unit}</title></rect><text x="${126 + m.top * scale}" y="${yBase + 32}" class="analytics-chart-value-label" data-chart-series="top">${m.top}</text>`;
       }).join("");
       return analyticsChartCard({
         id: chartId,
         title: "行业对标分析",
-        subtitle: "7 维度 × 3 角度 × 50+ 指标 · 品牌维度 · 理赔政策维度",
+        subtitle: "品牌维度 · 理赔政策维度 · 核心指标三列对比",
         legends: [
           { key: "self", label: "本公司", color: "#175dff" },
           { key: "industry", label: "行业均值", color: "#909090" },
           { key: "top", label: "行业头部", color: "#00c070" }
         ],
-        svg: `<svg viewBox="0 0 720 300" aria-label="行业对标分析图"><text x="12" y="18" class="analytics-chart-axis-label" style="font-weight:600">品牌维度·车均定损金额（万）</text>${brandRows}<text x="400" y="18" class="analytics-chart-axis-label" style="font-weight:600">理赔政策维度</text>${policyRows}<text x="12" y="140" class="analytics-chart-axis-label" style="font-weight:600">核心指标对标</text>${metricRows}</svg>`,
+        svg: `<svg viewBox="0 0 720 420" aria-label="行业对标分析图"><text x="12" y="20" class="analytics-chart-axis-label" style="font-weight:600">品牌维度 · 车均定损金额（万）</text>${brandRows}<text x="12" y="168" class="analytics-chart-axis-label" style="font-weight:600">理赔政策维度</text>${policyRows}<text x="12" y="248" class="analytics-chart-axis-label" style="font-weight:600">核心指标对标</text>${metricRows}</svg>`,
         insight: analyticsBenchmarkData.insight,
         source: "行业对标数据库 · 7维度分析框架"
       });
@@ -14112,7 +14131,13 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         "industry-benchmark": () => renderBenchmarkChart(context.roleKey)
       };
       const safeTopic = analyticsTopicLabels[topicKey] ? topicKey : "process-cost";
-      return `<section class="analytics-topic-artifact"><header class="analytics-topic-artifact-head"><span><strong>${analyticsTopicLabels[safeTopic]}</strong><span>${context.roleLabel} · 上海分公司 · 2026-07-24</span></span><span class="analytics-scope-pill is-demo">Demo 数据</span></header><div class="analytics-topic-artifact-body"><strong>管理结论：</strong>${role.topicCopy[safeTopic]}</div>${charts[safeTopic]()}</section>`;
+      const consultingTopics = ["cost-breakdown", "risk-leakage", "industry-benchmark"];
+      const isConsulting = consultingTopics.includes(safeTopic);
+      const skillKey = `consulting-${safeTopic}`;
+      const skillAdded = analyticsPersonalMetrics.includes(skillKey);
+      const skillLabels = { "cost-breakdown": "成本拆解分析", "risk-leakage": "渗漏风险减损", "industry-benchmark": "行业对标分析" };
+      const actionBtn = isConsulting ? `<div class="analytics-person-card-actions"><button class="analytics-demo-primary" type="button" data-analytics-add-consulting-skill="${safeTopic}"${skillAdded ? " disabled" : ""}>${skillAdded ? "已加入我的技能" : `加入我的技能`}</button></div>` : "";
+      return `<section class="analytics-topic-artifact"><header class="analytics-topic-artifact-head"><span><strong>${analyticsTopicLabels[safeTopic]}</strong><span>${context.roleLabel} · 上海分公司 · 2026-07-24</span></span><span class="analytics-scope-pill is-demo">Demo 数据</span></header><div class="analytics-topic-artifact-body"><strong>管理结论：</strong>${role.topicCopy[safeTopic]}</div>${charts[safeTopic]()}${actionBtn}</section>`;
     };
     const renderAnalyticsConversation = () => {
       if (!xosHomeDialogueThread || !xosHome) return;
@@ -14183,20 +14208,17 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       }
       if (stage === "cost-breakdown") {
         setAnalyticsDemoStage("cost-breakdown");
-        appendAnalyticsMessage("user", "展开车均定损金额的成本拆解。", false);
-        appendAnalyticsMessage("agent", `<p>已按车损平台口径拆解车均定损金额，配件/工时/辅料占比、工时明细和城市分级如下。</p>${renderAnalyticsTopicArtifact("cost-breakdown")}`);
+        appendAnalyticsMessage("agent", `<p>基于车损平台定损数据，我主动为你拆解了车均定损金额的配件/工时/辅料成本结构，并补充了工时明细与城市分级对比。</p>${renderAnalyticsTopicArtifact("cost-breakdown")}`);
         return;
       }
       if (stage === "risk-leakage") {
         setAnalyticsDemoStage("risk-leakage");
-        appendAnalyticsMessage("user", "查看渗漏风险减损情况。", false);
-        appendAnalyticsMessage("agent", `<p>已按风控规则引擎汇总本期渗漏风险减损数据。配件 OE 总分关系拦截精准度达 95%+，总成局部风险仍是减损主力。</p>${renderAnalyticsTopicArtifact("risk-leakage")}`);
+        appendAnalyticsMessage("agent", `<p>基于风控规则引擎，我主动汇总了本期渗漏风险减损数据。配件 OE 总分关系拦截精准度达 95%+，总成局部风险仍是减损主力。</p>${renderAnalyticsTopicArtifact("risk-leakage")}`);
         return;
       }
       if (stage === "industry-benchmark") {
         setAnalyticsDemoStage("industry-benchmark");
-        appendAnalyticsMessage("user", "与行业对标对比核心指标。", false);
-        appendAnalyticsMessage("agent", `<p>已按 7 维度× 3 角度×50+ 指标框架完成行业对标，覆盖品牌维度与理赔政策维度。</p>${renderAnalyticsTopicArtifact("industry-benchmark")}`);
+        appendAnalyticsMessage("agent", `<p>基于行业对标数据库，我主动完成了 7 维度×3 角度×50+ 指标框架的行业对标分析，覆盖品牌维度与理赔政策维度。</p>${renderAnalyticsTopicArtifact("industry-benchmark")}`);
         return;
       }
       if (stage === "consulting") {
@@ -14261,6 +14283,18 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       }
       if (/推送.*日报|日报模板|生成.*日报|昨日日报/.test(normalized)) {
         runAnalyticsAction("template");
+        return true;
+      }
+      if (/成本拆解|车均定损|配件金额/.test(normalized)) {
+        renderAnalyticsDialogue("cost-breakdown");
+        return true;
+      }
+      if (/渗漏|风控|减损|拦截/.test(normalized)) {
+        renderAnalyticsDialogue("risk-leakage");
+        return true;
+      }
+      if (/行业对标|对标|行业均值/.test(normalized)) {
+        renderAnalyticsDialogue("industry-benchmark");
         return true;
       }
       if (/咨询报告|报告库|分析报告/.test(normalized)) {
@@ -15497,6 +15531,33 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         }
         if (event.target.closest("[data-analytics-open-skill]")) {
           openAnalyticsSkillManagement();
+          return;
+        }
+        const consultingSkillBtn = event.target.closest("[data-analytics-add-consulting-skill]");
+        if (consultingSkillBtn) {
+          const topicKey = consultingSkillBtn.dataset.analyticsAddConsultingSkill;
+          const skillKey = `consulting-${topicKey}`;
+          const skillLabels = { "cost-breakdown": "成本拆解分析", "risk-leakage": "渗漏风险减损", "industry-benchmark": "行业对标分析" };
+          if (!analyticsPersonalMetrics.includes(skillKey)) {
+            analyticsPersonalMetrics.push(skillKey);
+            const skillName = skillLabels[topicKey] || topicKey;
+            installedSkillRows.unshift({
+              name: skillName,
+              icon: "咨",
+              iconClass: "",
+              source: "咨询分析",
+              description: `基于咨询服务体系，每天 09:10 推送${skillName}结果，含管理结论与行动建议。`,
+              category: "review",
+              agents: "数据分析 Agent",
+              calls: "0 次调用",
+              version: "v1.0.0",
+              enabled: true,
+              analyticsDemo: true
+            });
+            showToast(`已将“${skillName}”加入个人技能`);
+          }
+          consultingSkillBtn.textContent = "已加入我的技能";
+          consultingSkillBtn.disabled = true;
           return;
         }
         const analyticsTopic = event.target.closest("[data-analytics-topic]");
