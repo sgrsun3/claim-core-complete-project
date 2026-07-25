@@ -1,0 +1,1481 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>办公区</title>
+  <style>
+    :root {
+      --color-primary: #175dff;
+      --color-success: #00c070;
+      --color-warning: #f3982d;
+      --color-error: #ff5e5e;
+      --text-1: #222;
+      --text-2: #616161;
+      --text-3: #909090;
+      --border: #e1e8eb;
+      --border-light: #eef1f6;
+      --bg-page: #f7f8f9;
+      --bg-panel: #fff;
+      --bg-soft: #f2f4f8;
+      --blue-20: #e7eeff;
+      --radius-4: 4px;
+      --radius-8: 8px;
+      --radius-12: 12px;
+      --shadow-1: 0 2px 8px rgba(31, 45, 61, .08);
+      --shadow-2: 0 12px 32px rgba(31, 45, 61, .14);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-width: 1180px; min-height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg-page);
+      color: var(--text-1);
+      font: 14px/20px "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    }
+    button { font: inherit; }
+
+    .app-shell { min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1fr); }
+    .main { min-width: 0; }
+    .topbar {
+      display: flex;
+      height: 56px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      border-bottom: 1px solid var(--border);
+      background: #fff;
+    }
+    .topbar-path { color: var(--text-2); font-size: 13px; }
+    .topbar-path b { color: var(--text-1); font-weight: 500; }
+    .topbar-tools { display: flex; align-items: center; gap: 16px; color: var(--text-2); font-size: 12px; }
+    .online { display: inline-flex; align-items: center; gap: 6px; color: #25866d; }
+    .online::before { width: 6px; height: 6px; border-radius: 50%; background: var(--color-success); content: ""; }
+    .topbar-icon { display: grid; width: 28px; height: 28px; place-items: center; border: 0; border-radius: var(--radius-4); background: transparent; color: #586174; cursor: pointer; }
+    .topbar-icon:hover { background: var(--bg-soft); color: var(--text-1); }
+    .topbar-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+
+    .workspace { max-width: 1658px; margin: 0 auto; padding: 24px 32px 32px; }
+    .breadcrumb { margin-bottom: 14px; color: var(--text-3); font-size: 12px; }
+    .breadcrumb span { margin: 0 8px; color: #c5cad3; }
+    .page-head { display: flex; align-items: end; justify-content: space-between; margin-bottom: 20px; }
+    .page-head h1 { margin: 0; font-size: 24px; line-height: 32px; font-weight: 600; }
+    .page-head time { color: var(--text-3); font-size: 12px; }
+
+    .metrics { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .metric { min-height: 84px; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-8); background: var(--bg-panel); }
+    .metric span { display: block; color: var(--text-2); font-size: 12px; }
+    .metric strong { display: block; margin-top: 6px; color: var(--text-1); font-size: 22px; line-height: 24px; font-weight: 600; }
+    .metric strong.danger { color: var(--color-error); }
+    .metric strong.success { color: #168968; }
+    .metric small { display: block; margin-top: 5px; color: var(--text-3); font-size: 11px; }
+
+    .office-layout { display: grid; grid-template-columns: minmax(700px, 1fr) 332px; gap: 16px; align-items: stretch; }
+    .panel { border: 1px solid var(--border); border-radius: var(--radius-8); background: var(--bg-panel); box-shadow: var(--shadow-1); }
+    .panel-head { display: flex; min-height: 52px; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid var(--border-light); }
+    .panel-head h2 { margin: 0; font-size: 16px; line-height: 24px; font-weight: 600; }
+    .panel-head .head-state { display: inline-flex; align-items: center; gap: 6px; color: var(--text-2); font-size: 12px; }
+    .panel-head .head-state i { width: 7px; height: 7px; border-radius: 50%; background: var(--color-success); animation: live-pulse 1.8s ease-in-out infinite; }
+    .canvas-actions { display: flex; gap: 8px; }
+    .canvas-actions button, .secondary-btn, .primary-btn {
+      height: 28px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-4);
+      background: #fff;
+      color: var(--text-2);
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .canvas-actions button:hover, .secondary-btn:hover { border-color: #aeb8c6; background: var(--bg-soft); color: var(--text-1); }
+    .primary-btn { border-color: var(--color-primary); background: var(--color-primary); color: #fff; }
+    .primary-btn:hover { border-color: #124bd4; background: #124bd4; }
+
+    .office-stage { position: relative; height: 604px; overflow: hidden; border-radius: 0 0 var(--radius-8) var(--radius-8); background: #f2f5f8; }
+    .office-loading { position:absolute; z-index:6; inset:0; display:grid; place-content:center; gap:10px; background:rgba(247,248,249,.94); color:#536173; text-align:center; transition:opacity .24s ease, visibility .24s ease; }.office-loading.is-hidden { opacity:0; visibility:hidden; pointer-events:none; }.office-loading strong { color:#2f3b4c; font-size:15px; font-weight:600; }.office-loading small { color:#8a96a5; font-size:11px; }.loading-orbit { position:relative; width:34px; height:34px; margin:0 auto 2px; border:3px solid #dbe5f5; border-top-color:#175dff; border-radius:50%; animation:office-loading-spin .8s linear infinite; }.loading-orbit::after { position:absolute; top:50%; left:50%; width:6px; height:6px; border-radius:50%; background:#00c070; content:''; transform:translate(-50%,-50%); }.office-loading-dots { display:inline-flex; gap:4px; margin-left:4px; vertical-align:middle; }.office-loading-dots i { width:4px; height:4px; border-radius:50%; background:#175dff; animation:office-loading-dot 1.1s ease-in-out infinite; }.office-loading-dots i:nth-child(2) { animation-delay:.14s; }.office-loading-dots i:nth-child(3) { animation-delay:.28s; }
+    .office-stage canvas { display: block; width: 100%; height: 100%; cursor: default; }
+    .canvas-tip {
+      position: absolute;
+      z-index: 2;
+      display: none;
+      min-width: 126px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-4);
+      background: rgba(255,255,255,.96);
+      box-shadow: var(--shadow-2);
+      color: var(--text-1);
+      font-size: 12px;
+      pointer-events: none;
+    }
+    .canvas-tip b { display: block; font-size: 13px; font-weight: 600; }
+    .canvas-tip span { color: var(--text-2); font-size: 11px; }
+    .office-legend { display: flex; align-items: center; gap: 14px; height: 40px; padding: 0 16px; border-top: 1px solid var(--border-light); color: var(--text-2); font-size: 12px; }
+    .office-legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .legend-dot.work { background: var(--color-success); }.legend-dot.walk { background: var(--color-primary); }.legend-dot.wait { background: var(--color-warning); }
+
+    .agent-panel { display: flex; flex-direction: column; min-height: 696px; overflow: hidden; }
+    .agent-profile { padding: 16px; border-bottom: 1px solid var(--border-light); }
+    .agent-profile-top { display: flex; gap: 12px; align-items: center; }
+    .agent-avatar { display: grid; width: 44px; height: 44px; place-items: center; border-radius: 12px; color: #fff; font-weight: 600; font-size: 16px; }
+    .agent-profile h3 { margin: 0; font-size: 16px; line-height: 22px; font-weight: 600; }
+    .agent-profile p { margin: 2px 0 0; color: var(--text-2); font-size: 12px; }
+    .agent-status { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; padding: 2px 8px; border-radius: 4px; background: #eef9f5; color: #248466; font-size: 12px; }
+    .agent-status::before { width: 5px; height: 5px; border-radius: 50%; background: currentColor; content: ""; }
+    .agent-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 14px; }
+    .agent-stat { padding: 8px; border-radius: var(--radius-4); background: var(--bg-soft); }
+    .agent-stat span { display: block; color: var(--text-3); font-size: 11px; }
+    .agent-stat strong { display: block; margin-top: 2px; color: var(--text-1); font-size: 15px; line-height: 20px; font-weight: 600; }
+    .task-section { min-height: 0; padding: 16px; }
+    .task-section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .task-section h3 { margin: 0; font-size: 14px; line-height: 20px; font-weight: 600; }
+    .task-section small { color: var(--text-3); font-size: 11px; }
+    .task-list { display: grid; gap: 8px; }
+    .task-item { width: 100%; padding: 10px; border: 1px solid var(--border-light); border-radius: var(--radius-4); background: #fff; color: var(--text-1); cursor: pointer; text-align: left; }
+    .task-item:hover { border-color: #acc2ff; background: #f7f9ff; }
+    .task-item-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .task-id { overflow: hidden; color: var(--text-3); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .task-tag { flex: 0 0 auto; padding: 1px 6px; border-radius: 3px; background: #fff3e8; color: #ba6414; font-size: 11px; }
+    .task-item b { display: block; margin-top: 5px; font-size: 13px; line-height: 18px; font-weight: 500; }
+    .task-item em { display: block; margin-top: 4px; color: var(--color-primary); font-size: 12px; font-style: normal; }
+    .agent-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: auto 16px 16px; }
+    .agent-actions button { width: 100%; }
+
+    .toast { position: fixed; z-index: 10; top: 22px; left: 50%; display: none; transform: translateX(-50%); padding: 8px 12px; border-radius: var(--radius-4); background: #263548; color: #fff; box-shadow: var(--shadow-2); font-size: 13px; }
+    .task-modal { position: fixed; z-index: 20; inset: 0; display: none; align-items: center; justify-content: center; padding: 48px; background: rgba(15, 23, 42, .5); }
+    .task-modal.is-open { display: flex; }
+    .task-dialog { width: 620px; max-height: min(680px, calc(100vh - 96px)); overflow: hidden; border-radius: var(--radius-8); background: #fff; box-shadow: var(--shadow-2); }
+    .task-dialog-head { display: flex; height: 52px; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid var(--border); }
+    .task-dialog-head b { font-size: 16px; font-weight: 600; }
+    .close-btn { display: grid; width: 28px; height: 28px; place-items: center; border: 0; border-radius: var(--radius-4); background: transparent; color: var(--text-2); cursor: pointer; font-size: 20px; }
+    .close-btn:hover { background: var(--bg-soft); color: var(--text-1); }
+    .task-dialog-body { padding: 20px; }
+    .task-dialog-body dl { display: grid; grid-template-columns: 96px 1fr; gap: 12px 16px; margin: 0; font-size: 13px; }
+    .task-dialog-body dt { color: var(--text-3); }.task-dialog-body dd { margin: 0; color: var(--text-1); }
+    .task-dialog-foot { display: flex; justify-content: center; gap: 8px; padding: 14px 20px; border-top: 1px solid var(--border); background: #fafbfc; }
+
+    @keyframes live-pulse { 0%,100% { opacity: 1; } 50% { opacity: .36; } } @keyframes office-loading-spin { to { transform:rotate(360deg); } } @keyframes office-loading-dot { 0%,80%,100% { transform:translateY(0); opacity:.35; } 40% { transform:translateY(-3px); opacity:1; } }
+    @media (prefers-reduced-motion: reduce) { .panel-head .head-state i { animation: none; } }
+
+    /* ClaimPilot 首页布局复刻：原有业务数据与交互沿用，视觉结构对齐参考页。 */
+    :root { --cp-red:#d64545; --cp-page:#f4f4f2; --cp-card:#fff; --cp-text:#2b2a28; --cp-muted:#94918c; --cp-line:#eceae5; }
+    html, body { min-width: 1240px; background: var(--cp-page); }
+    .app-shell { grid-template-columns: minmax(0,1fr); background: var(--cp-page); }
+    .topbar, .breadcrumb, .page-head { display:none; }.workspace { max-width:none; margin:0; padding:16px; }.main { min-width:0; }
+    .metrics { grid-template-columns:repeat(7,minmax(0,1fr)); gap:10px; margin:0 0 14px; }.metric { min-height:92px; padding:13px 14px; border:0; border-radius:10px; box-shadow:0 2px 9px rgba(43,42,40,.06); }.metric span { color:#87837e; }.metric strong { margin-top:5px; color:#2b2a28; font-size:22px; line-height:28px; }.metric strong.danger { color:#2b2a28; }.metric strong.success { color:#2b2a28; }.metric small { margin-top:2px; color:#a09c96; }
+    .office-layout { grid-template-columns:minmax(640px,1fr) 244px; gap:14px; }.panel { border:0; border-radius:14px; box-shadow:0 2px 10px rgba(43,42,40,.08); }.office-panel { position:relative; overflow:hidden; }.office-panel .panel-head { position:absolute; z-index:3; width:auto; min-height:0; margin:14px; padding:0; border:0; background:transparent; }.office-panel .panel-head h2, .office-panel .head-state { display:none; }.canvas-actions { gap:8px; }.canvas-actions button { height:30px; border:0; border-radius:7px; background:rgba(255,255,255,.93); color:#4e4b47; box-shadow:0 2px 8px rgba(43,42,40,.09); font-size:12px; }.canvas-actions button::before { margin-right:5px; content:'●'; color:var(--cp-red); font-size:9px; }.canvas-actions button:hover { border:0; background:#fff; }
+    .office-layout { align-items:stretch; }.office-stage { height:calc(100vh - 158px); min-height:560px; border-radius:14px; background:#fff; }.office-legend { display:none; }.office-stage canvas { background:#fff; }
+    .agent-panel { height:calc(100vh - 158px); min-height:560px; max-height:calc(100vh - 158px); border-radius:0; box-shadow:none; background:transparent; overflow-y:auto; }.agent-panel > :not(.reference-side) { display:none; }
+    .agent-panel.show-agent-detail > .reference-side { display:none; }.agent-panel.show-agent-detail > .panel-head { display:flex; }.agent-panel.show-agent-detail > .agent-profile, .agent-panel.show-agent-detail > .task-section { display:block; }.agent-panel.show-agent-detail > .agent-actions { display:grid; }
+    .reference-side { display:block; padding:0 4px 18px 14px; }.reference-side h2 { margin:0 0 12px; color:#3a3733; font-size:14px; line-height:20px; font-weight:600; }.reference-section { padding:0 0 14px; }.reference-section + .reference-section { padding-top:14px; border-top:1px solid #eceae5; }.reference-section-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin:0 0 9px; }.reference-section-head h3 { margin:0; color:#4a4641; font-size:12px; line-height:18px; font-weight:600; }.reference-section-head span { color:#aaa7a1; font-size:10px; }.case-process-list { display:grid; gap:8px; }.flow-card { width:100%; padding:11px 12px; margin:0; border:1px solid #e7e4df; border-radius:12px; background:#fff; box-shadow:0 1px 4px rgba(43,42,40,.03); color:inherit; text-align:left; }.flow-card.flow-task { display:block; cursor:pointer; font:inherit; }.flow-card.flow-task:hover { border-color:#b8c9ec; box-shadow:0 4px 12px rgba(71,117,190,.1); }.flow-card.flow-task:focus-visible { outline:2px solid #7da1e7; outline-offset:2px; }.flow-card-top { display:flex; align-items:center; justify-content:space-between; gap:4px; }.flow-card strong { overflow:hidden; font-size:12px; font-weight:600; text-overflow:ellipsis; white-space:nowrap; }.flow-card b { display:block; margin:6px 0 2px; color:#837f79; font-size:10px; font-weight:400; }.flow-card p { margin:0; overflow:hidden; color:#77736e; font-size:11px; line-height:16px; text-overflow:ellipsis; white-space:nowrap; }.flow-card span { flex:0 0 auto; padding:2px 7px; border-radius:8px; background:#edf5ff; color:#5284bc; font-size:10px; }.flow-progress { height:4px; margin-top:8px; border-radius:4px; background:#ecebe7; overflow:hidden; }.flow-progress i { display:block; height:100%; border-radius:inherit; background:#4f85d9; }.flow-card:nth-child(3) .flow-progress i { background:#f49c25; }.flow-card:nth-child(4) .flow-progress i { background:#8f53ce; }.flow-card:nth-child(5) .flow-progress i { background:#33bd68; }.flow-card em { display:block; margin-top:7px; color:#6d91cf; font-size:10px; font-style:normal; }.claim-timeline { margin-top:12px; padding-top:12px; border-top:1px solid #f0eeea; }.timeline-list { position:relative; display:grid; gap:11px; padding-left:14px; }.timeline-list::before { position:absolute; top:4px; bottom:4px; left:3px; width:1px; background:#ddd9d2; content:''; }.timeline-item { position:relative; display:grid; grid-template-columns:1fr auto; gap:2px 8px; }.timeline-item::before { position:absolute; top:5px; left:-14px; width:7px; height:7px; border:2px solid #fff; border-radius:50%; background:#6a99db; box-shadow:0 0 0 1px #b9cbe7; content:''; }.timeline-item.is-done::before { background:#39b878; box-shadow:0 0 0 1px #a9dec2; }.timeline-item.is-alert::before { background:#ef9b38; box-shadow:0 0 0 1px #efd0a6; }.timeline-item b { overflow:hidden; color:#4a4641; font-size:11px; font-weight:600; text-overflow:ellipsis; white-space:nowrap; }.timeline-item span { grid-column:1 / -1; overflow:hidden; color:#77736e; font-size:11px; line-height:16px; text-overflow:ellipsis; white-space:nowrap; }.timeline-item time { grid-column:2; grid-row:1; color:#aaa7a1; font-size:10px; }.agent-process-list { position:relative; display:grid; gap:10px; padding-left:14px; }.agent-process-list::before { position:absolute; top:4px; bottom:10px; left:4px; width:1px; background:#ddd9d2; content:''; }.agent-process-card { position:relative; padding:10px; border:1px solid #e7e4df; border-radius:11px; background:#fff; }.agent-process-card::before { position:absolute; top:14px; left:-15px; width:7px; height:7px; border:2px solid #fff; border-radius:50%; background:var(--agent-dot,#6a99db); box-shadow:0 0 0 1px color-mix(in srgb, var(--agent-dot,#6a99db) 45%, #fff); content:''; }.agent-process-top { display:flex; align-items:center; gap:8px; }.agent-process-avatar { display:grid; width:26px; height:26px; flex:0 0 auto; place-items:center; border-radius:50%; color:#fff; font-size:11px; font-weight:600; }.agent-process-info { min-width:0; flex:1; }.agent-process-info strong { display:block; overflow:hidden; color:#3e3a36; font-size:11px; font-weight:600; text-overflow:ellipsis; white-space:nowrap; }.agent-process-info span { display:block; overflow:hidden; margin-top:2px; color:#9b9790; font-size:10px; text-overflow:ellipsis; white-space:nowrap; }.agent-process-status { flex:0 0 auto; margin-right:28px; padding:2px 6px; border-radius:8px; background:#edf5ff; color:#5284bc; font-size:10px; }.agent-process-time { position:absolute; top:10px; right:10px; color:#aaa7a1; font-size:10px; font-style:normal; }.agent-process-meta { display:flex; gap:10px; margin:8px 0 6px 34px; color:#8b8781; font-size:10px; }.agent-process-task { display:flex; align-items:center; gap:6px; margin-left:34px; min-width:0; }.agent-process-task b { overflow:hidden; color:#5c5751; font-size:11px; font-weight:500; text-overflow:ellipsis; white-space:nowrap; }.agent-process-task span { flex:0 0 auto; color:#aaa7a1; font-size:10px; }.agent-process-subtasks { display:flex; flex-wrap:wrap; gap:4px; margin:7px 0 0 34px; }.agent-process-subtasks span { max-width:100%; overflow:hidden; padding:2px 6px; border-radius:6px; background:#f7f6f3; color:#77736e; font-size:10px; text-overflow:ellipsis; white-space:nowrap; }
+    .agent-process-time { right:18px; }
+    .canvas-tip { border-color:#e5e3df; border-radius:8px; box-shadow:0 8px 24px rgba(43,42,40,.12); }.task-modal { background:rgba(0,0,0,.32); }
+
+    /* 众安理赔 B 端配色：仅统一颜色，不改变办公区布局、场景与交互。 */
+    :root {
+      --cp-red: var(--color-primary);
+      --cp-page: var(--bg-page);
+      --cp-card: var(--bg-panel);
+      --cp-text: var(--text-1);
+      --cp-muted: var(--text-3);
+      --cp-line: var(--border-light);
+    }
+    html, body, .app-shell { background: var(--bg-page); }
+    .metric {
+      border: 1px solid var(--border-light);
+      background: var(--bg-panel);
+      box-shadow: var(--shadow-1);
+    }
+    .metric span { color: var(--text-2); }
+    .metric strong,
+    .metric strong.danger,
+    .metric strong.success { color: var(--text-1); }
+    .metric small { color: var(--text-3); }
+    .panel {
+      border: 1px solid var(--border-light);
+      background: var(--bg-panel);
+      box-shadow: var(--shadow-1);
+    }
+    .canvas-actions button {
+      background: rgba(255,255,255,.96);
+      color: var(--text-2);
+      box-shadow: var(--shadow-1);
+    }
+    .canvas-actions button::before { color: var(--color-primary); }
+    .canvas-actions button:hover {
+      background: var(--blue-20);
+      color: var(--color-primary);
+    }
+    .reference-side h2,
+    .reference-section-head h3,
+    .flow-card strong,
+    .timeline-item b,
+    .agent-process-info strong { color: var(--text-1); }
+    .reference-section + .reference-section,
+    .claim-timeline { border-color: var(--border-light); }
+    .reference-section-head span,
+    .timeline-item time,
+    .agent-process-time,
+    .agent-process-info span,
+    .agent-process-task span { color: var(--text-3); }
+    .flow-card,
+    .agent-process-card {
+      border-color: var(--border);
+      background: var(--bg-panel);
+      box-shadow: none;
+    }
+    .flow-card.flow-task:hover {
+      border-color: #8baeff;
+      background: #f5f8ff;
+      box-shadow: var(--shadow-1);
+    }
+    .flow-card.flow-task:focus-visible { outline-color: var(--color-primary); }
+    .flow-card b,
+    .flow-card p,
+    .timeline-item span,
+    .agent-process-meta,
+    .agent-process-subtasks span { color: var(--text-2); }
+    .flow-card span,
+    .agent-process-status {
+      background: var(--blue-20);
+      color: var(--color-primary);
+    }
+    .flow-progress { background: var(--border-light); }
+    .flow-progress i,
+    .flow-card:nth-child(4) .flow-progress i { background: var(--color-primary); }
+    .flow-card:nth-child(3) .flow-progress i { background: var(--color-warning); }
+    .flow-card:nth-child(5) .flow-progress i { background: var(--color-success); }
+    .flow-card em { color: var(--color-primary); }
+    .timeline-list::before,
+    .agent-process-list::before { background: var(--border); }
+    .timeline-item::before {
+      background: var(--color-primary);
+      box-shadow: 0 0 0 1px #8baeff;
+    }
+    .timeline-item.is-done::before {
+      background: var(--color-success);
+      box-shadow: 0 0 0 1px #8addc4;
+    }
+    .timeline-item.is-alert::before {
+      background: var(--color-warning);
+      box-shadow: 0 0 0 1px #f7c988;
+    }
+    .agent-process-task b { color: var(--text-1); }
+    .agent-process-subtasks span { background: var(--bg-soft); }
+    .canvas-tip {
+      border-color: var(--border);
+      box-shadow: var(--shadow-2);
+    }
+    .task-modal { background: rgba(0,0,0,.7); }
+
+    /* 理赔动态：总览 Agent 当前任务与动作，选中后进入任务和对话工作台。 */
+    .office-layout { grid-template-columns: minmax(640px, 1fr) 360px; }
+    .agent-panel { overflow: hidden; }
+    .agent-panel.show-agent-detail > .reference-side { display: block; }
+    .reference-side { height: 100%; padding: 0; overflow: hidden; }
+    .agent-overview-view,
+    .agent-detail-view { height: 100%; min-height: 0; }
+    .agent-overview-view { display: flex; flex-direction: column; }
+    .agent-detail-view { display: none; flex-direction: column; }
+    .agent-panel.show-agent-detail .agent-overview-view { display: none; }
+    .agent-panel.show-agent-detail .agent-detail-view { display: flex; }
+
+    .claims-live-head {
+      display: flex;
+      min-height: 56px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--border-light);
+      background: var(--bg-panel);
+    }
+    .claims-live-head h2 { margin: 0; color: var(--text-1); font-size: 16px; line-height: 24px; font-weight: 600; }
+    .live-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-2);
+      font-size: 12px;
+    }
+    .live-count::before { width: 6px; height: 6px; border-radius: 50%; background: var(--color-success); content: ""; }
+    .agent-overview-columns {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text-3);
+      font-size: 11px;
+      line-height: 18px;
+    }
+    .agent-process-list {
+      position: static;
+      display: grid;
+      gap: 8px;
+      min-height: 0;
+      padding: 12px;
+      overflow-y: auto;
+    }
+    .agent-process-list::before { display: none; }
+    .agent-process-card {
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--agent-dot, var(--color-primary));
+      border-radius: var(--radius-8);
+      background: var(--bg-panel);
+      color: var(--text-1);
+      cursor: pointer;
+      text-align: left;
+    }
+    .agent-process-card::before { display: none; }
+    .agent-process-card:hover { border-color: #8baeff; background: #f5f8ff; box-shadow: var(--shadow-1); }
+    .agent-process-card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+    .agent-process-top { display: flex; align-items: center; gap: 8px; }
+    .agent-process-avatar { width: 32px; height: 32px; flex: 0 0 auto; font-size: 12px; }
+    .agent-process-info strong { font-size: 12px; line-height: 18px; }
+    .agent-process-info span { margin-top: 0; font-size: 10px; line-height: 16px; }
+    .agent-process-status {
+      margin: 0;
+      padding: 1px 6px;
+      border-radius: var(--radius-4);
+      font-size: 10px;
+      line-height: 18px;
+    }
+    .agent-work-row {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      margin-top: 8px;
+    }
+    .agent-work-row span { color: var(--text-3); font-size: 11px; line-height: 18px; }
+    .agent-work-row b {
+      overflow: hidden;
+      color: var(--text-1);
+      font-size: 11px;
+      line-height: 18px;
+      font-weight: 500;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .agent-progress-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .agent-progress-track { height: 4px; overflow: hidden; border-radius: 4px; background: var(--border-light); }
+    .agent-progress-track i { display: block; height: 100%; border-radius: inherit; background: var(--color-primary); }
+    .agent-progress-row span { color: var(--text-3); font-size: 10px; line-height: 16px; }
+    .agent-process-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 7px 0 0;
+      color: var(--text-3);
+      font-size: 10px;
+      line-height: 16px;
+    }
+
+    .agent-detail-head {
+      display: flex;
+      min-height: 52px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      border-bottom: 1px solid var(--border-light);
+      background: var(--bg-panel);
+    }
+    .agent-detail-back {
+      height: 28px;
+      padding: 0 8px;
+      border: 0;
+      border-radius: var(--radius-4);
+      background: transparent;
+      color: var(--color-primary);
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .agent-detail-back:hover { background: var(--blue-20); }
+    .detail-state { display: inline-flex; align-items: center; gap: 6px; color: var(--text-2); font-size: 11px; }
+    .detail-state i { width: 6px; height: 6px; border-radius: 50%; background: var(--color-success); }
+    .agent-detail-scroll { min-height: 0; flex: 1; overflow-y: auto; }
+    .agent-detail-summary { padding: 16px; border-bottom: 1px solid var(--border-light); }
+    .agent-detail-summary .agent-profile-top { align-items: flex-start; }
+    .agent-detail-summary .agent-avatar { width: 40px; height: 40px; border-radius: var(--radius-8); }
+    .agent-detail-summary h3 { margin: 0; color: var(--text-1); font-size: 15px; line-height: 22px; font-weight: 600; }
+    .agent-detail-summary p { margin: 2px 0 0; color: var(--text-2); font-size: 11px; line-height: 18px; }
+    .current-work-card {
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid #cad9ff;
+      border-radius: var(--radius-8);
+      background: #f5f8ff;
+    }
+    .current-work-card .agent-work-row:first-child { margin-top: 0; }
+    .current-work-card .agent-work-row b { white-space: normal; }
+    .current-task-id { display: block; margin-top: 6px; color: var(--text-3); font-size: 10px; line-height: 16px; }
+    .detail-progress { margin-top: 10px; }
+    .agent-stats { margin-top: 12px; }
+    .detail-section { padding: 16px; border-bottom: 1px solid var(--border-light); }
+    .detail-section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .detail-section-head h3 { margin: 0; color: var(--text-1); font-size: 13px; line-height: 20px; font-weight: 600; }
+    .detail-section-head span { color: var(--text-3); font-size: 11px; }
+    .task-section { min-height: 0; padding: 0; }
+    .task-list { gap: 8px; }
+    .task-item { padding: 10px 12px; border-color: var(--border); border-radius: var(--radius-8); }
+    .task-item.is-current { border-color: #8baeff; background: #f5f8ff; }
+    .task-description { display: block; margin-top: 4px; color: var(--text-2); font-size: 11px; line-height: 18px; }
+    .task-item em { display: flex; justify-content: flex-end; margin-top: 6px; }
+    .agent-action-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .agent-action-grid button {
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-4);
+      background: var(--bg-panel);
+      color: var(--text-2);
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .agent-action-grid button:hover { border-color: #8baeff; background: #f5f8ff; color: var(--color-primary); }
+    .agent-action-grid .primary-btn { border-color: var(--color-primary); background: var(--color-primary); color: #fff; }
+    .agent-action-grid .primary-btn:hover { background: #124bd4; color: #fff; }
+
+    .agent-chat {
+      flex: 0 0 236px;
+      display: flex;
+      min-height: 0;
+      flex-direction: column;
+      border-top: 1px solid var(--border);
+      background: var(--bg-panel);
+    }
+    .agent-chat-head {
+      display: flex;
+      min-height: 40px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+    }
+    .agent-chat-head h3 { margin: 0; font-size: 13px; line-height: 20px; font-weight: 600; }
+    .agent-chat-head span { color: var(--color-success); font-size: 10px; }
+    .agent-chat-log { min-height: 0; flex: 1; padding: 0 12px 8px; overflow-y: auto; }
+    .chat-message { display: flex; gap: 6px; align-items: flex-start; margin-top: 8px; }
+    .chat-message.is-user { justify-content: flex-end; }
+    .chat-message-avatar {
+      display: grid;
+      width: 22px;
+      height: 22px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--color-primary);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 600;
+    }
+    .chat-message-copy { max-width: 82%; }
+    .chat-message-copy p {
+      margin: 0;
+      padding: 6px 8px;
+      border-radius: 0 var(--radius-8) var(--radius-8) var(--radius-8);
+      background: var(--bg-soft);
+      color: var(--text-1);
+      font-size: 11px;
+      line-height: 18px;
+      word-break: break-word;
+    }
+    .chat-message.is-user .chat-message-copy p {
+      border-radius: var(--radius-8) 0 var(--radius-8) var(--radius-8);
+      background: var(--blue-20);
+      color: #234aab;
+    }
+    .chat-message-copy time { display: block; margin-top: 2px; color: var(--text-3); font-size: 9px; line-height: 14px; }
+    .chat-message.is-user .chat-message-copy time { text-align: right; }
+    .chat-presets { display: flex; gap: 4px; padding: 0 12px 8px; overflow-x: auto; }
+    .chat-presets button {
+      flex: 0 0 auto;
+      height: 24px;
+      padding: 0 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-4);
+      background: var(--bg-panel);
+      color: var(--text-2);
+      cursor: pointer;
+      font-size: 10px;
+    }
+    .chat-presets button:hover { border-color: #8baeff; color: var(--color-primary); }
+    .chat-compose { display: grid; grid-template-columns: 1fr 52px; gap: 8px; padding: 8px 12px 12px; border-top: 1px solid var(--border-light); }
+    .chat-compose input {
+      width: 100%;
+      height: 32px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-4);
+      outline: 0;
+      color: var(--text-1);
+      font-size: 11px;
+    }
+    .chat-compose input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 2px rgba(23,93,255,.12); }
+    .chat-compose button {
+      height: 32px;
+      border: 1px solid var(--color-primary);
+      border-radius: var(--radius-4);
+      background: var(--color-primary);
+      color: #fff;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .chat-compose button:hover { background: #124bd4; }
+    .agent-process-list,
+    .agent-detail-scroll,
+    .agent-chat-log { scrollbar-width: thin; scrollbar-color: #dcdcdc transparent; }
+    .office-chat-layer {
+      position: absolute;
+      z-index: 8;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      background: rgba(15,23,42,.36);
+    }
+    .office-chat-layer.is-open { display: flex; }
+    .office-chat-dialog {
+      display: flex;
+      width: 440px;
+      height: min(500px, calc(100% - 48px));
+      min-height: 360px;
+      overflow: hidden;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-12);
+      background: var(--bg-panel);
+      box-shadow: var(--shadow-2);
+    }
+    .office-chat-dialog-head {
+      display: flex;
+      min-height: 60px;
+      align-items: center;
+      gap: 10px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .office-chat-agent-avatar {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--color-primary);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .office-chat-agent-copy { min-width: 0; flex: 1; }
+    .office-chat-agent-copy strong,
+    .office-chat-agent-copy span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .office-chat-agent-copy strong { color: var(--text-1); font-size: 14px; line-height: 20px; font-weight: 600; }
+    .office-chat-agent-copy span { margin-top: 1px; color: var(--text-3); font-size: 10px; line-height: 16px; }
+    .office-chat-close {
+      display: grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      background: var(--bg-soft);
+      color: var(--text-2);
+      cursor: pointer;
+      font-size: 18px;
+    }
+    .office-chat-close:hover { background: var(--blue-20); color: var(--color-primary); }
+    .office-chat-dialog .agent-chat-log { flex: 1; padding: 8px 16px 12px; background: var(--bg-panel); }
+    .office-chat-dialog .chat-presets { padding: 8px 16px; border-top: 1px solid var(--border-light); }
+    .office-chat-dialog .chat-compose { padding: 12px 16px 16px; }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-path"><b>工作台</b> / 办公区</div>
+        <div class="topbar-tools"><span class="online">Agent 集群在线</span><button class="topbar-icon" id="noticeButton" type="button" aria-label="通知"><svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></button></div>
+      </header>
+      <div class="workspace">
+        <div class="breadcrumb">工作台<span>/</span>办公区</div>
+        <div class="page-head"><h1>办公区</h1><time datetime="2026-07-23T10:30:00+08:00">更新于今天 10:30</time></div>
+
+        <section class="metrics" aria-label="今日指标">
+          <div class="metric"><span>今日处理案件</span><strong id="metricHandled">268</strong><small>累计处理</small></div>
+          <div class="metric"><span>今日完成案件</span><strong id="metricCompleted">236</strong><small>已完成结案</small></div>
+          <div class="metric"><span>查勘时效</span><strong>12.4 分钟</strong><small>平均处理时长</small></div>
+          <div class="metric"><span>定损时效</span><strong>18.6 分钟</strong><small>平均处理时长</small></div>
+          <div class="metric"><span>核价核损时效</span><strong>6.8 分钟</strong><small>平均处理时长</small></div>
+          <div class="metric"><span>核赔时效</span><strong>9.2 分钟</strong><small>平均处理时长</small></div>
+          <div class="metric"><span>今日结案率</span><strong class="success">92.6%</strong><small>较昨日 +2.1%</small></div>
+        </section>
+
+        <section class="office-layout">
+          <section class="panel office-panel" aria-label="办公区">
+            <header class="panel-head"><h2>办公区</h2><div class="canvas-actions"><span class="head-state"><i></i><span id="liveState">实时协作</span></span><button type="button" data-office-action="dispatch">智能派单</button><button type="button" data-office-action="remind">催办全员</button><button type="button" data-office-action="report">全员汇报</button></div></header>
+    <div class="office-stage" id="officeStage">
+      <canvas id="officeCanvas" aria-label="可交互的办公区场景"></canvas>
+      <div class="canvas-tip" id="canvasTip"></div>
+      <div class="office-loading" id="officeLoading" role="status" aria-live="polite"><div class="loading-orbit" aria-hidden="true"></div><strong>正在加载办公区<span class="office-loading-dots" aria-hidden="true"><i></i><i></i><i></i></span></strong><small>同步办公场景与任务状态</small></div>
+      <div class="office-chat-layer" id="officeChatLayer" aria-hidden="true">
+        <section class="office-chat-dialog" role="dialog" aria-modal="true" aria-labelledby="officeChatAgentName">
+          <header class="office-chat-dialog-head">
+            <span class="office-chat-agent-avatar" id="officeChatAgentAvatar">查</span>
+            <span class="office-chat-agent-copy"><strong id="officeChatAgentName">查勘 Agent</strong><span id="officeChatAgentRole">车物查勘 · 现场证据核验</span></span>
+            <button class="office-chat-close" id="officeChatClose" type="button" aria-label="关闭对话">×</button>
+          </header>
+          <div class="agent-chat-log" id="agentChatLog" aria-live="polite"></div>
+          <div class="chat-presets"><button type="button" data-chat-prompt="请汇报当前进度">汇报进度</button><button type="button" data-chat-prompt="请检查当前处理依据和异常">检查依据</button><button type="button" data-chat-prompt="把当前任务设为最高优先级">设为最高优先级</button></div>
+          <form class="chat-compose" id="agentChatForm"><input id="agentChatInput" type="text" autocomplete="off" placeholder="输入指令或检查要求" aria-label="向当前 Agent 发送指令" /><button type="submit">发送</button></form>
+        </section>
+      </div>
+    </div>
+            <footer class="office-legend"><span><i class="legend-dot work"></i>处理中</span><span><i class="legend-dot walk"></i>协作移动中</span><span><i class="legend-dot wait"></i>待人工确认</span><span>点击 Agent 查看任务</span></footer>
+          </section>
+
+          <aside class="panel agent-panel" aria-label="理赔动态">
+            <div class="reference-side">
+              <section class="agent-overview-view" id="agentOverviewView" aria-labelledby="agentProcessTitle">
+                <header class="claims-live-head"><h2 id="agentProcessTitle">理赔动态</h2><span class="live-count" id="agentProcessMeta">6 位在线</span></header>
+                <div class="agent-overview-columns"><span>当前任务与动作</span><span>点击查看</span></div>
+                <div class="agent-process-list" id="agentProcessList"></div>
+              </section>
+
+              <section class="agent-detail-view" id="agentDetailView" aria-labelledby="agentName">
+                <header class="agent-detail-head">
+                  <button class="agent-detail-back" id="backToOverview" type="button">← 全部 Agent</button>
+                  <span class="detail-state" id="agentStateHeader"><i></i>处理中</span>
+                </header>
+                <div class="agent-detail-scroll">
+                  <section class="agent-detail-summary">
+                    <div class="agent-profile-top"><div class="agent-avatar" id="agentAvatar">查</div><div><h3 id="agentName">查勘 Agent</h3><p id="agentRole">车物查勘 · 现场证据核验</p></div></div>
+                    <div class="current-work-card">
+                      <div class="agent-work-row"><span>当前任务</span><b id="agentCurrentTask">核验事故经过</b></div>
+                      <span class="current-task-id" id="agentCurrentTaskId">Z4401000100003100001_11</span>
+                      <div class="agent-work-row"><span>当前动作</span><b id="agentStatus">正在校验现场影像</b></div>
+                      <div class="agent-progress-row detail-progress"><div class="agent-progress-track"><i id="agentProgressBar" style="width:72%"></i></div><span id="agentProgressValue">72%</span></div>
+                    </div>
+                    <div class="agent-stats"><div class="agent-stat"><span>今日处理</span><strong id="agentHandled">48</strong></div><div class="agent-stat"><span>待确认</span><strong id="agentWaiting">3</strong></div></div>
+                  </section>
+                  <section class="detail-section">
+                    <div class="detail-section-head"><h3>操作</h3><span>4 项</span></div>
+                    <div class="agent-action-grid">
+                      <button id="focusButton" type="button">定位工位</button>
+                      <button id="openChatButton" type="button">与 Agent 沟通</button>
+                      <button id="pauseButton" type="button">继续执行</button>
+                      <button class="primary-btn" id="assignButton" type="button">完成并汇报</button>
+                    </div>
+                  </section>
+                  <section class="detail-section task-section">
+                    <div class="detail-section-head"><h3>正在处理的任务</h3><span id="taskCount">3 项</span></div>
+                    <div class="task-list" id="taskList"></div>
+                  </section>
+                </div>
+              </section>
+            </div>
+          </aside>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <div class="task-modal" id="taskModal" aria-hidden="true"><section class="task-dialog" role="dialog" aria-modal="true" aria-labelledby="taskDialogTitle"><header class="task-dialog-head"><b id="taskDialogTitle">任务详情</b><button class="close-btn" id="taskModalClose" type="button" aria-label="关闭">×</button></header><div class="task-dialog-body" id="taskDialogBody"></div><footer class="task-dialog-foot"><button class="secondary-btn" id="taskModalCancel" type="button">关闭</button><button class="primary-btn" id="taskModalHandle" type="button">去处理</button></footer></section></div>
+
+  <script>
+    const canvas = document.getElementById('officeCanvas');
+    const stage = document.getElementById('officeStage');
+    const context = canvas.getContext('2d');
+    const tip = document.getElementById('canvasTip');
+    const officeLoading = document.getElementById('officeLoading');
+    const officeBackdrop = new Image();
+    officeBackdrop.src = 'assets/office/office.png';
+    officeBackdrop.onload = () => drawScene(performance.now());
+    const officeDesk = new Image();
+    officeDesk.src = 'assets/office/desk.png';
+    const officeChair = new Image();
+    officeChair.src = 'assets/office/chair.png';
+    const agentSpriteSheets = [
+      { image: new Image(), frameWidth: 192, frameHeight: 208, columns: 8, src: 'assets/admin-penguin-spritesheet.webp' },
+      { image: new Image(), frameWidth: 192, frameHeight: 208, columns: 8, src: 'assets/prompt-penguin-spritesheet.webp' },
+      { image: new Image(), frameWidth: 192, frameHeight: 208, columns: 8, src: 'assets/ai-spritesheet.webp' },
+      { image: new Image(), frameWidth: 192, frameHeight: 208, columns: 8, src: 'assets/calcifer-spritesheet.webp' },
+      { image: new Image(), frameWidth: 192, frameHeight: 208, columns: 8, src: 'assets/bocchi-spritesheet.webp' },
+      { image: new Image(), frameWidth: 192, frameHeight: 208, columns: 8, src: 'assets/ayanami-spritesheet.webp' }
+    ];
+    let readySpriteCount = 0;
+    let loadingDismissed = false;
+    const dismissOfficeLoading = () => {
+      if (loadingDismissed || !officeLoading) return;
+      loadingDismissed = true;
+      officeLoading.classList.add('is-hidden');
+    };
+    const markSpriteReady = () => {
+      readySpriteCount += 1;
+      if (readySpriteCount >= agentSpriteSheets.length) window.setTimeout(dismissOfficeLoading, 360);
+    };
+    agentSpriteSheets.forEach(({ image, src }) => {
+      image.src = src;
+      image.onload = () => { drawScene(performance.now()); markSpriteReady(); };
+      image.onerror = markSpriteReady;
+    });
+    window.setTimeout(dismissOfficeLoading, 1800);
+    let canvasWidth = 0;
+    let canvasHeight = 0;
+    let selectedId = null;
+    let hoverId = null;
+    let activeTask = null;
+
+    const states = {
+      working: { label: '处理中', status: '正在处理案件材料', color: '#00c070' },
+      walking: { label: '协作中', status: '正在前往协作工位', color: '#175dff' },
+      reporting: { label: '汇报中', status: '已完成任务，正在向调度汇报', color: '#175dff' },
+      paused: { label: '已暂停', status: '已暂停行动，等待老板指示', color: '#175dff' },
+      waiting: { label: '待人工确认', status: '等待人工确认结论', color: '#f3982d' },
+      thinking: { label: '复核中', status: '正在复核关键规则', color: '#8b6cff' }
+    };
+
+    // Agents stay at their desk while working. Only after a task is complete do
+    // they walk to the central dispatch Agent, report, and return to their desk.
+    const collaborationHub = [0.50, 0.56];
+
+    const agentData = [
+      { id: 'survey', initials: '查', name: '查勘 Agent', role: '车物查勘 · 现场证据核验', color: '#3379ff', desk: [0.22, 0.46], x: .22, y: .46, state: 'working', handled: 48, waiting: 3, progress: 72, taskTitle: '正在校验事故视频与现场影像', tasks: [['Z4401000100003100001_3', '补齐查勘材料', '现场全景与责任书缺失', '待人工确认'], ['Z4401000100003100001_11', '核验事故经过', '视频时间线存在冲突', '处理中'], ['Z4401000100003100001_18', '确认责任比例', '需回传责任认定材料', '待人工确认']] },
+      { id: 'damage', initials: '定', name: '定损 Agent', role: '车物定损 · 损伤范围核定', color: '#0baf9d', desk: [0.30, 0.76], x: .30, y: .76, state: 'working', handled: 52, waiting: 4, progress: 64, taskTitle: '正在比对受损配件与维修方案', tasks: [['Z4401000100003100001_9', '定损风险复核', '低配高赔，等待核损确认', '待人工确认'], ['Z4401000100003100001_14', '核对维修方案', '配件价格异常，需复核', '复核中'], ['Z4401000100003100001_5', '确认损失边界', '左前区域影像不足', '处理中']] },
+      { id: 'price', initials: '核', name: '核价核损 Agent', role: '核价核损 · 维修方案复核', color: '#7a62e8', desk: [0.78, 0.69], x: .78, y: .69, state: 'thinking', handled: 39, waiting: 1, progress: 51, taskTitle: '正在复核配件价格与工时费用', tasks: [['Z4401000100003100001_9', '复核配件价格', '更换方案与市场价格偏离', '复核中'], ['Z4401000100003100001_15', '校验工时费用', '维修工时待确认', '处理中']] },
+      { id: 'review', initials: '赔', name: '核赔 Agent', role: '理算核赔 · 赔款结论审批', color: '#ef8a4f', desk: [0.50, 0.38], x: .50, y: .38, state: 'thinking', handled: 44, waiting: 2, progress: 83, taskTitle: '正在核对责任材料与理算金额', tasks: [['Z4401000100003100001_18', '核赔结论确认', '责任材料与理算金额不一致', '待人工确认'], ['Z4401000100003100001_20', '审批赔付金额', '支付对象待核验', '处理中']] },
+      { id: 'dispatch', initials: '调', name: '调度 Agent', role: '任务调度 · 时效与资源分配', color: '#d6547a', desk: [0.50, 0.56], x: .50, y: .56, state: 'working', handled: 31, waiting: 0, progress: 46, taskTitle: '正在计算高风险案件派单优先级', tasks: [['RS202512250003', '跟踪客户催办', '客户已催办两次', '处理中'], ['RS202512250004', '调配查勘资源', '高风险案件待派发', '处理中']] },
+      { id: 'follow', initials: '跟', name: '跟踪 Agent', role: '案件跟踪 · 客户进度服务', color: '#3886b8', desk: [0.78, 0.46], x: .78, y: .46, state: 'working', handled: 54, waiting: 4, progress: 69, taskTitle: '正在核验客户与维修厂回传进度', tasks: [['RS202512250003', '客户材料催办', '客户材料仍未回传', '待人工确认'], ['RS202512250005', '联系维修厂', '维修进度待更新', '处理中'], ['Z4401000100003100001_20', '回访支付进度', '收款信息待确认', '待人工确认']] }
+    ].map((agent, index) => ({
+      ...agent,
+      spriteSheetIndex: index % agentSpriteSheets.length,
+      route: [agent.desk],
+      routeIndex: 0,
+      routeDwell: 0,
+      workElapsed: 0,
+      workDuration: 5.5 + index * .9,
+      restState: agent.state,
+      walkPhase: index * .8,
+      speech: '',
+      replyTimer: 0,
+      reportedAtHub: false,
+      paused: false,
+      resumeState: agent.state,
+      taskTimer: 0,
+      focused: false,
+      flip: false,
+      chatHistory: []
+    }));
+
+    function resizeCanvas() {
+      const rect = stage.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvasWidth = rect.width;
+      canvasHeight = rect.height;
+      canvas.width = Math.round(rect.width * dpr);
+      canvas.height = Math.round(rect.height * dpr);
+      context.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function point(x, y) { return { x: x * canvasWidth, y: y * canvasHeight }; }
+    function selectedAgent() { return agentData.find((agent) => agent.id === selectedId); }
+    function currentTaskFor(agent) {
+      return agent.tasks.find((task) => task[3] === '处理中' || task[3] === '复核中') || agent.tasks[0];
+    }
+    function currentActionFor(agent) {
+      const state = states[agent.state] || states.working;
+      if (agent.paused) return '已暂停，等待干预指令';
+      return agent.speech || agent.taskTitle || state.status;
+    }
+    function formatClock() {
+      return new Intl.DateTimeFormat('zh-CN', { hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date());
+    }
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
+    }
+    function setStableHtml(element, html) {
+      if (!element || element._renderedHtml === html) return;
+      element.innerHTML = html;
+      element._renderedHtml = html;
+    }
+
+    function roundedRect(ctx, x, y, width, height, radius) {
+      const r = Math.min(radius, width / 2, height / 2);
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + width, y, x + width, y + height, r);
+      ctx.arcTo(x + width, y + height, x, y + height, r);
+      ctx.arcTo(x, y + height, x, y, r);
+      ctx.arcTo(x, y, x + width, y, r);
+      ctx.closePath();
+    }
+
+    function fillRounded(ctx, x, y, width, height, radius, color) {
+      roundedRect(ctx, x, y, width, height, radius);
+      ctx.fillStyle = color;
+      ctx.fill();
+    }
+
+    function drawOfficeBackground() {
+      context.clearRect(0, 0, canvasWidth, canvasHeight);
+      context.fillStyle = '#fff';
+      context.fillRect(0, 0, canvasWidth, canvasHeight);
+      if (officeBackdrop.complete && officeBackdrop.naturalWidth) {
+        context.drawImage(officeBackdrop, 0, 0, canvasWidth, canvasHeight);
+        return;
+      }
+      const wallHeight = canvasHeight * .18;
+      context.fillStyle = '#e8eef5';
+      context.fillRect(0, 0, canvasWidth, wallHeight);
+      context.fillStyle = '#d5e1ee';
+      context.fillRect(0, wallHeight - 5, canvasWidth, 5);
+      const windowWidth = canvasWidth * .18;
+      for (const xRatio of [.08, .41, .74]) {
+        const x = canvasWidth * xRatio;
+        fillRounded(context, x, 18, windowWidth, wallHeight - 38, 6, '#b8d8ef');
+        context.fillStyle = 'rgba(255,255,255,.45)';
+        context.fillRect(x + windowWidth * .46, 18, 4, wallHeight - 38);
+        context.fillStyle = 'rgba(255,255,255,.36)';
+        context.fillRect(x + 10, 27, windowWidth * .35, 4);
+      }
+      context.fillStyle = '#eef2f5';
+      context.fillRect(0, wallHeight, canvasWidth, canvasHeight - wallHeight);
+      context.strokeStyle = '#dfe6ed';
+      context.lineWidth = 1;
+      for (let x = -canvasHeight; x < canvasWidth + canvasHeight; x += 44) {
+        context.beginPath();
+        context.moveTo(x, wallHeight);
+        context.lineTo(x + canvasHeight * .36, canvasHeight);
+        context.stroke();
+      }
+      for (let y = wallHeight + 20; y < canvasHeight; y += 44) {
+        context.beginPath();
+        context.moveTo(0, y);
+        context.lineTo(canvasWidth, y);
+        context.stroke();
+      }
+      fillRounded(context, canvasWidth * .39, wallHeight + 18, canvasWidth * .22, 42, 8, '#d8e8df');
+      context.fillStyle = '#78ac91';
+      context.font = '12px "PingFang SC"';
+      context.textAlign = 'center';
+      context.fillText('协作沟通区', canvasWidth * .5, wallHeight + 44);
+      drawPlant(30, wallHeight + 24);
+      drawPlant(canvasWidth - 60, wallHeight + 24);
+    }
+
+    function drawPlant(x, y) {
+      context.fillStyle = '#c98a5b';
+      fillRounded(context, x, y + 36, 30, 24, 4, '#c98a5b');
+      context.fillStyle = '#5ca87f';
+      for (let index = 0; index < 5; index++) {
+        context.beginPath();
+        context.ellipse(x + 15 + Math.cos(index * 1.8) * 12, y + 28 + Math.sin(index * 1.8) * 10, 8, 15, index * .9, 0, Math.PI * 2);
+        context.fill();
+      }
+    }
+
+    function drawDesk(agent) {
+      const p = point(agent.desk[0], agent.desk[1]);
+      const deskWidth = Math.min(146, canvasWidth * .16);
+      const deskHeight = 56;
+      if (officeDesk.complete && officeDesk.naturalWidth && officeChair.complete && officeChair.naturalWidth) {
+        context.drawImage(officeChair, p.x - deskWidth * .17, p.y + 18, deskWidth * .34, deskHeight * .62);
+        context.drawImage(officeDesk, p.x - deskWidth * .5, p.y - 12, deskWidth, deskHeight * 1.02);
+        return;
+      }
+      context.fillStyle = 'rgba(25,45,66,.13)';
+      context.beginPath();
+      context.ellipse(p.x, p.y + 41, deskWidth * .52, 13, 0, 0, Math.PI * 2);
+      context.fill();
+      fillRounded(context, p.x - deskWidth / 2, p.y + 10, deskWidth, deskHeight, 6, '#e6b989');
+      context.fillStyle = '#cb9161';
+      context.fillRect(p.x - deskWidth / 2, p.y + 45, deskWidth, 10);
+      fillRounded(context, p.x - 32, p.y - 10, 64, 37, 4, '#33475d');
+      fillRounded(context, p.x - 27, p.y - 5, 54, 27, 2, '#d6f1f2');
+      context.fillStyle = '#65b6a9';
+      context.fillRect(p.x - 19, p.y + 2, 30, 3);
+      context.fillStyle = '#33475d';
+      context.fillRect(p.x - 3, p.y + 27, 6, 8);
+      context.fillRect(p.x - 14, p.y + 35, 28, 4);
+      fillRounded(context, p.x - 29, p.y + 58, 58, 20, 9, '#7690ad');
+    }
+
+    function drawStateBadge(agent, x, y) {
+      const state = states[agent.state];
+      const label = state.label;
+      context.font = '11px "PingFang SC"';
+      const width = context.measureText(label).width + 18;
+      fillRounded(context, x - width / 2, y, width, 20, 10, '#fff');
+      context.strokeStyle = '#dbe2ea';
+      context.lineWidth = 1;
+      roundedRect(context, x - width / 2, y, width, 20, 10);
+      context.stroke();
+      context.fillStyle = state.color;
+      context.beginPath();
+      context.arc(x - width / 2 + 9, y + 10, 3, 0, Math.PI * 2);
+      context.fill();
+      context.fillStyle = '#536173';
+      context.textAlign = 'left';
+      context.fillText(label, x - width / 2 + 15, y + 14);
+    }
+
+    function drawSpeechBubble(agent, x, y) {
+      if (!agent.speech) return;
+      context.save();
+      context.font = '12px "PingFang SC"';
+      const width = Math.min(190, Math.max(126, context.measureText(agent.speech).width + 24));
+      const height = 28;
+      const left = Math.max(10, Math.min(canvasWidth - width - 10, x - width / 2));
+      const top = Math.max(10, y - height - 8);
+      fillRounded(context, left, top, width, height, 8, '#fff');
+      context.strokeStyle = '#cdd8e5';
+      context.lineWidth = 1;
+      roundedRect(context, left, top, width, height, 8);
+      context.stroke();
+      context.fillStyle = '#536173';
+      context.textAlign = 'center';
+      context.fillText(agent.speech, left + width / 2, top + 18);
+      context.fillStyle = '#fff';
+      context.beginPath();
+      context.moveTo(x - 6, top + height);
+      context.lineTo(x, top + height + 7);
+      context.lineTo(x + 6, top + height);
+      context.closePath();
+      context.fill();
+      context.strokeStyle = '#cdd8e5';
+      context.beginPath();
+      context.moveTo(x - 6, top + height);
+      context.lineTo(x, top + height + 7);
+      context.lineTo(x + 6, top + height);
+      context.stroke();
+      context.restore();
+    }
+
+    function drawAgent(agent, now) {
+      const p = point(agent.x, agent.y);
+      const isSelected = agent.id === selectedId;
+      const isHover = agent.id === hoverId;
+      // Use a continuous bob for motion instead of swapping sprite frames every
+      // paint. This keeps the artwork stable while still conveying movement.
+      const bob = agent.state === 'walking'
+        ? Math.sin(agent.walkPhase) * 3
+        : Math.sin(agent.walkPhase * .7) * 1;
+      // Keep the source spritesheets at their native frame grid, but render the
+      // characters smaller so each desk retains visible breathing room.
+      const scale = isSelected ? 3.35 : 3.1;
+      const size = 32 * scale;
+      const footY = p.y + 54 + bob;
+      const spriteSheet = agentSpriteSheets[agent.spriteSheetIndex];
+      const spriteHeight = size * (spriteSheet?.frameHeight || 208) / (spriteSheet?.frameWidth || 192);
+      const top = footY - spriteHeight;
+      if (isSelected || isHover) {
+        context.strokeStyle = isSelected ? '#175dff' : '#9bb8ff';
+        context.lineWidth = isSelected ? 2 : 1.5;
+        context.beginPath();
+        context.ellipse(p.x, footY - 4, 25 * (scale / 4), 8 * (scale / 4), 0, 0, Math.PI * 2);
+        context.stroke();
+      }
+      context.fillStyle = 'rgba(25,45,66,.16)';
+      context.beginPath();
+      context.ellipse(p.x, footY - 2, 18 * (scale / 4), 5 * (scale / 4), 0, 0, Math.PI * 2);
+      context.fill();
+      const sprite = spriteSheet?.image;
+      if (sprite?.complete && sprite.naturalWidth) {
+        // Animate only the dedicated walking row at a controlled cadence. Idle,
+        // waiting and thinking remain on one stable frame, so they never flash.
+        const frame = agent.state === 'walking'
+          ? Math.floor(agent.walkPhase * 1.25) % spriteSheet.columns
+          : 0;
+        const row = agent.state === 'walking' ? 1 : agent.state === 'waiting' ? 3 : agent.state === 'thinking' ? 4 : 0;
+        const sx = frame * spriteSheet.frameWidth;
+        const sy = row * spriteSheet.frameHeight;
+        context.save();
+        context.imageSmoothingEnabled = false;
+        if (agent.flip) {
+          context.translate(p.x + size / 2, top);
+          context.scale(-1, 1);
+          context.drawImage(sprite, sx, sy, spriteSheet.frameWidth, spriteSheet.frameHeight, 0, 0, size, spriteHeight);
+        } else {
+          context.drawImage(sprite, sx, sy, spriteSheet.frameWidth, spriteSheet.frameHeight, p.x - size / 2, top, size, spriteHeight);
+        }
+        context.restore();
+      } else {
+        fillRounded(context, p.x - 18, top + 36, 36, 44, 8, agent.color);
+        context.fillStyle = '#fff';
+        context.font = '600 16px "PingFang SC"';
+        context.textAlign = 'center';
+        context.fillText(agent.initials, p.x, top + 63);
+      }
+      drawStateBadge(agent, p.x, top - 24);
+      drawSpeechBubble(agent, p.x, top - 30);
+      agent.hit = { x: p.x, y: top + spriteHeight / 2, radius: 36 * (scale / 4) };
+    }
+
+    function drawScene(now) {
+      if (!canvasWidth || !canvasHeight) return;
+      drawOfficeBackground();
+      agentData.forEach(drawDesk);
+      agentData.forEach((agent) => drawAgent(agent, now));
+    }
+
+    function updateSidebar() {
+      const agent = selectedAgent() || agentData.find((item) => item.id === 'survey') || agentData[0];
+      const state = states[agent.state];
+      const currentTask = currentTaskFor(agent);
+      document.getElementById('agentAvatar').textContent = agent.initials;
+      document.getElementById('agentAvatar').style.background = agent.color;
+      document.getElementById('agentName').textContent = agent.name;
+      document.getElementById('agentRole').textContent = agent.role;
+      document.getElementById('agentCurrentTask').textContent = currentTask[1];
+      document.getElementById('agentCurrentTaskId').textContent = currentTask[0];
+      document.getElementById('agentStatus').textContent = currentActionFor(agent);
+      document.getElementById('agentProgressBar').style.width = `${agent.progress}%`;
+      document.getElementById('agentProgressValue').textContent = `${agent.progress}%`;
+      document.getElementById('agentHandled').textContent = agent.handled;
+      document.getElementById('agentWaiting').textContent = agent.waiting;
+      document.getElementById('agentStateHeader').innerHTML = `<i style="background:${state.color}"></i>${state.label}`;
+      document.getElementById('taskCount').textContent = `${agent.tasks.length} 项`;
+      document.getElementById('pauseButton').textContent = agent.paused ? '继续执行' : '暂停任务';
+      const taskListHtml = agent.tasks.map((task) => {
+        const isCurrent = task[0] === currentTask[0];
+        return `<button class="task-item${isCurrent ? ' is-current' : ''}" type="button" data-task="${task[0]}" data-title="${task[1]}" data-desc="${task[2]}" data-status="${task[3]}"><span class="task-item-top"><span class="task-id">${task[0]}</span><span class="task-tag">${isCurrent ? '当前任务' : task[3]}</span></span><b>${task[1]}</b><span class="task-description">${task[2]}</span><em>打开理赔任务 →</em></button>`;
+      }).join('');
+      setStableHtml(document.getElementById('taskList'), taskListHtml);
+      const agentProcessList = document.getElementById('agentProcessList');
+      if (agentProcessList) {
+        if (!agentProcessList.children.length) {
+          agentProcessList.innerHTML = agentData.map((item) => `<button class="agent-process-card" type="button" data-agent-id="${item.id}"><span class="agent-process-top"><span class="agent-process-avatar" style="background:${item.color}">${item.initials}</span><span class="agent-process-info"><strong>${item.name}</strong><span>${item.role}</span></span><span class="agent-process-status" data-agent-status></span></span><span class="agent-work-row"><span>当前任务</span><b data-agent-task></b></span><span class="agent-work-row"><span>当前动作</span><b data-agent-action></b></span><span class="agent-progress-row"><span class="agent-progress-track"><i data-agent-progress></i></span><span data-agent-progress-value></span></span><span class="agent-process-meta"><span data-agent-task-id></span><span data-agent-meta></span></span></button>`).join('');
+        }
+        agentData.forEach((item) => {
+          const itemState = states[item.state] || states.working;
+          const itemTask = currentTaskFor(item);
+          const card = agentProcessList.querySelector(`[data-agent-id="${item.id}"]`);
+          const status = card.querySelector('[data-agent-status]');
+          card.style.setProperty('--agent-dot', itemState.color);
+          status.textContent = itemState.label;
+          status.style.background = `${itemState.color}18`;
+          status.style.color = itemState.color;
+          card.querySelector('[data-agent-task]').textContent = itemTask[1];
+          card.querySelector('[data-agent-action]').textContent = currentActionFor(item);
+          card.querySelector('[data-agent-progress]').style.width = `${item.progress}%`;
+          card.querySelector('[data-agent-progress-value]').textContent = `${item.progress}%`;
+          card.querySelector('[data-agent-task-id]').textContent = itemTask[0];
+          card.querySelector('[data-agent-meta]').textContent = `待确认 ${item.waiting} · ${item.tasks.length} 项任务`;
+        });
+      }
+      const agentProcessMeta = document.getElementById('agentProcessMeta');
+      if (agentProcessMeta) agentProcessMeta.textContent = `${agentData.length} 位在线`;
+      if (selectedId) renderAgentChat(agent);
+      const totalHandled = agentData.reduce((sum, item) => sum + item.handled, 0);
+      const totalWaiting = agentData.reduce((sum, item) => sum + item.waiting, 0);
+      document.getElementById('metricHandled').textContent = totalHandled;
+      document.getElementById('metricCompleted').textContent = Math.max(0, totalHandled - totalWaiting);
+    }
+
+    function selectAgent(id) {
+      const agent = agentData.find((item) => item.id === id);
+      if (!agent) return;
+      selectedId = id;
+      if (agent.paused) {
+        agent.paused = false;
+        agent.state = agent.resumeState || agent.restState;
+        agent.speech = '';
+        showToast(`${agent.name} 已恢复行动`);
+      } else {
+        agent.paused = true;
+        agent.resumeState = agent.state;
+        agent.state = 'paused';
+        agent.speech = '老板，我在！';
+        showToast(`${agent.name} 已暂停`);
+      }
+      document.querySelector('.agent-panel')?.classList.add('show-agent-detail');
+      updateSidebar();
+      showOfficeChat(agent);
+      drawScene(performance.now());
+    }
+
+    function clearSelection() {
+      const agent = selectedAgent();
+      if (agent?.paused) {
+        agent.paused = false;
+        agent.state = agent.resumeState || agent.restState;
+        agent.speech = '';
+      }
+      selectedId = null;
+      hoverId = null;
+      hideOfficeChat();
+      document.querySelector('.agent-panel')?.classList.remove('show-agent-detail');
+      updateSidebar();
+      drawScene(performance.now());
+      showToast('已取消 Agent 选择');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.style.display = 'block';
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => { toast.style.display = 'none'; }, 1800);
+    }
+
+    function ensureAgentChat(agent) {
+      if (agent.chatHistory.length) return;
+      const currentTask = currentTaskFor(agent);
+      agent.chatHistory.push({
+        role: 'agent',
+        text: `老板，我在！当前任务是“${currentTask[1]}”，当前动作为“${currentActionFor(agent)}”。你可以要求我汇报进度、检查依据或调整执行。`,
+        time: formatClock()
+      });
+    }
+
+    function renderAgentChat(agent) {
+      const log = document.getElementById('agentChatLog');
+      if (!log || !agent) return;
+      ensureAgentChat(agent);
+      const chatHtml = agent.chatHistory.map((message) => {
+        const isUser = message.role === 'user';
+        const avatar = isUser ? '' : `<span class="chat-message-avatar" style="background:${agent.color}">${agent.initials}</span>`;
+        return `<div class="chat-message${isUser ? ' is-user' : ''}">${avatar}<div class="chat-message-copy"><p>${escapeHtml(message.text)}</p><time>${escapeHtml(message.time)}</time></div></div>`;
+      }).join('');
+      setStableHtml(log, chatHtml);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function showOfficeChat(agent) {
+      if (!agent) return;
+      const avatar = document.getElementById('officeChatAgentAvatar');
+      avatar.textContent = agent.initials;
+      avatar.style.background = agent.color;
+      document.getElementById('officeChatAgentName').textContent = agent.name;
+      document.getElementById('officeChatAgentRole').textContent = agent.role;
+      const layer = document.getElementById('officeChatLayer');
+      layer.classList.add('is-open');
+      layer.setAttribute('aria-hidden', 'false');
+      renderAgentChat(agent);
+      window.setTimeout(() => document.getElementById('agentChatInput').focus(), 0);
+    }
+
+    function hideOfficeChat() {
+      const layer = document.getElementById('officeChatLayer');
+      layer.classList.remove('is-open');
+      layer.setAttribute('aria-hidden', 'true');
+    }
+
+    function buildAgentReply(agent, message) {
+      const currentTask = currentTaskFor(agent);
+      const blockingTask = agent.tasks.find((task) => task[3] === '待人工确认');
+      if (/暂停|停止/.test(message)) {
+        if (!agent.paused) {
+          agent.resumeState = agent.state;
+          agent.paused = true;
+          agent.state = 'paused';
+          agent.speech = '老板，我在！';
+        }
+        return `已暂停“${currentTask[1]}”。当前进度 ${agent.progress}%，等待你的下一步指令。`;
+      }
+      if (/继续|恢复/.test(message)) {
+        agent.paused = false;
+        agent.state = agent.resumeState || agent.restState;
+        agent.speech = '';
+        return `已恢复“${currentTask[1]}”，将从 ${agent.progress}% 的处理节点继续执行。`;
+      }
+      if (/检查|依据|证据|异常/.test(message)) {
+        return blockingTask
+          ? `检查完成。当前处理依据已关联到任务材料；需要重点确认“${blockingTask[1]}”：${blockingTask[2]}。`
+          : `检查完成。当前任务的规则依据、材料引用和处理结论一致，暂未发现需要人工确认的异常。`;
+      }
+      if (/优先|加急/.test(message)) {
+        agent.priority = '最高';
+        return `已将“${currentTask[1]}”调整为最高优先级，后续动作将优先执行，并在异常时立即向你汇报。`;
+      }
+      if (/进度|汇报|做什么/.test(message)) {
+        return `当前任务“${currentTask[1]}”进度 ${agent.progress}%，当前动作为“${currentActionFor(agent)}”；共有 ${agent.waiting} 项等待确认。`;
+      }
+      return `收到。我会按你的要求继续处理“${currentTask[1]}”，并同步记录操作依据和检查结果。`;
+    }
+
+    function sendAgentMessage(message, replyOverride) {
+      const agent = selectedAgent();
+      const content = message.trim();
+      if (!agent || !content) return;
+      ensureAgentChat(agent);
+      agent.chatHistory.push({ role: 'user', text: content, time: formatClock() });
+      renderAgentChat(agent);
+      const reply = replyOverride || buildAgentReply(agent, content);
+      updateSidebar();
+      window.setTimeout(() => {
+        agent.chatHistory.push({ role: 'agent', text: reply, time: formatClock() });
+        if (selectedId === agent.id) updateSidebar();
+      }, 360);
+    }
+
+    function openTask(task) {
+      activeTask = task;
+      document.getElementById('taskDialogTitle').textContent = task.title;
+      document.getElementById('taskDialogBody').innerHTML = `<dl><dt>任务编号</dt><dd>${task.id}</dd><dt>所属 Agent</dt><dd>${selectedAgent().name}</dd><dt>当前状态</dt><dd>${task.status}</dd><dt>待处理事项</dt><dd>${task.desc}</dd><dt>处理方式</dt><dd>在理赔空间工作台中继续处理</dd></dl>`;
+      document.getElementById('taskModal').classList.add('is-open');
+      document.getElementById('taskModal').setAttribute('aria-hidden', 'false');
+    }
+
+    function closeTaskModal() {
+      document.getElementById('taskModal').classList.remove('is-open');
+      document.getElementById('taskModal').setAttribute('aria-hidden', 'true');
+    }
+
+    let lastMotionTime = performance.now();
+    let sidebarRefreshElapsed = 0;
+
+    function startDispatchRun(agent) {
+      agent.route = [agent.desk, collaborationHub, agent.desk];
+      agent.routeIndex = 1;
+      agent.routeDwell = 0;
+      agent.state = 'walking';
+      agent.speech = '任务完成，去找调度';
+      agent.reportedAtHub = false;
+      agent.flip = false;
+    }
+
+    function acknowledgeDispatch() {
+      const dispatch = agentData.find((agent) => agent.id === 'dispatch');
+      if (!dispatch) return;
+      dispatch.replyTimer = 2.4;
+      dispatch.speech = '收到，任务进展已更新';
+    }
+
+    function updateMotion(now) {
+      const delta = Math.min(40, Math.max(0, now - lastMotionTime));
+      const dt = delta / 1000;
+      lastMotionTime = now;
+
+      const dispatchAgent = agentData.find((agent) => agent.id === 'dispatch');
+      if (dispatchAgent && dispatchAgent.replyTimer > 0 && !dispatchAgent.paused) {
+        dispatchAgent.replyTimer = Math.max(0, dispatchAgent.replyTimer - dt);
+        if (!dispatchAgent.replyTimer) dispatchAgent.speech = '';
+      }
+
+      agentData.forEach((agent) => {
+        const isDispatch = agent.id === 'dispatch';
+        agent.walkPhase += dt * (agent.state === 'walking' ? 8 : 2.8);
+
+        if (agent.paused) {
+          agent.state = 'paused';
+          agent.speech = '老板，我在！';
+          return;
+        }
+
+        // Dispatch stays planted in the middle of the office as the coordinator.
+        if (isDispatch) {
+          agent.x = agent.desk[0];
+          agent.y = agent.desk[1];
+          agent.state = agent.restState;
+          if (!agent.replyTimer) agent.speech = '';
+          return;
+        }
+
+        // Work stays at the assigned desk. Waiting for a human confirmation is
+        // intentionally not treated as a completed task.
+        if (agent.route.length === 1) {
+          agent.state = agent.restState;
+          agent.speech = '';
+          agent.workElapsed += dt;
+          if (agent.restState !== 'waiting' && agent.workElapsed >= agent.workDuration) {
+            startDispatchRun(agent);
+          }
+          return;
+        }
+
+        const target = agent.route[agent.routeIndex] || agent.desk;
+        const dx = target[0] - agent.x;
+        const dy = target[1] - agent.y;
+        const distance = Math.hypot(dx, dy);
+
+        if (distance < 0.002) {
+          agent.x = target[0];
+          agent.y = target[1];
+          agent.routeDwell += dt;
+          if (agent.routeIndex === 1) {
+            agent.state = 'reporting';
+            agent.speech = '已完成，向调度汇报';
+            if (!agent.reportedAtHub) {
+              agent.reportedAtHub = true;
+              acknowledgeDispatch();
+            }
+            if (agent.routeDwell >= 1.8) {
+              agent.routeIndex = 2;
+              agent.routeDwell = 0;
+              agent.state = 'walking';
+              agent.speech = '收到，返回工位';
+            }
+          } else if (agent.routeIndex === 2) {
+            agent.route = [agent.desk];
+            agent.routeIndex = 0;
+            agent.routeDwell = 0;
+            agent.workElapsed = 0;
+            agent.state = agent.restState;
+            agent.speech = '';
+            agent.reportedAtHub = false;
+          }
+          return;
+        }
+
+        agent.state = 'walking';
+        agent.speech = agent.routeIndex === 1 ? '任务完成，去找调度' : '收到，返回工位';
+        agent.flip = dx < 0;
+        const speed = 0.065;
+        const step = Math.min(distance, speed * dt);
+        agent.x += (dx / distance) * step;
+        agent.y += (dy / distance) * step;
+      });
+
+      const selected = selectedAgent();
+      if (selected && selected._lastRenderedState !== selected.state) {
+        selected._lastRenderedState = selected.state;
+        updateSidebar();
+      }
+      sidebarRefreshElapsed += dt;
+      if (sidebarRefreshElapsed >= 0.5) {
+        sidebarRefreshElapsed = 0;
+        updateSidebar();
+      }
+    }
+
+    function animate(now) {
+      updateMotion(now);
+      drawScene(now);
+      requestAnimationFrame(animate);
+    }
+
+    canvas.addEventListener('mousemove', (event) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      const found = agentData.find((agent) => agent.hit && Math.hypot(x - agent.hit.x, y - agent.hit.y) < agent.hit.radius);
+      hoverId = found?.id || null;
+      canvas.style.cursor = found ? 'pointer' : 'default';
+      if (found) {
+        tip.style.display = 'block';
+        tip.style.left = `${Math.min(rect.width - 140, Math.max(8, found.hit.x + 24))}px`;
+        tip.style.top = `${Math.max(8, found.hit.y - 72)}px`;
+        tip.innerHTML = `<b>${found.name}</b><span>${states[found.state].label} · 点击查看任务</span>`;
+      } else {
+        tip.style.display = 'none';
+      }
+    });
+    canvas.addEventListener('mouseleave', () => { hoverId = null; tip.style.display = 'none'; });
+    canvas.addEventListener('click', (event) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      const found = agentData.find((agent) => agent.hit && Math.hypot(x - agent.hit.x, y - agent.hit.y) < agent.hit.radius);
+      if (found) selectAgent(found.id);
+      else clearSelection();
+    });
+    document.getElementById('agentProcessList').addEventListener('click', (event) => {
+      const target = event.target.closest('[data-agent-id]');
+      if (target) selectAgent(target.dataset.agentId);
+    });
+    document.getElementById('backToOverview').addEventListener('click', clearSelection);
+    document.getElementById('openChatButton').addEventListener('click', () => showOfficeChat(selectedAgent()));
+    document.getElementById('officeChatClose').addEventListener('click', hideOfficeChat);
+    document.getElementById('officeChatLayer').addEventListener('click', (event) => {
+      if (event.target.id === 'officeChatLayer') hideOfficeChat();
+    });
+    document.getElementById('taskList').addEventListener('click', (event) => {
+      const target = event.target.closest('[data-task]');
+      if (!target) return;
+      const caseNo = target.dataset.task;
+      if (window.parent !== window) {
+        window.parent.postMessage({ type: 'xos:open-task', caseNo }, '*');
+      } else {
+        window.localStorage.setItem('claim-core-open-task', caseNo);
+        window.location.href = `claim_core_vehicle_survey_page_v4.html?task=${encodeURIComponent(caseNo)}`;
+      }
+    });
+    document.getElementById('focusButton').addEventListener('click', () => {
+      const agent = selectedAgent();
+      if (!agent) return;
+      agent.x = agent.desk[0]; agent.y = agent.desk[1]; agent.route = [agent.desk]; agent.routeIndex = 0;
+      agent.routeDwell = 0; agent.workElapsed = 0; agent.paused = false; agent.state = agent.restState; agent.resumeState = agent.restState; agent.speech = '';
+      sendAgentMessage('请回到工位继续处理', `已回到工位，正在继续处理“${currentTaskFor(agent)[1]}”。`);
+      showToast(`${agent.name} 已定位至工位`);
+      updateSidebar();
+      drawScene(performance.now());
+    });
+    document.getElementById('pauseButton').addEventListener('click', () => {
+      const agent = selectedAgent();
+      if (!agent) return;
+      sendAgentMessage(agent.paused ? '继续执行当前任务' : '暂停当前任务');
+      showToast(agent.paused ? `${agent.name} 已暂停` : `${agent.name} 已恢复执行`);
+    });
+    document.getElementById('assignButton').addEventListener('click', () => {
+      const agent = selectedAgent();
+      if (!agent) return;
+      if (agent.id === 'dispatch') {
+        sendAgentMessage('汇报当前调度进展');
+        showToast('调度 Agent 已在中央工位');
+        return;
+      }
+      agent.paused = false;
+      agent.progress = 100;
+      agent.workElapsed = agent.workDuration;
+      startDispatchRun(agent);
+      sendAgentMessage('当前任务完成，向调度汇报', `任务已完成，正在向调度 Agent 汇报“${currentTaskFor(agent)[1]}”的处理结论。`);
+      showToast(`已标记 ${agent.name} 完成，前往调度汇报`);
+      updateSidebar();
+      drawScene(performance.now());
+    });
+    document.querySelectorAll('[data-agent-command]').forEach((button) => button.addEventListener('click', () => {
+      const commands = { progress: '请汇报当前进度' };
+      sendAgentMessage(commands[button.dataset.agentCommand]);
+    }));
+    document.querySelectorAll('[data-chat-prompt]').forEach((button) => button.addEventListener('click', () => {
+      sendAgentMessage(button.dataset.chatPrompt);
+    }));
+    document.getElementById('agentChatForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const input = document.getElementById('agentChatInput');
+      const message = input.value.trim();
+      if (!message) return;
+      input.value = '';
+      sendAgentMessage(message);
+    });
+    document.getElementById('noticeButton').addEventListener('click', () => showToast('当前有 14 项待人工确认任务'));
+    document.querySelectorAll('[data-office-action]').forEach((button) => button.addEventListener('click', () => {
+      const labels = { dispatch: '已触发智能派单', remind: '已向全部 Agent 发送催办', report: '已生成全员汇报' };
+      showToast(labels[button.dataset.officeAction]);
+    }));
+    document.querySelectorAll('[data-nav]').forEach((button) => button.addEventListener('click', () => {
+      document.querySelectorAll('[data-nav]').forEach((item) => item.classList.remove('is-active'));
+      button.classList.add('is-active');
+      showToast(`${button.dataset.nav} 已切换`);
+    }));
+    document.getElementById('taskModalClose').addEventListener('click', closeTaskModal);
+    document.getElementById('taskModalCancel').addEventListener('click', closeTaskModal);
+    document.getElementById('taskModalHandle').addEventListener('click', () => {
+      closeTaskModal();
+      showToast(`已打开 ${activeTask?.title || '任务'} 的处理入口`);
+    });
+    document.getElementById('taskModal').addEventListener('click', (event) => { if (event.target.id === 'taskModal') closeTaskModal(); });
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && document.getElementById('officeChatLayer').classList.contains('is-open')) hideOfficeChat();
+    });
+    window.addEventListener('resize', resizeCanvas);
+
+    resizeCanvas();
+    updateSidebar();
+    drawScene(performance.now());
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
