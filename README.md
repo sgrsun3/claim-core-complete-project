@@ -4,11 +4,11 @@
 
 ## 入口
 
-- 在线部署入口：`index.html`
-- 原始主页面：`claim_core_vehicle_survey_page_v4.html`
-- 办公区 iframe：`claim_core_star_office_home.html`
+- 在线部署入口：`index.html`（集成办公区、任务工作台与智能伙伴）
+- 车辆查勘主页面：`claim_core_vehicle_survey_page_v5.html`
+- 办公区 iframe：`claim_core_star_office_home.html`（左侧办公区 + 右侧任务详情）
 
-`index.html` 与原始主页面内容相同。部署时应上传整个目录，不能只上传一个 HTML。
+`index.html` 为统一入口，部署时应上传整个目录，不能只上传一个 HTML。
 
 ## 本地运行
 
@@ -28,13 +28,24 @@ http://127.0.0.1:8080/
 
 ## 部署到 Netlify
 
-可将本目录整体拖入 Netlify Deploys，也可以在本目录执行：
+- 在线地址：<https://xos-claimsystem.netlify.app/>
+- GitHub 仓库：<https://github.com/sgrsun3/claim-core-complete-project>
+
+采用 **Git 持续部署**：每次 `git push origin main` 后，Netlify 自动拉取并发布，约 1 分钟生效。
+
+```bash
+git add -A
+ git commit -m "更新说明"
+ git push
+```
+
+也可将本目录整体拖入 Netlify Deploys，或使用 CLI：
 
 ```bash
 netlify deploy --prod --dir .
 ```
 
-`netlify.toml` 已将当前目录设为发布目录。
+`netlify.toml` 已将当前目录设为发布目录（`publish = "."`，无构建命令）。
 
 ## 外部依赖状态
 
@@ -44,3 +55,12 @@ netlify deploy --prod --dir .
 - 页面字体使用操作系统自带的中文和无衬线字体，不需要下载字体文件。
 
 完整文件用途见 [RESOURCE_MANIFEST.md](RESOURCE_MANIFEST.md)。
+
+## 更新记录
+
+### 2026-07-25 理赔空间折叠按钮优化
+
+- **重新设计图标**：由"方框+竖线+直角箭头"换为更清爽的面板图标（圆角矩形 + 居中箭头），打开/关闭两态箭头方向相反。
+- **美化按钮样式**：尺寸 30×30 → 34×34，圆角加大至 10px，添加柔和阴影与主色 hover 过渡动画。
+- **完善显隐逻辑**：扩展隐藏规则——打开右侧任务信息时折叠按钮自动消失，关闭后恢复显示（原先仅在对话模式下隐藏）。
+- 涉及文件：`index.html`（CSS 样式、HTML 图标、JS 切换逻辑）。
