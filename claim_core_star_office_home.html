@@ -598,6 +598,94 @@
     .office-chat-dialog .agent-chat-log { flex: 1; padding: 8px 16px 12px; background: var(--bg-panel); }
     .office-chat-dialog .chat-presets { padding: 8px 16px; border-top: 1px solid var(--border-light); }
     .office-chat-dialog .chat-compose { padding: 12px 16px 16px; }
+
+    /* 小人操作浮层：点击小人后在其身上展开操作按钮 */
+    .agent-action-popover {
+      position: absolute;
+      z-index: 7;
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      min-width: 168px;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 8px 28px rgba(31, 45, 61, .18);
+      opacity: 0;
+      transform: translateY(6px) scale(.94);
+      transition: opacity .16s ease, transform .16s ease;
+      pointer-events: none;
+    }
+    .agent-action-popover.is-open {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    .agent-action-popover-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px 8px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .agent-action-popover-avatar {
+      display: grid;
+      width: 28px; height: 28px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--color-primary);
+      color: #fff;
+      font-size: 11px; font-weight: 600;
+    }
+    .agent-action-popover-name { min-width: 0; }
+    .agent-action-popover-name strong {
+      display: block; overflow: hidden;
+      font-size: 13px; line-height: 18px; font-weight: 600;
+      text-overflow: ellipsis; white-space: nowrap; color: var(--text-1);
+    }
+    .agent-action-popover-name span {
+      display: block; overflow: hidden;
+      font-size: 10px; line-height: 14px;
+      text-overflow: ellipsis; white-space: nowrap; color: var(--text-3);
+    }
+    .agent-action-popover-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 8px;
+    }
+    .agent-action-popover-grid button {
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--text-2);
+      cursor: pointer;
+      font-size: 12px;
+      transition: border-color .14s ease, background .14s ease, color .14s ease;
+    }
+    .agent-action-popover-grid button:hover {
+      border-color: #8baeff; background: #f5f8ff; color: var(--color-primary);
+    }
+    .agent-action-popover-grid button.is-primary {
+      grid-column: 1 / -1;
+      border-color: var(--color-primary); background: var(--color-primary); color: #fff;
+    }
+    .agent-action-popover-grid button.is-primary:hover { background: #124bd4; color: #fff; }
+    /* 浮层指向小人的小箭头 */
+    .agent-action-popover::after {
+      content: '';
+      position: absolute;
+      bottom: -7px; left: 50%;
+      width: 12px; height: 12px;
+      background: #fff;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      transform: translateX(-50%) rotate(45deg);
+    }
   </style>
 </head>
 <body>
@@ -627,6 +715,18 @@
     <div class="office-stage" id="officeStage">
       <canvas id="officeCanvas" aria-label="可交互的办公区场景"></canvas>
       <div class="canvas-tip" id="canvasTip"></div>
+      <div class="agent-action-popover" id="agentActionPopover" aria-hidden="true">
+        <div class="agent-action-popover-head">
+          <span class="agent-action-popover-avatar" id="popoverAvatar">查</span>
+          <span class="agent-action-popover-name"><strong id="popoverName">查勘 Agent</strong><span id="popoverStatus">处理中</span></span>
+        </div>
+        <div class="agent-action-popover-grid">
+          <button type="button" id="popoverFocusBtn">定位工位</button>
+          <button type="button" id="popoverPauseBtn">暂停任务</button>
+          <button type="button" id="popoverAssignBtn">完成并汇报</button>
+          <button type="button" class="is-primary" id="popoverChatBtn">与他沟通</button>
+        </div>
+      </div>
       <div class="office-loading" id="officeLoading" role="status" aria-live="polite"><div class="loading-orbit" aria-hidden="true"></div><strong>正在加载办公区<span class="office-loading-dots" aria-hidden="true"><i></i><i></i><i></i></span></strong><small>同步办公场景与任务状态</small></div>
       <div class="office-chat-layer" id="officeChatLayer" aria-hidden="true">
         <section class="office-chat-dialog" role="dialog" aria-modal="true" aria-labelledby="officeChatAgentName">
@@ -641,7 +741,7 @@
         </section>
       </div>
     </div>
-            <footer class="office-legend"><span><i class="legend-dot work"></i>处理中</span><span><i class="legend-dot walk"></i>协作移动中</span><span><i class="legend-dot wait"></i>待人工确认</span><span>点击 Agent 查看任务</span></footer>
+            <footer class="office-legend"><span><i class="legend-dot work"></i>处理中</span><span><i class="legend-dot walk"></i>协作移动中</span><span><i class="legend-dot wait"></i>待人工确认</span><span>点击 Agent 展开操作</span></footer>
           </section>
 
           <aside class="panel agent-panel" aria-label="理赔动态">
@@ -1083,42 +1183,66 @@
       document.getElementById('metricCompleted').textContent = Math.max(0, totalHandled - totalWaiting);
     }
 
+    const actionPopover = document.getElementById('agentActionPopover');
+
+    // 更新浮层内容（名称、头像、状态、按钮文案）
+    function updateActionPopover(agent) {
+      if (!agent) return;
+      const state = states[agent.state] || states.working;
+      document.getElementById('popoverAvatar').textContent = agent.initials;
+      document.getElementById('popoverAvatar').style.background = agent.color;
+      document.getElementById('popoverName').textContent = agent.name;
+      document.getElementById('popoverStatus').textContent = currentActionFor(agent) || state.label;
+      document.getElementById('popoverPauseBtn').textContent = agent.paused ? '继续执行' : '暂停任务';
+    }
+
+    // 根据小人在 canvas 中的位置定位浮层（显示在小人上方）
+    function positionActionPopover(agent) {
+      if (!agent || !agent.hit) return;
+      const stageRect = stage.getBoundingClientRect();
+      const popW = actionPopover.offsetWidth || 180;
+      const popH = actionPopover.offsetHeight || 120;
+      // 浮层中心对齐小人，底部留出箭头间距
+      let left = agent.hit.x - popW / 2;
+      let top = agent.hit.y - agent.hit.radius - popH - 14;
+      // 边界约束
+      left = Math.max(8, Math.min(stageRect.width - popW - 8, left));
+      if (top < 8) top = agent.hit.y + agent.hit.radius + 14; // 上方放不下则放下方
+      actionPopover.style.left = `${left}px`;
+      actionPopover.style.top = `${top}px`;
+    }
+
+    function showActionPopover(agent) {
+      if (!agent) return;
+      updateActionPopover(agent);
+      actionPopover.classList.add('is-open');
+      actionPopover.setAttribute('aria-hidden', 'false');
+      positionActionPopover(agent);
+    }
+
+    function hideActionPopover() {
+      actionPopover.classList.remove('is-open');
+      actionPopover.setAttribute('aria-hidden', 'true');
+    }
+
     function selectAgent(id) {
       const agent = agentData.find((item) => item.id === id);
       if (!agent) return;
       selectedId = id;
-      if (agent.paused) {
-        agent.paused = false;
-        agent.state = agent.resumeState || agent.restState;
-        agent.speech = '';
-        showToast(`${agent.name} 已恢复行动`);
-      } else {
-        agent.paused = true;
-        agent.resumeState = agent.state;
-        agent.state = 'paused';
-        agent.speech = '老板，我在！';
-        showToast(`${agent.name} 已暂停`);
-      }
       document.querySelector('.agent-panel')?.classList.add('show-agent-detail');
       updateSidebar();
-      showOfficeChat(agent);
+      showActionPopover(agent);
       drawScene(performance.now());
     }
 
     function clearSelection() {
-      const agent = selectedAgent();
-      if (agent?.paused) {
-        agent.paused = false;
-        agent.state = agent.resumeState || agent.restState;
-        agent.speech = '';
-      }
       selectedId = null;
       hoverId = null;
+      hideActionPopover();
       hideOfficeChat();
       document.querySelector('.agent-panel')?.classList.remove('show-agent-detail');
       updateSidebar();
       drawScene(performance.now());
-      showToast('已取消 Agent 选择');
     }
 
     function showToast(message) {
@@ -1343,6 +1467,11 @@
         selected._lastRenderedState = selected.state;
         updateSidebar();
       }
+      // 浮层跟随小人移动
+      if (selected && actionPopover.classList.contains('is-open')) {
+        positionActionPopover(selected);
+        updateActionPopover(selected);
+      }
       sidebarRefreshElapsed += dt;
       if (sidebarRefreshElapsed >= 0.5) {
         sidebarRefreshElapsed = 0;
@@ -1367,7 +1496,7 @@
         tip.style.display = 'block';
         tip.style.left = `${Math.min(rect.width - 140, Math.max(8, found.hit.x + 24))}px`;
         tip.style.top = `${Math.max(8, found.hit.y - 72)}px`;
-        tip.innerHTML = `<b>${found.name}</b><span>${states[found.state].label} · 点击查看任务</span>`;
+        tip.innerHTML = `<b>${found.name}</b><span>${states[found.state].label} · 点击展开操作</span>`;
       } else {
         tip.style.display = 'none';
       }
@@ -1380,6 +1509,48 @@
       const found = agentData.find((agent) => agent.hit && Math.hypot(x - agent.hit.x, y - agent.hit.y) < agent.hit.radius);
       if (found) selectAgent(found.id);
       else clearSelection();
+    });
+    // 点击浮层内部不触发 canvas 的 clearSelection
+    actionPopover.addEventListener('click', (event) => event.stopPropagation());
+    // 浮层按钮事件
+    document.getElementById('popoverFocusBtn').addEventListener('click', () => {
+      const agent = selectedAgent();
+      if (!agent) return;
+      agent.x = agent.desk[0]; agent.y = agent.desk[1]; agent.route = [agent.desk]; agent.routeIndex = 0;
+      agent.routeDwell = 0; agent.workElapsed = 0; agent.paused = false; agent.state = agent.restState; agent.resumeState = agent.restState; agent.speech = '';
+      showToast(`${agent.name} 已定位至工位`);
+      updateSidebar(); updateActionPopover(agent);
+      drawScene(performance.now());
+    });
+    document.getElementById('popoverPauseBtn').addEventListener('click', () => {
+      const agent = selectedAgent();
+      if (!agent) return;
+      sendAgentMessage(agent.paused ? '继续执行当前任务' : '暂停当前任务');
+      showToast(agent.paused ? `${agent.name} 已暂停` : `${agent.name} 已恢复执行`);
+      updateActionPopover(agent);
+    });
+    document.getElementById('popoverAssignBtn').addEventListener('click', () => {
+      const agent = selectedAgent();
+      if (!agent) return;
+      if (agent.id === 'dispatch') {
+        sendAgentMessage('汇报当前调度进展');
+        showToast('调度 Agent 已在中央工位');
+        updateActionPopover(agent);
+        return;
+      }
+      agent.paused = false;
+      agent.progress = 100;
+      agent.workElapsed = agent.workDuration;
+      startDispatchRun(agent);
+      sendAgentMessage('当前任务完成，向调度汇报', `任务已完成，正在向调度 Agent 汇报“${currentTaskFor(agent)[1]}”的处理结论。`);
+      showToast(`已标记 ${agent.name} 完成，前往调度汇报`);
+      updateSidebar(); updateActionPopover(agent);
+      drawScene(performance.now());
+    });
+    document.getElementById('popoverChatBtn').addEventListener('click', () => {
+      const agent = selectedAgent();
+      if (!agent) return;
+      showOfficeChat(agent);
     });
     document.getElementById('agentProcessList').addEventListener('click', (event) => {
       const target = event.target.closest('[data-agent-id]');
