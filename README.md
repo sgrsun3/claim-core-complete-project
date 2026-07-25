@@ -73,3 +73,9 @@ netlify deploy --prod --dir .
 - **浮层跟随小人**：小人在办公区内移动时浮层实时跟随定位。
 - **点击空白收起**：点击 canvas 空白处自动收起浮层并取消选择。
 - 涉及文件：`claim_core_star_office_home.html`（浮层 HTML/CSS、selectAgent 改造、定位逻辑、按钮事件、动画循环）。
+
+### 2026-07-25 移除右侧详情面板操作区
+
+- **删除右侧操作按钮**：操作功能已全部迁移至小人身上的浮层，右侧详情面板中的“操作”区域（定位工位、与 Agent 沟通、暂停/继续、完成并汇报）及相关事件绑定一并移除，避免重复入口。
+- 右侧详情面板仍保留 Agent 信息、当前任务与任务列表。
+- 涉及文件：`claim_core_star_office_home.html`（HTML 结构、事件绑定、updateSidebar）。

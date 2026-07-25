@@ -768,15 +768,6 @@
                     </div>
                     <div class="agent-stats"><div class="agent-stat"><span>今日处理</span><strong id="agentHandled">48</strong></div><div class="agent-stat"><span>待确认</span><strong id="agentWaiting">3</strong></div></div>
                   </section>
-                  <section class="detail-section">
-                    <div class="detail-section-head"><h3>操作</h3><span>4 项</span></div>
-                    <div class="agent-action-grid">
-                      <button id="focusButton" type="button">定位工位</button>
-                      <button id="openChatButton" type="button">与 Agent 沟通</button>
-                      <button id="pauseButton" type="button">继续执行</button>
-                      <button class="primary-btn" id="assignButton" type="button">完成并汇报</button>
-                    </div>
-                  </section>
                   <section class="detail-section task-section">
                     <div class="detail-section-head"><h3>正在处理的任务</h3><span id="taskCount">3 项</span></div>
                     <div class="task-list" id="taskList"></div>
@@ -1146,7 +1137,6 @@
       document.getElementById('agentWaiting').textContent = agent.waiting;
       document.getElementById('agentStateHeader').innerHTML = `<i style="background:${state.color}"></i>${state.label}`;
       document.getElementById('taskCount').textContent = `${agent.tasks.length} 项`;
-      document.getElementById('pauseButton').textContent = agent.paused ? '继续执行' : '暂停任务';
       const taskListHtml = agent.tasks.map((task) => {
         const isCurrent = task[0] === currentTask[0];
         return `<button class="task-item${isCurrent ? ' is-current' : ''}" type="button" data-task="${task[0]}" data-title="${task[1]}" data-desc="${task[2]}" data-status="${task[3]}"><span class="task-item-top"><span class="task-id">${task[0]}</span><span class="task-tag">${isCurrent ? '当前任务' : task[3]}</span></span><b>${task[1]}</b><span class="task-description">${task[2]}</span><em>打开理赔任务 →</em></button>`;
@@ -1557,7 +1547,6 @@
       if (target) selectAgent(target.dataset.agentId);
     });
     document.getElementById('backToOverview').addEventListener('click', clearSelection);
-    document.getElementById('openChatButton').addEventListener('click', () => showOfficeChat(selectedAgent()));
     document.getElementById('officeChatClose').addEventListener('click', hideOfficeChat);
     document.getElementById('officeChatLayer').addEventListener('click', (event) => {
       if (event.target.id === 'officeChatLayer') hideOfficeChat();
@@ -1572,39 +1561,6 @@
         window.localStorage.setItem('claim-core-open-task', caseNo);
         window.location.href = `claim_core_vehicle_survey_page_v4.html?task=${encodeURIComponent(caseNo)}`;
       }
-    });
-    document.getElementById('focusButton').addEventListener('click', () => {
-      const agent = selectedAgent();
-      if (!agent) return;
-      agent.x = agent.desk[0]; agent.y = agent.desk[1]; agent.route = [agent.desk]; agent.routeIndex = 0;
-      agent.routeDwell = 0; agent.workElapsed = 0; agent.paused = false; agent.state = agent.restState; agent.resumeState = agent.restState; agent.speech = '';
-      sendAgentMessage('请回到工位继续处理', `已回到工位，正在继续处理“${currentTaskFor(agent)[1]}”。`);
-      showToast(`${agent.name} 已定位至工位`);
-      updateSidebar();
-      drawScene(performance.now());
-    });
-    document.getElementById('pauseButton').addEventListener('click', () => {
-      const agent = selectedAgent();
-      if (!agent) return;
-      sendAgentMessage(agent.paused ? '继续执行当前任务' : '暂停当前任务');
-      showToast(agent.paused ? `${agent.name} 已暂停` : `${agent.name} 已恢复执行`);
-    });
-    document.getElementById('assignButton').addEventListener('click', () => {
-      const agent = selectedAgent();
-      if (!agent) return;
-      if (agent.id === 'dispatch') {
-        sendAgentMessage('汇报当前调度进展');
-        showToast('调度 Agent 已在中央工位');
-        return;
-      }
-      agent.paused = false;
-      agent.progress = 100;
-      agent.workElapsed = agent.workDuration;
-      startDispatchRun(agent);
-      sendAgentMessage('当前任务完成，向调度汇报', `任务已完成，正在向调度 Agent 汇报“${currentTaskFor(agent)[1]}”的处理结论。`);
-      showToast(`已标记 ${agent.name} 完成，前往调度汇报`);
-      updateSidebar();
-      drawScene(performance.now());
     });
     document.querySelectorAll('[data-agent-command]').forEach((button) => button.addEventListener('click', () => {
       const commands = { progress: '请汇报当前进度' };
