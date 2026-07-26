@@ -130,3 +130,9 @@ netlify deploy --prod --dir .
 - **引导内容突出交互形式**：理赔空间介绍案件列表/详情页/Demo 控制器交互；办公区介绍小人点击展开操作浮层与沟通；数据分析介绍岗位日报/咨询分析/技能沉淀 10 步流程；智能伙伴介绍 Agent 管理与技能库。
 - **理赔空间 Demo 控制器默认折叠**：页面加载后默认收起为图标，点击展开。
 - 涉及文件：`index.html`（`.sys-onboarding-*` CSS、引导浮层 HTML、引导 IIFE 脚本、`runAnalyticsAction` 三 stage 改对话式、Demo 步骤描述、`demoController` 加 `is-collapsed` 类）。
+
+### 2026-07-25 新手引导每次显示 + Demo 控制器改为纯浮层
+
+- **新手引导每次进入都显示**：移除 localStorage 记忆逻辑，每次刷新页面都自动弹出新手引导。
+- **理赔空间 Demo 控制器不挤压空间**：移除 workspace 为 Demo 控制器预留的 margin-left 和 width 计算（3 处 CSS 规则），改为与数据分析 Demo 控制器一致的纯浮层模式，workspace 占满剩余空间。
+- 涉及文件：`index.html`（`dismissOnboarding` 移除 localStorage 写入、移除 workspace margin-left/width 让位规则 3 处）。

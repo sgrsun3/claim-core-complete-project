@@ -7944,8 +7944,7 @@
     .demo-collapse-btn:hover { background: #eceef1; color: #464d58; }
     .demo-controller-case { display: grid; grid-template-columns: 1fr auto; align-items: center; }
     .demo-controller-case-info { display: grid; gap: 2px; min-width: 0; }
-    .workspace { width: calc(100% - 276px); margin-left: 276px; transition: width .25s ease, margin-left .25s ease; }
-    .demo-controller.is-collapsed ~ .workspace { width: calc(100% - 64px); margin-left: 64px; }
+    /* Demo 控制器为浮层，不挤压 workspace 空间 */
     .task-list-open { display: none !important; }
     .demo-controller-case { position: relative; display: grid; gap: 2px; padding: 14px 16px 12px 42px; border-bottom: 1px solid #e2e5e9; background: #fff; }
     .demo-controller-case::before { position: absolute; top: 15px; left: 14px; display: grid; width: 20px; height: 20px; place-items: center; border: 1px solid #c9ced6; border-radius: 5px; color: #4f5867; font-size: 11px; font-weight: 700; content: "D"; }
@@ -8125,18 +8124,8 @@
 
     .demo-controller { top: 12px; left: calc(var(--global-module-width) + 12px); }
     .demo-expand-btn { top: 0; left: 0; }
-    .workspace {
-      width: calc(100% - var(--global-module-width) - 276px);
-      height: 100vh;
-      min-height: 0;
-      margin-top: 0;
-      margin-left: calc(var(--global-module-width) + 276px);
-    }
 
-    .demo-controller.is-collapsed ~ .workspace {
-      width: calc(100% - var(--global-module-width) - 64px);
-      margin-left: calc(var(--global-module-width) + 64px);
-    }
+    /* Demo 控制器为浮层不挤压 workspace */
 
     .module-landing {
       position: fixed;
@@ -8878,8 +8867,8 @@
     .demo-control-btn.is-primary { border-color: #175dff; background: #175dff; color: #fff; }
     .demo-control-btn.is-primary:hover { border-color: #124bd4; background: #124bd4; color: #fff; }
     .workspace {
-      width: calc(100% - var(--global-module-width) - 296px);
-      margin-left: calc(var(--global-module-width) + 296px);
+      width: calc(100% - var(--global-module-width));
+      margin-left: var(--global-module-width);
     }
     .analytics-view .xos-home,
     .analytics-view .xos-home.analytics-home { padding: 24px 32px 20px; }
@@ -9729,10 +9718,6 @@
 
     @media (max-width: 1080px) {
       .demo-controller { width: 228px; min-width: 228px; }
-      .workspace {
-        width: calc(100% - var(--global-module-width) - 252px);
-        margin-left: calc(var(--global-module-width) + 252px);
-      }
     }
 
     /* 系统级新手引导 */
@@ -18151,7 +18136,6 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
 
       function dismissOnboarding() {
         overlay.hidden = true;
-        try { localStorage.setItem(ONBOARDING_KEY, "1"); } catch (e) {}
       }
 
       nextBtn.addEventListener("click", advanceOnboarding);
@@ -18160,7 +18144,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
 
       var isOnboarded = false;
       try { isOnboarded = !!localStorage.getItem(ONBOARDING_KEY); } catch (e) {}
-      function startOnboarding() { if (!isOnboarded) { overlay.hidden = false; showOnboarding(); } }
+      function startOnboarding() { overlay.hidden = false; showOnboarding(); }
       if (document.readyState === 'complete') window.setTimeout(startOnboarding, 800);
       else window.addEventListener('load', function () { window.setTimeout(startOnboarding, 800); });
     })();
