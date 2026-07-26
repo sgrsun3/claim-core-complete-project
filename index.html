@@ -9785,11 +9785,11 @@
             <button class="analytics-demo-step is-current" type="button" data-analytics-demo-step="template"><i>1</i><span><strong>推送岗位日报</strong><small>按岗位应用通用模板</small></span></button>
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="person"><i>2</i><span><strong>询问人员指标</strong><small>王强昨日核损率与核减率</small></span></button>
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="added"><i>3</i><span><strong>加入个人日报</strong><small>沉淀单一关注指标</small></span></button>
-            <button class="analytics-demo-step" type="button" data-analytics-demo-step="skill"><i>4</i><span><strong>生成个人 Skill</strong><small>持续维护关注指标</small></span></button>
+            <button class="analytics-demo-step" type="button" data-analytics-demo-step="skill"><i>4</i><span><strong>加入个人 Skill</strong><small>确认后沉淀关注指标</small></span></button>
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="summary"><i>5</i><span><strong>查看通用分析</strong><small>成本、未决、服务与大灾</small></span></button>
-            <button class="analytics-demo-step" type="button" data-analytics-demo-step="cost-breakdown"><i>6</i><span><strong>成本拆解分析</strong><small>主动推送配件/工时/辅料拆解</small></span></button>
-            <button class="analytics-demo-step" type="button" data-analytics-demo-step="risk-leakage"><i>7</i><span><strong>渗漏风险减损</strong><small>主动推送配件/工时渗漏拦截效果</small></span></button>
-            <button class="analytics-demo-step" type="button" data-analytics-demo-step="industry-benchmark"><i>8</i><span><strong>行业对标分析</strong><small>主动推送 7 维度×3 角度对标</small></span></button>
+            <button class="analytics-demo-step" type="button" data-analytics-demo-step="cost-breakdown"><i>6</i><span><strong>成本拆解分析</strong><small>推送拆解并询问加入技能</small></span></button>
+            <button class="analytics-demo-step" type="button" data-analytics-demo-step="risk-leakage"><i>7</i><span><strong>渗漏风险减损</strong><small>推送减损并询问加入技能</small></span></button>
+            <button class="analytics-demo-step" type="button" data-analytics-demo-step="industry-benchmark"><i>8</i><span><strong>行业对标分析</strong><small>推送对标并询问加入技能</small></span></button>
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="consulting"><i>9</i><span><strong>咨询分析报告库</strong><small>5 类定期报告与定制生成</small></span></button>
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="skill-management"><i>10</i><span><strong>打开 Skill 管理</strong><small>查看已沉淀的个人 Skill</small></span></button>
           </nav>
@@ -14143,8 +14143,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const skillKey = `consulting-${safeTopic}`;
       const skillAdded = analyticsPersonalMetrics.includes(skillKey);
       const skillLabels = { "cost-breakdown": "成本拆解分析", "risk-leakage": "渗漏风险减损", "industry-benchmark": "行业对标分析" };
-      const actionBtn = isConsulting ? `${skillAdded ? `<span class="analytics-skill-btn is-added">✓ 已加入</span>` : `<button class="analytics-skill-btn" type="button" data-analytics-add-consulting-skill="${safeTopic}">加入技能</button>`}` : "";
-      return `<section class="analytics-topic-artifact"><header class="analytics-topic-artifact-head"><span><strong>${analyticsTopicLabels[safeTopic]}</strong><span>${context.roleLabel} · 上海分公司 · 2026-07-24</span></span><span class="analytics-topic-artifact-head-actions">${actionBtn}<span class="analytics-scope-pill is-demo">Demo</span></span></header><div class="analytics-topic-artifact-body"><strong>管理结论：</strong>${role.topicCopy[safeTopic]}</div>${charts[safeTopic]()}</section>`;
+      return `<section class="analytics-topic-artifact"><header class="analytics-topic-artifact-head"><span><strong>${analyticsTopicLabels[safeTopic]}</strong><span>${context.roleLabel} · 上海分公司 · 2026-07-24</span></span></header><div class="analytics-topic-artifact-body"><strong>管理结论：</strong>${role.topicCopy[safeTopic]}</div>${charts[safeTopic]()}</section>`;
     };
     const renderAnalyticsConversation = () => {
       if (!xosHomeDialogueThread || !xosHome) return;
@@ -14215,17 +14214,17 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       }
       if (stage === "cost-breakdown") {
         setAnalyticsDemoStage("cost-breakdown");
-        appendAnalyticsMessage("agent", `<p>基于车损平台定损数据，我主动为你拆解了车均定损金额的配件/工时/辅料成本结构，并补充了工时明细与城市分级对比。</p>${renderAnalyticsTopicArtifact("cost-breakdown")}`);
+        appendAnalyticsMessage("agent", `<p>基于车损平台定损数据，我主动为你拆解了车均定损金额的配件/工时/辅料成本结构，并补充了工时明细与城市分级对比。</p>${renderAnalyticsTopicArtifact("cost-breakdown")}${analyticsPersonalMetrics.includes("consulting-cost-breakdown") ? "<p>该分析已加入你的个人技能。</p>" : "<p>是否要将此成本拆解分析加入你的个人技能？加入后每天 09:10 会自动推送。</p><div class='analytics-person-card-actions'><button class='analytics-demo-primary' type='button' data-analytics-add-consulting-skill='cost-breakdown'>是，加入技能</button></div>"}`);
         return;
       }
       if (stage === "risk-leakage") {
         setAnalyticsDemoStage("risk-leakage");
-        appendAnalyticsMessage("agent", `<p>基于风控规则引擎，我主动汇总了本期渗漏风险减损数据。配件 OE 总分关系拦截精准度达 95%+，总成局部风险仍是减损主力。</p>${renderAnalyticsTopicArtifact("risk-leakage")}`);
+        appendAnalyticsMessage("agent", `<p>基于风控规则引擎，我主动汇总了本期渗漏风险减损数据。配件 OE 总分关系拦截精准度达 95%+，总成局部风险仍是减损主力。</p>${renderAnalyticsTopicArtifact("risk-leakage")}${analyticsPersonalMetrics.includes("consulting-risk-leakage") ? "<p>该分析已加入你的个人技能。</p>" : "<p>是否要将此渗漏风险减损分析加入你的个人技能？加入后每天 09:10 会自动推送。</p><div class='analytics-person-card-actions'><button class='analytics-demo-primary' type='button' data-analytics-add-consulting-skill='risk-leakage'>是，加入技能</button></div>"}`);
         return;
       }
       if (stage === "industry-benchmark") {
         setAnalyticsDemoStage("industry-benchmark");
-        appendAnalyticsMessage("agent", `<p>基于行业对标数据库，我主动完成了 7 维度×3 角度×50+ 指标框架的行业对标分析，覆盖品牌维度与理赔政策维度。</p>${renderAnalyticsTopicArtifact("industry-benchmark")}`);
+        appendAnalyticsMessage("agent", `<p>基于行业对标数据库，我主动完成了 7 维度×3 角度×50+ 指标框架的行业对标分析，覆盖品牌维度与理赔政策维度。</p>${renderAnalyticsTopicArtifact("industry-benchmark")}${analyticsPersonalMetrics.includes("consulting-industry-benchmark") ? "<p>该分析已加入你的个人技能。</p>" : "<p>是否要将此行业对标分析加入你的个人技能？加入后每天 09:10 会自动推送。</p><div class='analytics-person-card-actions'><button class='analytics-demo-primary' type='button' data-analytics-add-consulting-skill='industry-benchmark'>是，加入技能</button></div>"}`);
         return;
       }
       if (stage === "consulting") {
@@ -15566,13 +15565,10 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
               enabled: true,
               analyticsDemo: true
             });
+            appendAnalyticsMessage("user", "是，加入技能。", false);
+            appendAnalyticsMessage("agent", `<p>已将“${skillName}”加入个人技能，每天 09:10 会自动推送分析结果。</p>`);
             showToast(`已将“${skillName}”加入个人技能`);
           }
-          const parent = consultingSkillBtn.parentElement;
-          const span = document.createElement('span');
-          span.className = 'analytics-skill-btn is-added';
-          span.textContent = '✓ 已加入';
-          consultingSkillBtn.replaceWith(span);
           return;
         }
         const analyticsTopic = event.target.closest("[data-analytics-topic]");

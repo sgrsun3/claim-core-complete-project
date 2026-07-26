@@ -115,3 +115,10 @@ netlify deploy --prod --dir .
 - **先询问再生成**：第 4 步“生成个人 Skill”不再直接生成，改为 Agent 先梳理指标范围并询问“是否要将这些指标沉淀为一个个人 Skill？”，用户点击“是，加入 Skill”后才正式生成。
 - **第 3 步按钮统一**：个人日报底部的按钮从“生成 XX 个人分析 Skill”改为“是，加入 Skill”，与第 4 步一致。
 - 涉及文件：`index.html`（`runAnalyticsAction` 的 skill stage 话术重构、`renderAnalyticsPersonalReport` 按钮文案、新增 `data-analytics-confirm-skill` 事件处理）。
+
+### 2026-07-25 咨询分析加入技能统一为询问确认式
+
+- **统一交互模式**：三个咨询分析（成本拆解/渗漏风险/行业对标）的“加入技能”从 header 小按钮改为与 Skill 一致的询问确认式——Agent 推送分析后询问“是否要将此分析加入你的个人技能？”，用户点击“是，加入技能”后才正式加入。
+- **移除 Demo 标签**：从咨询分析卡片 header 中移除“Demo”标签，保持卡片简洁。
+- **同步 Demo 步骤描述**：步骤 4 从“生成个人 Skill”改为“加入个人 Skill”，步骤 6/7/8 描述从“主动推送”改为“推送并询问加入技能”。
+- 涉及文件：`index.html`（`renderAnalyticsTopicArtifact` 移除 header 按钮/Demo标签、`runAnalyticsAction` 三个 stage 追加询问文案+确认按钮、点击事件改为对话式确认、Demo 步骤描述更新）。
