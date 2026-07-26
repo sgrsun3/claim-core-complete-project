@@ -14204,7 +14204,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         setAnalyticsDemoStage("skill");
         if (!analyticsPersonalMetrics.includes("wang-damage")) analyticsPersonalMetrics.push("wang-damage");
         appendAnalyticsMessage("user", "把我持续关注的指标维护成一个 Skill。", false);
-        appendAnalyticsMessage("agent", `<p>已梳理出你持续关注的指标范围：王强核损完成率 / 核减率、金额来源、团队对比和 SLA 异常。是否要将这些指标沉淀为一个个人 Skill？加入后每天 09:10 会自动推送分析结果。</p><div class="analytics-person-card-actions" style="justify-content:flex-start"><button class="analytics-demo-primary" type="button" data-analytics-confirm-skill>是，加入 Skill</button></div>`);
+        appendAnalyticsMessage("agent", `<p>已梳理出你持续关注的指标范围：王强核损完成率 / 核减率、金额来源、团队对比和 SLA 异常。是否要将这些指标沉淀为一个个人 Skill？加入后每天 09:10 会自动推送分析结果。</p><div class="analytics-person-card-actions"><button class="analytics-demo-primary" type="button" data-analytics-confirm-skill>是，加入 Skill</button></div>`);
         return;
       }
       if (stage === "summary") {
