@@ -142,3 +142,9 @@ netlify deploy --prod --dir .
 - **修复顶部空白间隔**：任务对话模式下 `xos-home-dialogue-thread` 的 `padding-top` 从 48px 降为 8px，消除对话区顶部不必要的空白。
 - **未选任务空状态提示**：在右侧对话区未选中任务时，显示“选择一个任务开始对话”空状态提示卡（含图标+文案），引导用户点击左侧案件列表。
 - 涉及文件：`index.html`（`.xos-home-dialogue-thread` padding-top 修复、新增 `.xos-home-empty-hint` 样式与 HTML、`closeHomeDialogue` 恢复空状态提示）。
+
+### 2026-07-25 修复顶部间隔 + 空状态提示移至右侧面板
+
+- **修复对话区顶部间隔**：`.xos-home-brief` 在 task-dialogue-mode 下的 `top` 从 `48px` 改为 `0`，消除“早上好车英俊”上方不必要的空白。
+- **空状态提示移至右侧任务信息面板**：从对话区（xosHomeDialogueThread）移至 `taskInfoPane`，纯 CSS 控制显示——仅在 `workspace-open` 且非 `task-active` 时显示，点击任务后自动消失，不影响正常对话内容。
+- 涉及文件：`index.html`（`.xos-home-brief` sticky top 修复、新增 `.task-empty-hint` 样式与 HTML、移除 xosHomeDialogueThread 空状态 JS 逻辑）。

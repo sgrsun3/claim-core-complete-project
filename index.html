@@ -5793,7 +5793,7 @@
 
     .xos-home.show-dialogue.task-dialogue-mode .xos-home-brief {
       position: sticky;
-      top: 48px;
+      top: 0;
       z-index: 8;
       display: block;
       width: min(640px, 100%);
@@ -5951,10 +5951,12 @@
     .xos-home-dialogue-thread { display: grid; gap: 12px; }
 
     /* 未选任务时的空状态提示 */
-    .xos-home-empty-hint { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 200px; padding: 32px; text-align: center; }
-    .xos-home-empty-icon { display: grid; width: 44px; height: 44px; place-items: center; border: 2px dashed #c9d4e8; border-radius: 50%; color: #9bb0d0; font-size: 18px; }
-    .xos-home-empty-hint strong { color: #616161; font-size: 14px; font-weight: 600; }
-    .xos-home-empty-hint p { margin: 0; color: #909090; font-size: 12px; line-height: 18px; max-width: 240px; }
+    .task-empty-hint { display: none; }
+    .workspace.workspace-open:not(.task-active) .task-empty-hint { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 280px; padding: 32px; text-align: center; }
+    .task-empty-icon { display: grid; width: 44px; height: 44px; place-items: center; border: 2px dashed #c9d4e8; border-radius: 50%; color: #9bb0d0; font-size: 18px; }
+    .task-empty-hint strong { color: #616161; font-size: 14px; font-weight: 600; }
+    .task-empty-hint p { margin: 0; color: #909090; font-size: 12px; line-height: 18px; max-width: 240px; }
+    .workspace.workspace-open:not(.task-active) #taskInfoPane > :not(.task-empty-hint) { display: none !important; }
 
     .xos-home-dialogue-message {
       max-width: 88%;
@@ -10215,6 +10217,7 @@
           </div>
 
           <div class="tab-pane active" id="taskInfoPane">
+            <div class="task-empty-hint" id="taskEmptyHint"><span class="task-empty-icon" aria-hidden="true">○</span><strong>选择一个任务查看详情</strong><p>点击左侧案件列表中的任务，Agent 将实时推送处理进度与异常待办。</p></div>
             <section class="task-supplement-panel" id="taskSupplementPanel" aria-label="待补充信息">
               <button class="task-supplement-head" id="taskSupplementToggle" type="button" aria-expanded="true"><span><strong>待补充信息</strong><span id="taskSupplementCount">0 项待处理</span></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
               <p class="task-supplement-summary" id="taskSupplementSummary">当前暂无需要补充的信息。</p>
@@ -10764,7 +10767,7 @@
               <section class="xos-management-home" id="xosManagementHome" aria-label="管理岗首页"></section>
               <div class="xos-home-dialogue" id="xosHomeDialogue" aria-live="polite">
                 <div class="xos-home-task-actions" id="xosHomeTaskActions"></div>
-                <div class="xos-home-dialogue-thread" id="xosHomeDialogueThread"><div class="xos-home-empty-hint" id="xosHomeEmptyHint"><span class="xos-home-empty-icon" aria-hidden="true">○</span><strong>选择一个任务开始对话</strong><p>点击左侧案件列表中的任务，Agent 将实时推送处理进度与异常待办。</p></div></div>
+                <div class="xos-home-dialogue-thread" id="xosHomeDialogueThread"></div>
               </div>
             </div>
             <div class="xos-home-quick-actions" aria-label="快速发起">
@@ -15479,8 +15482,6 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       }
       xosHome.classList.remove("show-dialogue");
       xosHomeDialogueThread?.replaceChildren();
-      const hint = document.getElementById("xosHomeEmptyHint");
-      if (hint) xosHomeDialogueThread?.appendChild(hint);
     };
     const restoreHomeTaskDialogue = () => {
       if (!xosHome?.classList.contains("task-dialogue-mode")) return;
