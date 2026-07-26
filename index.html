@@ -14090,7 +14090,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     `;
     const renderAnalyticsPersonalReport = () => {
       const context = analyticsDemoContext();
-      return `<section class="analytics-personal-report"><div class="analytics-personal-report-head"><strong>我的日报关注项</strong><span>${analyticsPersonalMetrics.length} 项自定义指标</span></div><div class="analytics-personal-report-list">${analyticsPersonalMetrics.map(() => `<div class="analytics-personal-report-item"><strong>王强 · 核损完成率 / 核减率</strong><span>完成率对比定损二组；核减率解释金额来源并检查异常集中度</span><time>每天 09:10</time></div>`).join("")}</div><div class="analytics-person-card-actions"><button class="analytics-demo-primary" type="button" data-analytics-create-skill>生成${context.roleLabel}个人分析 Skill</button></div></section>`;
+      return `<section class="analytics-personal-report"><div class="analytics-personal-report-head"><strong>我的日报关注项</strong><span>${analyticsPersonalMetrics.length} 项自定义指标</span></div><div class="analytics-personal-report-list">${analyticsPersonalMetrics.map(() => `<div class="analytics-personal-report-item"><strong>王强 · 核损完成率 / 核减率</strong><span>完成率对比定损二组；核减率解释金额来源并检查异常集中度</span><time>每天 09:10</time></div>`).join("")}</div><div class="analytics-person-card-actions"><button class="analytics-demo-primary" type="button" data-analytics-confirm-skill>是，加入 Skill</button></div></section>`;
     };
     const ensureAnalyticsPersonalSkill = () => {
       const context = analyticsDemoContext();
@@ -14204,7 +14204,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         setAnalyticsDemoStage("skill");
         if (!analyticsPersonalMetrics.includes("wang-damage")) analyticsPersonalMetrics.push("wang-damage");
         appendAnalyticsMessage("user", "把我持续关注的指标维护成一个 Skill。", false);
-        appendAnalyticsMessage("agent", `<p>已沉淀岗位、机构范围、指标公式、人员对象、异常阈值、推送时间和输出格式。</p>${renderAnalyticsSkillArtifact()}`);
+        appendAnalyticsMessage("agent", `<p>已梳理出你持续关注的指标范围：王强核损完成率 / 核减率、金额来源、团队对比和 SLA 异常。是否要将这些指标沉淀为一个个人 Skill？加入后每天 09:10 会自动推送分析结果。</p><div class="analytics-person-card-actions" style="justify-content:flex-start"><button class="analytics-demo-primary" type="button" data-analytics-confirm-skill>是，加入 Skill</button></div>`);
         return;
       }
       if (stage === "summary") {
@@ -15534,6 +15534,11 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         }
         if (event.target.closest("[data-analytics-create-skill]")) {
           renderAnalyticsDemoDialogue("skill");
+          return;
+        }
+        if (event.target.closest("[data-analytics-confirm-skill]")) {
+          appendAnalyticsMessage("user", "是，加入 Skill。", false);
+          appendAnalyticsMessage("agent", `<p>已沉淀岗位、机构范围、指标公式、人员对象、异常阈值、推送时间和输出格式。Skill 已加入并启用。</p>${renderAnalyticsSkillArtifact()}`);
           return;
         }
         if (event.target.closest("[data-analytics-open-skill]")) {

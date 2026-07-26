@@ -109,3 +109,9 @@ netlify deploy --prod --dir .
 - **从底部移到卡片头部**：将“加入技能”按钮从图表下方移至话题卡片 header 右侧，与“Demo”标签并排显示，视觉层次更清晰。
 - **精简按钮样式**：从底部大号主色按钮换为 header 内的紧凑型小按钮（26px 高），加入后变为绿色“✓ 已加入”徽章。
 - 涉及文件：`index.html`（`.analytics-skill-btn` 样式、`renderAnalyticsTopicArtifact` 按钮位置重构、点击后 DOM 替换逻辑）。
+
+### 2026-07-25 生成 Skill 改为询问确认式交互
+
+- **先询问再生成**：第 4 步“生成个人 Skill”不再直接生成，改为 Agent 先梳理指标范围并询问“是否要将这些指标沉淀为一个个人 Skill？”，用户点击“是，加入 Skill”后才正式生成。
+- **第 3 步按钮统一**：个人日报底部的按钮从“生成 XX 个人分析 Skill”改为“是，加入 Skill”，与第 4 步一致。
+- 涉及文件：`index.html`（`runAnalyticsAction` 的 skill stage 话术重构、`renderAnalyticsPersonalReport` 按钮文案、新增 `data-analytics-confirm-skill` 事件处理）。
