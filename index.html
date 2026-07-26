@@ -5874,7 +5874,7 @@
       margin: 0 auto;
     }
 
-    .xos-home.task-dialogue-mode .xos-home-dialogue-thread { gap: 8px; padding-top: 48px; }
+    .xos-home.task-dialogue-mode .xos-home-dialogue-thread { gap: 8px; padding-top: 8px; }
     .xos-home.task-dialogue-mode .xos-home-dialogue-message { padding: 9px 11px; font-size: 12px; line-height: 18px; }
 
     .workspace.task-active .content {
@@ -5949,6 +5949,12 @@
     .workspace.task-active .task-detail-actions { right: 12px; bottom: 0; left: 12px; padding: 7px 0 8px; }
 
     .xos-home-dialogue-thread { display: grid; gap: 12px; }
+
+    /* 未选任务时的空状态提示 */
+    .xos-home-empty-hint { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 200px; padding: 32px; text-align: center; }
+    .xos-home-empty-icon { display: grid; width: 44px; height: 44px; place-items: center; border: 2px dashed #c9d4e8; border-radius: 50%; color: #9bb0d0; font-size: 18px; }
+    .xos-home-empty-hint strong { color: #616161; font-size: 14px; font-weight: 600; }
+    .xos-home-empty-hint p { margin: 0; color: #909090; font-size: 12px; line-height: 18px; max-width: 240px; }
 
     .xos-home-dialogue-message {
       max-width: 88%;
@@ -10758,7 +10764,7 @@
               <section class="xos-management-home" id="xosManagementHome" aria-label="管理岗首页"></section>
               <div class="xos-home-dialogue" id="xosHomeDialogue" aria-live="polite">
                 <div class="xos-home-task-actions" id="xosHomeTaskActions"></div>
-                <div class="xos-home-dialogue-thread" id="xosHomeDialogueThread"></div>
+                <div class="xos-home-dialogue-thread" id="xosHomeDialogueThread"><div class="xos-home-empty-hint" id="xosHomeEmptyHint"><span class="xos-home-empty-icon" aria-hidden="true">○</span><strong>选择一个任务开始对话</strong><p>点击左侧案件列表中的任务，Agent 将实时推送处理进度与异常待办。</p></div></div>
               </div>
             </div>
             <div class="xos-home-quick-actions" aria-label="快速发起">
@@ -15473,6 +15479,8 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       }
       xosHome.classList.remove("show-dialogue");
       xosHomeDialogueThread?.replaceChildren();
+      const hint = document.getElementById("xosHomeEmptyHint");
+      if (hint) xosHomeDialogueThread?.appendChild(hint);
     };
     const restoreHomeTaskDialogue = () => {
       if (!xosHome?.classList.contains("task-dialogue-mode")) return;

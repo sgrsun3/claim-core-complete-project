@@ -136,3 +136,9 @@ netlify deploy --prod --dir .
 - **新手引导每次进入都显示**：移除 localStorage 记忆逻辑，每次刷新页面都自动弹出新手引导。
 - **理赔空间 Demo 控制器不挤压空间**：移除 workspace 为 Demo 控制器预留的 margin-left 和 width 计算（3 处 CSS 规则），改为与数据分析 Demo 控制器一致的纯浮层模式，workspace 占满剩余空间。
 - 涉及文件：`index.html`（`dismissOnboarding` 移除 localStorage 写入、移除 workspace margin-left/width 让位规则 3 处）。
+
+### 2026-07-25 修复对话区顶部间隔 + 未选任务空状态提示
+
+- **修复顶部空白间隔**：任务对话模式下 `xos-home-dialogue-thread` 的 `padding-top` 从 48px 降为 8px，消除对话区顶部不必要的空白。
+- **未选任务空状态提示**：在右侧对话区未选中任务时，显示“选择一个任务开始对话”空状态提示卡（含图标+文案），引导用户点击左侧案件列表。
+- 涉及文件：`index.html`（`.xos-home-dialogue-thread` padding-top 修复、新增 `.xos-home-empty-hint` 样式与 HTML、`closeHomeDialogue` 恢复空状态提示）。
