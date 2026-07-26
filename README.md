@@ -122,3 +122,11 @@ netlify deploy --prod --dir .
 - **移除 Demo 标签**：从咨询分析卡片 header 中移除“Demo”标签，保持卡片简洁。
 - **同步 Demo 步骤描述**：步骤 4 从“生成个人 Skill”改为“加入个人 Skill”，步骤 6/7/8 描述从“主动推送”改为“推送并询问加入技能”。
 - 涉及文件：`index.html`（`renderAnalyticsTopicArtifact` 移除 header 按钮/Demo标签、`runAnalyticsAction` 三个 stage 追加询问文案+确认按钮、点击事件改为对话式确认、Demo 步骤描述更新）。
+
+### 2026-07-25 咨询分析改对话式 + 系统级新手引导 + Demo 控制器默认折叠
+
+- **步骤6/7/8改为对话式**：从 Agent 主动推送改为用户提问 → Agent 回复分析 → 询问是否加入技能。如“帮我拆解车均定损金额” → Agent 回复拆解结果 → “是否要加入个人技能？”。
+- **系统级新手引导**：首次打开系统时展示全屏遮罩引导，依次高亮左侧导航 4 个核心模块（理赔空间/办公区/数据分析/智能伙伴）并详细介绍交互形式与功能作用，点击“开始体验”或“跳过引导”后写入 localStorage 不再出现。
+- **引导内容突出交互形式**：理赔空间介绍案件列表/详情页/Demo 控制器交互；办公区介绍小人点击展开操作浮层与沟通；数据分析介绍岗位日报/咨询分析/技能沉淀 10 步流程；智能伙伴介绍 Agent 管理与技能库。
+- **理赔空间 Demo 控制器默认折叠**：页面加载后默认收起为图标，点击展开。
+- 涉及文件：`index.html`（`.sys-onboarding-*` CSS、引导浮层 HTML、引导 IIFE 脚本、`runAnalyticsAction` 三 stage 改对话式、Demo 步骤描述、`demoController` 加 `is-collapsed` 类）。

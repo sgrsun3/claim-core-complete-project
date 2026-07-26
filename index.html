@@ -9734,6 +9734,24 @@
         margin-left: calc(var(--global-module-width) + 252px);
       }
     }
+
+    /* 系统级新手引导 */
+    .sys-onboarding { position: fixed; inset: 0; z-index: 9999; }
+    .sys-onboarding[hidden] { display: none; }
+    .sys-onboarding-mask { position: absolute; inset: 0; background: rgba(0,0,0,.55); transition: opacity .2s ease; }
+    .sys-onboarding-card { position: absolute; width: 320px; padding: 20px; border-radius: 12px; background: #fff; box-shadow: 0 12px 36px rgba(0,0,0,.22); transition: top .24s ease, left .24s ease; z-index: 2; }
+    .sys-onboarding-steps { display: flex; gap: 6px; margin-bottom: 14px; }
+    .sys-onboarding-steps span { width: 7px; height: 7px; border-radius: 50%; background: #d0d5df; transition: background .18s ease, width .18s ease; }
+    .sys-onboarding-steps span.is-active { background: #175dff; width: 18px; border-radius: 4px; }
+    .sys-onboarding-steps span.is-done { background: #c5d4ff; }
+    .sys-onboarding-card h3 { margin: 0 0 8px; font-size: 16px; line-height: 22px; font-weight: 600; color: #222; }
+    .sys-onboarding-card p { margin: 0 0 16px; color: #616161; font-size: 13px; line-height: 20px; }
+    .sys-onboarding-actions { display: flex; justify-content: flex-end; gap: 8px; }
+    .sys-onboarding-actions button { height: 32px; padding: 0 14px; border: 1px solid #e1e8eb; border-radius: 6px; background: #fff; color: #616161; font-size: 12px; cursor: pointer; }
+    .sys-onboarding-actions button:hover { background: #f2f4f8; }
+    .sys-onboarding-primary { border-color: #175dff !important; background: #175dff !important; color: #fff !important; }
+    .sys-onboarding-primary:hover { background: #124bd4 !important; }
+    .sys-onboarding-highlight { position: absolute; border: 2px solid #175dff; border-radius: 8px; box-shadow: 0 0 0 4px rgba(23,93,255,.18); pointer-events: none; transition: all .24s ease; z-index: 1; }
   </style>
 </head>
 <body data-active-module="claims">
@@ -9787,9 +9805,9 @@
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="added"><i>3</i><span><strong>加入个人日报</strong><small>沉淀单一关注指标</small></span></button>
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="skill"><i>4</i><span><strong>加入个人 Skill</strong><small>确认后沉淀关注指标</small></span></button>
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="summary"><i>5</i><span><strong>查看通用分析</strong><small>成本、未决、服务与大灾</small></span></button>
-            <button class="analytics-demo-step" type="button" data-analytics-demo-step="cost-breakdown"><i>6</i><span><strong>成本拆解分析</strong><small>推送拆解并询问加入技能</small></span></button>
-            <button class="analytics-demo-step" type="button" data-analytics-demo-step="risk-leakage"><i>7</i><span><strong>渗漏风险减损</strong><small>推送减损并询问加入技能</small></span></button>
-            <button class="analytics-demo-step" type="button" data-analytics-demo-step="industry-benchmark"><i>8</i><span><strong>行业对标分析</strong><small>推送对标并询问加入技能</small></span></button>
+            <button class="analytics-demo-step" type="button" data-analytics-demo-step="cost-breakdown"><i>6</i><span><strong>成本拆解分析</strong><small>询问成本拆解并加入技能</small></span></button>
+            <button class="analytics-demo-step" type="button" data-analytics-demo-step="risk-leakage"><i>7</i><span><strong>渗漏风险减损</strong><small>询问渗漏减损并加入技能</small></span></button>
+            <button class="analytics-demo-step" type="button" data-analytics-demo-step="industry-benchmark"><i>8</i><span><strong>行业对标分析</strong><small>询问行业对标并加入技能</small></span></button>
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="consulting"><i>9</i><span><strong>咨询分析报告库</strong><small>5 类定期报告与定制生成</small></span></button>
             <button class="analytics-demo-step" type="button" data-analytics-demo-step="skill-management"><i>10</i><span><strong>打开 Skill 管理</strong><small>查看已沉淀的个人 Skill</small></span></button>
           </nav>
@@ -9798,7 +9816,7 @@
       <section class="agent-office-view" id="agentOfficeView" aria-label="办公区" hidden>
         <iframe class="agent-office-frame" src="about:blank" data-src="claim_core_star_office_home.html" title="办公区：左侧办公区与右侧任务详情"></iframe>
       </section>
-      <section class="demo-controller" id="demoController" aria-label="案件生命周期 Demo 控制器">
+      <section class="demo-controller is-collapsed" id="demoController" aria-label="案件生命周期 Demo 控制器">
         <button class="demo-expand-btn" id="demoExpandBtn" type="button" title="展开案件生命周期 Demo 控制器" aria-label="展开案件生命周期 Demo 控制器" aria-expanded="false" aria-controls="demoController"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 12h10M4 19h16"/><path d="m17 9 3 3-3 3"/></svg></button>
         <div class="demo-controller-case"><div class="demo-controller-case-info"><span>案件生命周期 Demo</span><strong>Z4401000100003100001</strong></div><button class="demo-collapse-btn" id="demoCollapseBtn" type="button" title="收起 Demo 控制器" aria-label="收起"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="m15 18-6-6 6-6"/></svg></button></div>
         <div class="demo-lifecycle" aria-label="完整案件生命周期">
@@ -14214,17 +14232,20 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       }
       if (stage === "cost-breakdown") {
         setAnalyticsDemoStage("cost-breakdown");
-        appendAnalyticsMessage("agent", `<p>基于车损平台定损数据，我主动为你拆解了车均定损金额的配件/工时/辅料成本结构，并补充了工时明细与城市分级对比。</p>${renderAnalyticsTopicArtifact("cost-breakdown")}${analyticsPersonalMetrics.includes("consulting-cost-breakdown") ? "<p>该分析已加入你的个人技能。</p>" : "<p>是否要将此成本拆解分析加入你的个人技能？加入后每天 09:10 会自动推送。</p><div class='analytics-person-card-actions'><button class='analytics-demo-primary' type='button' data-analytics-add-consulting-skill='cost-breakdown'>是，加入技能</button></div>"}`);
+        appendAnalyticsMessage("user", "帮我拆解车均定损金额的成本结构。", false);
+        appendAnalyticsMessage("agent", `<p>已按车损平台口径拆解完成。配件贡献 62%、工时 28%、辅料 10%，工时明细和城市分级如下。</p>${renderAnalyticsTopicArtifact("cost-breakdown")}${analyticsPersonalMetrics.includes("consulting-cost-breakdown") ? "<p>该分析已加入你的个人技能。</p>" : "<p>是否要将此成本拆解分析加入你的个人技能？加入后每天 09:10 会自动推送。</p><div class='analytics-person-card-actions'><button class='analytics-demo-primary' type='button' data-analytics-add-consulting-skill='cost-breakdown'>是，加入技能</button></div>"}`);
         return;
       }
       if (stage === "risk-leakage") {
         setAnalyticsDemoStage("risk-leakage");
-        appendAnalyticsMessage("agent", `<p>基于风控规则引擎，我主动汇总了本期渗漏风险减损数据。配件 OE 总分关系拦截精准度达 95%+，总成局部风险仍是减损主力。</p>${renderAnalyticsTopicArtifact("risk-leakage")}${analyticsPersonalMetrics.includes("consulting-risk-leakage") ? "<p>该分析已加入你的个人技能。</p>" : "<p>是否要将此渗漏风险减损分析加入你的个人技能？加入后每天 09:10 会自动推送。</p><div class='analytics-person-card-actions'><button class='analytics-demo-primary' type='button' data-analytics-add-consulting-skill='risk-leakage'>是，加入技能</button></div>"}`);
+        appendAnalyticsMessage("user", "本期渗漏风险减损情况如何？", false);
+        appendAnalyticsMessage("agent", `<p>已按风控规则引擎汇总。配件 OE 总分关系拦截精准度达 95%+，总成局部风险仍是减损主力。</p>${renderAnalyticsTopicArtifact("risk-leakage")}${analyticsPersonalMetrics.includes("consulting-risk-leakage") ? "<p>该分析已加入你的个人技能。</p>" : "<p>是否要将此渗漏风险减损分析加入你的个人技能？加入后每天 09:10 会自动推送。</p><div class='analytics-person-card-actions'><button class='analytics-demo-primary' type='button' data-analytics-add-consulting-skill='risk-leakage'>是，加入技能</button></div>"}`);
         return;
       }
       if (stage === "industry-benchmark") {
         setAnalyticsDemoStage("industry-benchmark");
-        appendAnalyticsMessage("agent", `<p>基于行业对标数据库，我主动完成了 7 维度×3 角度×50+ 指标框架的行业对标分析，覆盖品牌维度与理赔政策维度。</p>${renderAnalyticsTopicArtifact("industry-benchmark")}${analyticsPersonalMetrics.includes("consulting-industry-benchmark") ? "<p>该分析已加入你的个人技能。</p>" : "<p>是否要将此行业对标分析加入你的个人技能？加入后每天 09:10 会自动推送。</p><div class='analytics-person-card-actions'><button class='analytics-demo-primary' type='button' data-analytics-add-consulting-skill='industry-benchmark'>是，加入技能</button></div>"}`);
+        appendAnalyticsMessage("user", "和行业对标比较一下核心指标。", false);
+        appendAnalyticsMessage("agent", `<p>已按 7 维度×3 角度×50+ 指标完成行业对标，覆盖品牌维度与理赔政策维度。</p>${renderAnalyticsTopicArtifact("industry-benchmark")}${analyticsPersonalMetrics.includes("consulting-industry-benchmark") ? "<p>该分析已加入你的个人技能。</p>" : "<p>是否要将此行业对标分析加入你的个人技能？加入后每天 09:10 会自动推送。</p><div class='analytics-person-card-actions'><button class='analytics-demo-primary' type='button' data-analytics-add-consulting-skill='industry-benchmark'>是，加入技能</button></div>"}`);
         return;
       }
       if (stage === "consulting") {
@@ -18048,6 +18069,101 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       });
       renderDamage();
     }
+  </script>
+
+  <!-- 系统级新手引导 -->
+  <div class="sys-onboarding" id="sysOnboarding" hidden>
+    <div class="sys-onboarding-mask" id="sysOnboardingMask"></div>
+    <div class="sys-onboarding-highlight" id="sysOnboardingHighlight" hidden></div>
+    <div class="sys-onboarding-card" id="sysOnboardingCard">
+      <div class="sys-onboarding-steps" id="sysOnboardingSteps"><span class="is-active"></span><span></span><span></span><span></span></div>
+      <h3 id="sysOnboardingTitle">理赔空间</h3>
+      <p id="sysOnboardingDesc">核心业务工作区，处理查勘、定损、理算等全流程任务。</p>
+      <div class="sys-onboarding-actions">
+        <button type="button" id="sysOnboardingSkip">跳过引导</button>
+        <button type="button" class="sys-onboarding-primary" id="sysOnboardingNext">下一步</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var ONBOARDING_KEY = "claim-core-sys-onboarded";
+      var onboardingSteps = [
+        { selector: '[data-global-module="claims"]', title: "理赔空间", desc: "核心业务工作区。左侧为案件列表与任务流程，点击案件可进入查勘/定损详情页；右侧智能伙伴实时推送 Agent 处理进度和异常待办，支持对话式交互确认。左侧 Demo 控制器可按案件生命周期逐步体验完整流程。" },
+        { selector: '[data-global-module="agent-office"]', title: "办公区", desc: "Agent 可视化工作台。点击办公场景中的小人可展开操作浮层（定位工位、暂停/继续、完成汇报），点击“与他沟通”进入一对一对话。右侧面板展示任务动态与处理详情。" },
+        { selector: '[data-global-module="analytics"]', title: "数据分析", desc: "管理岗的数据看板。按岗位（查勘/定损/核赔）生成结构化日报，含 KPI、图表和管理结论。支持成本拆解、渗漏风险减损、行业对标等咨询分析，持续关注的指标可沉淀为个人 Skill 每日推送。左侧 Demo 控制器引导完整 10 步流程。" },
+        { selector: '[data-global-module="digital-employees"]', title: "智能伙伴", desc: "Agent 与技能管理中心。查看所有已接入的数字员工及其运行状态，管理技能库（启用/禁用/分类筛选），支持通过数据分析沉淀的个人 Skill 持续优化。" }
+      ];
+      var currentStep = 0;
+      var overlay = document.getElementById("sysOnboarding");
+      var card = document.getElementById("sysOnboardingCard");
+      var titleEl = document.getElementById("sysOnboardingTitle");
+      var descEl = document.getElementById("sysOnboardingDesc");
+      var highlight = document.getElementById("sysOnboardingHighlight");
+      var stepsBar = document.getElementById("sysOnboardingSteps");
+      var nextBtn = document.getElementById("sysOnboardingNext");
+      var skipBtn = document.getElementById("sysOnboardingSkip");
+
+      function positionCard(step) {
+        var target = document.querySelector(step.selector);
+        if (!target) { highlight.hidden = true; card.style.left = "50%"; card.style.top = "40%"; card.style.transform = "translateX(-50%)"; return; }
+        card.style.transform = "none";
+        var rect = target.getBoundingClientRect();
+        highlight.hidden = false;
+        highlight.style.top = (rect.top - 4) + "px";
+        highlight.style.left = (rect.left - 4) + "px";
+        highlight.style.width = (rect.width + 8) + "px";
+        highlight.style.height = (rect.height + 8) + "px";
+        var cardW = 320;
+        var cardLeft = rect.right + 14;
+        if (cardLeft + cardW > window.innerWidth - 16) cardLeft = rect.left - cardW - 14;
+        if (cardLeft < 16) cardLeft = rect.right + 14;
+        var cardTop = rect.top;
+        if (cardTop + 180 > window.innerHeight - 16) cardTop = window.innerHeight - 196;
+        if (cardTop < 16) cardTop = 16;
+        card.style.top = cardTop + "px";
+        card.style.left = cardLeft + "px";
+      }
+
+      function renderStep() {
+        var step = onboardingSteps[currentStep];
+        titleEl.textContent = step.title;
+        descEl.textContent = step.desc;
+        var dots = stepsBar.querySelectorAll("span");
+        dots.forEach(function (dot, i) {
+          dot.className = i < currentStep ? "is-done" : i === currentStep ? "is-active" : "";
+        });
+        nextBtn.textContent = currentStep === onboardingSteps.length - 1 ? "开始体验" : "下一步";
+        positionCard(step);
+      }
+
+      function showOnboarding() {
+        currentStep = 0;
+        overlay.hidden = false;
+        renderStep();
+      }
+
+      function advanceOnboarding() {
+        currentStep++;
+        if (currentStep >= onboardingSteps.length) { dismissOnboarding(); return; }
+        renderStep();
+      }
+
+      function dismissOnboarding() {
+        overlay.hidden = true;
+        try { localStorage.setItem(ONBOARDING_KEY, "1"); } catch (e) {}
+      }
+
+      nextBtn.addEventListener("click", advanceOnboarding);
+      skipBtn.addEventListener("click", dismissOnboarding);
+      window.addEventListener("resize", function () { if (!overlay.hidden) positionCard(onboardingSteps[currentStep]); });
+
+      var isOnboarded = false;
+      try { isOnboarded = !!localStorage.getItem(ONBOARDING_KEY); } catch (e) {}
+      function startOnboarding() { if (!isOnboarded) { overlay.hidden = false; showOnboarding(); } }
+      if (document.readyState === 'complete') window.setTimeout(startOnboarding, 800);
+      else window.addEventListener('load', function () { window.setTimeout(startOnboarding, 800); });
+    })();
   </script>
 </body>
 </html>
