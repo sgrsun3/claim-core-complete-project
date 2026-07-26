@@ -9170,6 +9170,13 @@
     .analytics-topic-artifact-body { padding: 14px 16px; color: #616161; font-size: 12px; line-height: 20px; }
     .analytics-topic-artifact-body strong { color: #222; }
 
+    /* 咨询分析卡片头部的“加入技能”按钮 */
+    .analytics-topic-artifact-head-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .analytics-skill-btn { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border: 1px solid #175dff; border-radius: 5px; background: #175dff; color: #fff; font-size: 11px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: background .14s ease, border-color .14s ease; }
+    .analytics-skill-btn:hover { background: #124bd4; border-color: #124bd4; }
+    .analytics-skill-btn:disabled { border-color: #d0d5df; background: #f2f4f8; color: #909090; cursor: default; }
+    .analytics-skill-btn.is-added { border-color: #00c070; background: #eef9f5; color: #248466; }
+
     /* 咨询报告库产物卡 */
     .analytics-consulting-artifact { border: 1px solid #e1e8eb; border-radius: 10px; background: #fff; box-shadow: 0 8px 24px rgba(31,45,61,.10); overflow: hidden; }
     .analytics-consulting-artifact-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid #eef1f6; }
@@ -14136,8 +14143,8 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const skillKey = `consulting-${safeTopic}`;
       const skillAdded = analyticsPersonalMetrics.includes(skillKey);
       const skillLabels = { "cost-breakdown": "成本拆解分析", "risk-leakage": "渗漏风险减损", "industry-benchmark": "行业对标分析" };
-      const actionBtn = isConsulting ? `<div class="analytics-person-card-actions"><button class="analytics-demo-primary" type="button" data-analytics-add-consulting-skill="${safeTopic}"${skillAdded ? " disabled" : ""}>${skillAdded ? "已加入我的技能" : `加入我的技能`}</button></div>` : "";
-      return `<section class="analytics-topic-artifact"><header class="analytics-topic-artifact-head"><span><strong>${analyticsTopicLabels[safeTopic]}</strong><span>${context.roleLabel} · 上海分公司 · 2026-07-24</span></span><span class="analytics-scope-pill is-demo">Demo 数据</span></header><div class="analytics-topic-artifact-body"><strong>管理结论：</strong>${role.topicCopy[safeTopic]}</div>${charts[safeTopic]()}${actionBtn}</section>`;
+      const actionBtn = isConsulting ? `${skillAdded ? `<span class="analytics-skill-btn is-added">✓ 已加入</span>` : `<button class="analytics-skill-btn" type="button" data-analytics-add-consulting-skill="${safeTopic}">加入技能</button>`}` : "";
+      return `<section class="analytics-topic-artifact"><header class="analytics-topic-artifact-head"><span><strong>${analyticsTopicLabels[safeTopic]}</strong><span>${context.roleLabel} · 上海分公司 · 2026-07-24</span></span><span class="analytics-topic-artifact-head-actions">${actionBtn}<span class="analytics-scope-pill is-demo">Demo</span></span></header><div class="analytics-topic-artifact-body"><strong>管理结论：</strong>${role.topicCopy[safeTopic]}</div>${charts[safeTopic]()}</section>`;
     };
     const renderAnalyticsConversation = () => {
       if (!xosHomeDialogueThread || !xosHome) return;
@@ -15556,8 +15563,11 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
             });
             showToast(`已将“${skillName}”加入个人技能`);
           }
-          consultingSkillBtn.textContent = "已加入我的技能";
-          consultingSkillBtn.disabled = true;
+          const parent = consultingSkillBtn.parentElement;
+          const span = document.createElement('span');
+          span.className = 'analytics-skill-btn is-added';
+          span.textContent = '✓ 已加入';
+          consultingSkillBtn.replaceWith(span);
           return;
         }
         const analyticsTopic = event.target.closest("[data-analytics-topic]");

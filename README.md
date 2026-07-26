@@ -103,3 +103,9 @@ netlify deploy --prod --dir .
 - **加入技能功能**：每个咨询分析卡片末尾新增“加入我的技能”按钮，点击后沉淀为个人 Skill（成本拆解分析/渗漏风险减损/行业对标分析），按钮变为“已加入我的技能”并禁用。
 - **修复图表串行问题**：三个图表从左右双列布局改为纯垂直单列布局，消除坐标重叠导致的文字串行。
 - 涉及文件：`index.html`（renderCostBreakdownChart/renderRiskLeakageChart/renderBenchmarkChart 重写、runAnalyticsAction 改为主动推送、renderAnalyticsTopicArtifact 追加按钮、事件处理新增 consulting-skill 逻辑）。
+
+### 2026-07-25 “加入技能”按钮位置优化
+
+- **从底部移到卡片头部**：将“加入技能”按钮从图表下方移至话题卡片 header 右侧，与“Demo”标签并排显示，视觉层次更清晰。
+- **精简按钮样式**：从底部大号主色按钮换为 header 内的紧凑型小按钮（26px 高），加入后变为绿色“✓ 已加入”徽章。
+- 涉及文件：`index.html`（`.analytics-skill-btn` 样式、`renderAnalyticsTopicArtifact` 按钮位置重构、点击后 DOM 替换逻辑）。
