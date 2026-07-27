@@ -5642,9 +5642,9 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      flex: 0 0 auto;
       width: 28px;
       height: 28px;
-      margin: 0 0 8px;
       padding: 0;
       border: 1px solid #dce3ee;
       border-radius: 6px;
@@ -5655,6 +5655,7 @@
 
     .xos-home-dialogue-back:hover { border-color: #a9c3ff; background: #f5f8ff; color: #175dff; }
     .xos-home-dialogue-back svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+    .xos-home-dialogue-agent-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
 
     .xos-home.task-dialogue-mode .xos-home-center {
       align-items: stretch;
@@ -15458,10 +15459,8 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         ).join("") : '<div class="xos-home-dialogue-empty">当前无该类未决事项。</div>'}</div>`, "xos-home-dialogue-progress")
         : `<div class="xos-home-dialogue-list">${rows.map((row) => renderTask({ row })).join("") || '<div class="xos-home-dialogue-empty">当前没有需要关注的任务。</div>'}</div>`;
       xosHomeDialogueThread.innerHTML = `
-        <button class="xos-home-dialogue-back" type="button" data-home-dialogue-back aria-label="返回今日待办任务" title="返回今日待办任务"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button>
-        <div class="xos-home-dialogue-message">${config.question}</div>
         <div class="xos-home-dialogue-message agent">
-          ${config.answer}
+          <div class="xos-home-dialogue-agent-head"><button class="xos-home-dialogue-back" type="button" data-home-dialogue-back aria-label="返回今日待办任务" title="返回今日待办任务"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><span>${config.answer}</span></div>
           ${config.searchable ? '<input class="xos-home-dialogue-pool-search" type="search" placeholder="查询任务号、车牌号或客户" aria-label="快速查询任务池">' : ""}
           ${taskContent}
           <footer class="xos-agent-answer-meta"><strong>XAgent</strong><time>${formatAgentRecordTime()}</time></footer>

@@ -148,3 +148,9 @@ netlify deploy --prod --dir .
 - **修复对话区顶部间隔**：`.xos-home-brief` 在 task-dialogue-mode 下的 `top` 从 `48px` 改为 `0`，消除“早上好车英俊”上方不必要的空白。
 - **空状态提示移至右侧任务信息面板**：从对话区（xosHomeDialogueThread）移至 `taskInfoPane`，纯 CSS 控制显示——仅在 `workspace-open` 且非 `task-active` 时显示，点击任务后自动消失，不影响正常对话内容。
 - 涉及文件：`index.html`（`.xos-home-brief` sticky top 修复、新增 `.task-empty-hint` 样式与 HTML、移除 xosHomeDialogueThread 空状态 JS 逻辑）。
+
+### 2026-07-25 任务池对话卡片优化
+
+- **移除单独的用户问题消息**：点击“任务池”不再显示“打开任务池”问题气泡，直接显示 Agent 回复。
+- **返回按钮移入卡片**：从对话区外部移入 Agent 回复卡片内部，放在“我已加载全部任务”文字左侧，新增 `.xos-home-dialogue-agent-head` flex 布局容器。
+- 涉及文件：`index.html`（`showHomeDialogue` 渲染逻辑重构、`.xos-home-dialogue-back` 样式调整、新增 `.xos-home-dialogue-agent-head` 样式）。
