@@ -5639,6 +5639,9 @@
     .sp-management-skill-card { margin-bottom: 12px; }
 
     /* Skill 闭环溯源卡片 */
+    .mg-focus-metric { display: flex; align-items: center; gap: 8px; padding: 8px 15px; border-bottom: 1px solid #edf1f5; background: linear-gradient(90deg, #f0f4ff, #fafbfd); }
+    .mg-focus-metric-label { display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 4px; background: #175dff; color: #fff; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .mg-focus-metric-desc { color: #5c6680; font-size: 11px; line-height: 18px; }
     .mg-trace-chain { display: grid; gap: 0; padding: 4px 15px 8px; }
     .mg-trace-item { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; align-items: start; padding: 10px 0; border-bottom: 1px dashed #e8edf4; }
     .mg-trace-item:last-child { border-bottom: 0; }
@@ -13418,6 +13421,11 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       }
     };
     const managementRoleLabels = { survey: "查勘", damage: "定损", review: "核赔" };
+    const managementFocusMetrics = {
+      survey: { label: "录入准确性", desc: "字段识别准确率、信息录入完整性与一致性校验" },
+      damage: { label: "图像识别准确率", desc: "损伤部位识别、配件换修判定、工时匹配偏差" },
+      review: { label: "理算规则与材料交叉校验", desc: "责任-金额一致性、材料完整性、渗漏风险拦截" }
+    };
     const managementFeedbackRecords = [
       {
         id: "survey-liability",
@@ -13435,6 +13443,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         followUp: "无退回，无投诉。",
         payout: "最终赔付 ¥12,950｜渗漏风险低｜较 Agent 预估减损 ¥5,550",
         optimizationTags: ["提示词", "业务规则"],
+        deviationAnalysis: "录入准确性偏差：Agent 在责任字段录入时遗漏了事故经过中的“变道未让直行”关键描述，直接采信路口无红绿灯默认全责规则。责任字段自动确认率 92%→需降至 85% 并增加证据交叉校验。建议在提示词中增加：当事故经过含“变道”关键词时，责任判定必须结合让行规则。",
         status: "pending"
       },
       {
@@ -13453,6 +13462,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         followUp: "案件退回查勘一次（补拍影像），后续无投诉。",
         payout: "最终赔付 ¥3,200｜渗漏风险中｜较 Agent 预估增加 ¥2,400",
         optimizationTags: ["识别模型", "提示词"],
+        deviationAnalysis: "录入准确性偏差：损失范围字段录入时，Agent 未标注“影像角度不足”就自动确认轻微剐蹭结论。字段完整性校验率 88%→需降至 80% 并强制要求影像完整性达标后才可录入损失范围。建议在提示词中增加：当影像覆盖率低于 70% 时，损失范围字段必须标记为低置信。",
         status: "pending"
       },
       {
@@ -13471,6 +13481,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         followUp: "无退回，无投诉。",
         payout: "最终赔付 ¥880｜渗漏风险低｜较 Agent 预估增加 ¥430",
         optimizationTags: ["识别模型", "知识库"],
+        deviationAnalysis: "图像识别准确率偏差：Agent 将雾灯“更换”误判为“维修”，图像识别置信度 0.71 但未触发人工复核阈值（当前阈值为 0.65）。配件换修判定准确率 85%→需提升至 90% 并将复核阈值提高至 0.75。建议在提示词中增加：当配件损伤涉及灯罩裂纹、支架断裂时，换修判定置信度阈值提高至 0.80。",
         status: "pending"
       },
       {
@@ -13489,6 +13500,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         followUp: "无退回，无投诉。客户满意配件方案。",
         payout: "最终赔付 ¥1,380｜渗漏风险低｜较 Agent 预估减损 ¥770",
         optimizationTags: ["业务规则", "知识库"],
+        deviationAnalysis: "图像识别准确率偏差：Agent 图像识别仅识别了保险杠损伤，但未识别配件等级属性（原厂件/同质件），导致直接按原厂件报价。配件等级识别率 0%→需新增配件等级分类模型。建议在提示词中增加：当配件报价超过同城参考区间 P75 分位时，必须输出同质件比价选项供人工选择。",
         status: "pending"
       },
       {
@@ -13507,6 +13519,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         followUp: "无退回，无投诉。",
         payout: "最终赔付 ¥12,650｜渗漏风险低｜较 Agent 预估减损 ¥5,850",
         optimizationTags: ["提示词", "业务规则"],
+        deviationAnalysis: "理算规则偏差：Agent 未将查勘环节的责任比例变更同步至理算引擎，仍按全责理算。责任-金额交叉校验率 75%→需提升至 95% 并增加同步锁。建议在提示词中增加：理算前必须校验责任材料中的责任比例与上游环节是否一致，偏离超过 5% 时阻断自动理算并转人工复核。",
         status: "pending"
       },
       {
@@ -13525,6 +13538,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         followUp: "无退回。客户对自费项目有疑问，经沟通后无投诉。",
         payout: "最终赔付 ¥8,350｜渗漏风险低｜较 Agent 预估减损 ¥1,450",
         optimizationTags: ["识别模型", "知识库"],
+        deviationAnalysis: "材料交叉校验偏差：Agent 未执行发票与结算清单的费用项目级比对，直接取发票金额。材料-金额交叉校验覆盖率 60%→需提升至 90%。建议在提示词中增加：当发票金额与结算清单差异超过 3% 时，必须逐项比对费用明细，区分赔付范围与客户自费项目后输出最终金额。",
         status: "pending"
       }
     ];
@@ -14538,9 +14552,11 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         { icon: "P", label: "案件最终赔付与风险", value: feedback.payout }
       ].filter((item) => item.value);
       const tags = (feedback.optimizationTags || []).map((tag) => `<i class="mg-trace-tag">${escapeManagementText(tag)}</i>`).join("");
+      const focusMetric = managementFocusMetrics[feedback.cluster];
       return `
         <section class="management-feedback-card${taskMode ? " sp-management-skill-card" : ""}" data-management-skill-card="${taskMode ? "task" : "management"}" aria-label="Skill 修改卡片">
           <div class="management-feedback-card-head"><strong>Skill 修改卡片</strong><span>${statusLabel}</span></div>
+          ${focusMetric ? `<div class="mg-focus-metric"><span class="mg-focus-metric-label">${escapeManagementText(focusMetric.label)}</span><span class="mg-focus-metric-desc">${escapeManagementText(focusMetric.desc)}</span></div>` : ""}
           <dl class="management-feedback-card-fields">
             <div class="management-feedback-card-field"><dt>案件号</dt><dd>${escapeManagementText(feedback.caseNo)}</dd></div>
             <div class="management-feedback-card-field"><dt>技能名称</dt><dd>${escapeManagementText(feedback.title)}</dd></div>
@@ -14632,14 +14648,12 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const sendLabel = xosHomeSend?.querySelector("span");
       if (sendLabel) sendLabel.textContent = "发送";
       const clusterLabel = managementRoleLabels[feedback.cluster] || "";
-      const deviationAnalysis = (() => {
-        if (feedback.cluster === "survey") return "Agent 在责任判定时依赖了「路口无红绿灯默认全责」规则，但未结合事故经过中“标的车变道未让直行”的关键信息，导致责任比例偏高。建议在提示词中增加变道让行场景的判定条件。";
-        if (feedback.cluster === "damage") return "Agent 在配件识别时将「更换」误判为「维修」，且未提供同质件价格选项。建议在提示词中增加换修判断的置信度阈值，并补充配件等级比价规则。";
-        return "Agent 在理算时未交叉校验责任材料与金额一致性，直接按全责理算。建议在提示词中增加材料-金额交叉校验步骤，金额偏离超 5% 时转人工复核。";
-      })();
+      const focusMetric = managementFocusMetrics[feedback.cluster];
+      const deviationAnalysis = feedback.deviationAnalysis || "建议根据反馈内容优化提示词中的判定条件与置信度阈值。";
       xosHomeDialogueThread.innerHTML = `
         <button class="xos-home-dialogue-back" type="button" data-home-dialogue-back aria-label="返回管理待办" title="返回管理待办"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button>
         <div class="management-dialogue-copy xos-home-dialogue-message agent">
+          ${focusMetric ? `<div class="mg-focus-metric" style="margin-bottom:10px;"><span class="mg-focus-metric-label">${escapeManagementText(focusMetric.label)}</span><span class="mg-focus-metric-desc">${escapeManagementText(focusMetric.desc)}</span></div>` : ""}
           <p style="margin:0 0 8px;color:#26354f;font-size:13px;line-height:21px;">我分析了这条反馈的偏差原因：</p>
           <p style="margin:0 0 12px;padding:10px 12px;border-radius:6px;background:#f3f7ff;color:#3f5577;font-size:12px;line-height:19px;">${escapeManagementText(deviationAnalysis)}</p>
           <div class="mg-prompt-block">
