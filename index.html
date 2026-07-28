@@ -5672,6 +5672,34 @@
     .mg-publish-info-row span:first-child { color: #66758a; font-size: 12px; }
     .mg-publish-info-row span:last-child { color: #26354f; font-size: 12px; font-weight: 600; }
 
+    /* 管理岗案件详情 */
+    .mg-case-detail { border: 1px solid #dfe5ee; border-radius: 8px; overflow: hidden; }
+    .mg-case-detail-head { padding: 10px 14px; border-bottom: 1px solid #e9edf3; background: #f8faff; color: #202a39; font-size: 13px; font-weight: 600; }
+    .mg-case-section { padding: 12px 14px; border-bottom: 1px solid #edf1f5; }
+    .mg-case-section:last-child { border-bottom: 0; }
+    .mg-case-section-title { margin-bottom: 10px; }
+    .mg-case-section-title strong { color: #26354f; font-size: 13px; }
+    .mg-case-fields { display: grid; margin: 0; gap: 6px; }
+    .mg-case-fields > div { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 10px; }
+    .mg-case-fields dt { color: #748195; font-size: 12px; line-height: 20px; }
+    .mg-case-fields dd { min-width: 0; margin: 0; color: #26354f; font-size: 12px; line-height: 20px; }
+    .mg-tl-group-label { margin-bottom: 6px; color: #66758a; font-size: 11px; font-weight: 600; }
+    .mg-timeline { position: relative; padding-left: 2px; }
+    .mg-tl-item { display: grid; grid-template-columns: 38px 14px minmax(0, 1fr); gap: 8px; align-items: start; padding: 5px 0; }
+    .mg-tl-time { color: #909090; font-size: 10px; line-height: 20px; }
+    .mg-tl-dot { width: 8px; height: 8px; margin-top: 6px; border-radius: 50%; }
+    .mg-tl-dot.is-blue { background: #175dff; }
+    .mg-tl-dot.is-green { background: #00c070; }
+    .mg-tl-body strong { display: inline-block; margin-right: 4px; padding: 0 5px; border-radius: 3px; font-size: 10px; font-weight: 600; line-height: 18px; }
+    .mg-tl-agent .mg-tl-body strong { background: #eef3ff; color: #175dff; }
+    .mg-tl-human .mg-tl-body strong { background: #e6fbf1; color: #00a060; }
+    .mg-tl-body span { color: #26354f; font-size: 12px; line-height: 19px; }
+    .mg-taskflow { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+    .mg-taskflow-node { display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: 4px; background: #f2f4f8; color: #909090; font-size: 11px; white-space: nowrap; }
+    .mg-taskflow-node.is-done { background: #e6fbf1; color: #00a060; }
+    .mg-taskflow-node.is-current { background: #175dff; color: #fff; font-weight: 600; }
+    .mg-taskflow-arrow { color: #c5cad3; font-size: 12px; }
+
     .xos-home-dialogue-back {
       display: inline-flex;
       align-items: center;
@@ -14636,6 +14664,150 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         </div>
       `;
     };
+    const managementCaseTimeline = {
+      "survey-liability": {
+        agent: [
+          { time: "09:36", action: "接收报案信息，自动识别车牌、报案人、事故地点等字段" },
+          { time: "09:37", action: "比对现场影像与责任材料，识别责任依据字段置信度 0.58，低于阈值" },
+          { time: "09:38", action: "按路口无红绿灯规则判定全责，预估赔付 ¥18,500" },
+          { time: "09:39", action: "将低置信字段标记为待人工确认，推送至作业岗待办" }
+        ],
+        human: [
+          { time: "10:15", action: "人工核实事故经过，确认标的车变道未让直行，改为次责 70%" },
+          { time: "10:18", action: "修正赔付预估为 ¥12,950" },
+          { time: "10:20", action: "确认查勘通过，提交至定损环节" }
+        ]
+      },
+      "survey-damage": {
+        agent: [
+          { time: "11:02", action: "接收查勘任务，自动提取影像中的碰撞位置信息" },
+          { time: "11:03", action: "右前部影像覆盖率 45%，低于 70% 阈值，标记为低置信" },
+          { time: "11:04", action: "自动判定为轻微剐蹭，预估 ¥800" },
+          { time: "11:05", action: "将影像不足提示推送至作业岗" }
+        ],
+        human: [
+          { time: "14:30", action: "退回查勘，要求补拍右前部近景影像" },
+          { time: "15:45", action: "收到补拍影像，人工确认右前雾灯裂纹" },
+          { time: "15:48", action: "修正损伤金额为 ¥3,200，确认查勘通过" }
+        ]
+      },
+      "damage-image": {
+        agent: [
+          { time: "10:22", action: "接收定损任务，识别左前雾灯、保险杠、轮眉损伤部位" },
+          { time: "10:23", action: "雾灯图像识别置信度 0.71，判定为维修（¥150）" },
+          { time: "10:24", action: "保险杠判定为整形（¥300），合计 ¥450" },
+          { time: "10:25", action: "将低置信部位标记待人工确认" }
+        ],
+        human: [
+          { time: "11:00", action: "人工复核确认雾灯需更换（¥680）而非维修" },
+          { time: "11:03", action: "保险杠下部拆装检查（¥200），修正合计 ¥880" },
+          { time: "11:05", action: "确认定损通过，提交至核价核损环节" }
+        ]
+      },
+      "damage-price": {
+        agent: [
+          { time: "11:10", action: "接收核价任务，查询前保险杠原厂件报价 ¥2,150" },
+          { time: "11:11", action: "比对同城参考区间 P75 分位 ¥1,800，偏离 19.4%" },
+          { time: "11:12", action: "未输出同质件比价选项，直接按原厂件通过" }
+        ],
+        human: [
+          { time: "13:30", action: "人工补充同质件报价 ¥1,380，满足安全要求" },
+          { time: "13:33", action: "客户同意使用同质件，修正定损 ¥1,380" },
+          { time: "13:35", action: "确认核价通过，节省 ¥770" }
+        ]
+      },
+      "review-rule": {
+        agent: [
+          { time: "14:00", action: "接收核赔任务，按全责理算赔付 ¥18,500" },
+          { time: "14:01", action: "未校验上游责任比例变更记录（已改为次责 70%）" },
+          { time: "14:02", action: "理算金额与责任材料偏差 30%，未触发交叉校验" }
+        ],
+        human: [
+          { time: "15:00", action: "人工核赔拒绝全责理算结论" },
+          { time: "15:03", action: "按次责 70% 重新理算，赔付 ¥12,950" },
+          { time: "15:05", action: "扣减不合理施救费 ¥300，最终赔付 ¥12,650" },
+          { time: "15:08", action: "确认核赔通过，结案" }
+        ]
+      },
+      "review-material": {
+        agent: [
+          { time: "15:30", action: "接收核赔任务，比对发票金额 ¥9,800" },
+          { time: "15:31", action: "未与结算清单（¥8,350）进行费用项目级比对" },
+          { time: "15:32", action: "差异率 17.4%，未触发人工复核阈值（当前阈值 20%）" }
+        ],
+        human: [
+          { time: "16:10", action: "人工逐项比对，发现发票含客户自费项目 ¥1,450" },
+          { time: "16:13", action: "按结算清单赔付 ¥8,350，差额由客户承担" },
+          { time: "16:15", action: "与客户沟通自费项目，无投诉，确认核赔通过" }
+        ]
+      }
+    };
+    const showManagementCaseDetail = (id) => {
+      const feedback = getManagementFeedback(id);
+      if (!feedback || !xosHomeDialogueThread) return;
+      const timeline = managementCaseTimeline[id] || { agent: [], human: [] };
+      const renderTimeline = (items, role, color) => items.map((item) =>
+        `<div class="mg-tl-item"><span class="mg-tl-time">${item.time}</span><span class="mg-tl-dot is-${color}"></span><div class="mg-tl-body"><strong>${role}</strong><span>${escapeManagementText(item.action)}</span></div></div>`
+      ).join("");
+      xosHomeDialogueThread.insertAdjacentHTML("beforeend", `
+        <div class="management-dialogue-copy xos-home-dialogue-message agent">
+          <div class="mg-case-detail">
+            <div class="mg-case-detail-head"><strong>案件详情 · ${escapeManagementText(feedback.caseNo)}</strong></div>
+            <div class="mg-case-section">
+              <div class="mg-case-section-title"><strong>作业轨迹</strong></div>
+              <div class="mg-tl-agent"><div class="mg-tl-group-label">Agent 自动处理</div><div class="mg-timeline">${renderTimeline(timeline.agent, "Agent", "blue")}</div></div>
+              <div class="mg-tl-human"><div class="mg-tl-group-label">人工处理</div><div class="mg-timeline">${renderTimeline(timeline.human, "人工", "green")}</div></div>
+            </div>
+            <div class="mg-case-section">
+              <div class="mg-case-section-title"><strong>任务信息</strong></div>
+              <dl class="mg-case-fields">
+                <div><dt>任务类型</dt><dd>${escapeManagementText(feedback.title)}</dd></div>
+                <div><dt>失败原因</dt><dd>${escapeManagementText(feedback.reason || skillProfiles[feedback.cluster]?.reason || "待复核")}</dd></div>
+                <div><dt>优化方向</dt><dd>${(feedback.optimizationTags || []).join("、")}</dd></div>
+                <div><dt>风险等级</dt><dd>${feedback.risk === "high" ? "高风险" : "普通"}</dd></div>
+                <div><dt>VIP客户</dt><dd>${feedback.vip ? "是" : "否"}</dd></div>
+              </dl>
+            </div>
+            <div class="mg-case-section">
+              <div class="mg-case-section-title"><strong>案件信息</strong></div>
+              <dl class="mg-case-fields">
+                <div><dt>案件号</dt><dd>${escapeManagementText(feedback.caseNo)}</dd></div>
+                <div><dt>报案时间</dt><dd>2026-04-15 09:36:21</dd></div>
+                <div><dt>出险地点</dt><dd>上海市浦东新区世纪大道 100 号路口</dd></div>
+                <div><dt>标的车牌</dt><dd>沪A12345</dd></div>
+                <div><dt>三者车牌</dt><dd>沪B61529</dd></div>
+                <div><dt>险种</dt><dd>机动车商业保险</dd></div>
+              </dl>
+            </div>
+            <div class="mg-case-section">
+              <div class="mg-case-section-title"><strong>材料单证</strong></div>
+              <dl class="mg-case-fields">
+                <div><dt>查勘照片</dt><dd>12 张（含 3 张补拍）</dd></div>
+                <div><dt>责任认定书</dt><dd>已上传</dd></div>
+                <div><dt>定损单</dt><dd>已上传</dd></div>
+                <div><dt>维修发票</dt><dd>已上传（¥9,800）</dd></div>
+                <div><dt>结算清单</dt><dd>已上传（¥8,350）</dd></div>
+              </dl>
+            </div>
+            <div class="mg-case-section">
+              <div class="mg-case-section-title"><strong>整案任务流</strong></div>
+              <div class="mg-taskflow"><span class="mg-taskflow-node is-done">报案</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node is-done">查勘</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node is-done">定损</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node is-done">核价核损</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node ${feedback.cluster === "review" ? "is-current" : "is-done"}">核赔</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node">结案</span></div>
+            </div>
+            <div class="mg-case-section">
+              <div class="mg-case-section-title"><strong>支付信息</strong></div>
+              <dl class="mg-case-fields">
+                <div><dt>最终赔付金额</dt><dd>${escapeManagementText(feedback.payout || "待确认")}</dd></div>
+                <div><dt>支付方式</dt><dd>银行转账</dd></div>
+                <div><dt>收款账户</dt><dd>招商银行尾号 3381</dd></div>
+                <div><dt>支付状态</dt><dd>${feedback.cluster === "review" ? "已支付" : "待核赔确认"}</dd></div>
+              </dl>
+            </div>
+          </div>
+          <footer class="xos-agent-answer-meta"><strong>XAgent</strong><time>${formatAgentRecordTime()}</time></footer>
+        </div>
+      `);
+      xosHomeDialogueThread.scrollTop = xosHomeDialogueThread.scrollHeight;
+    };
     const showPromptEditFlow = (id) => {
       const feedback = getManagementFeedback(id);
       if (!feedback || !xosHomeDialogueThread || !xosHome) return;
@@ -14725,14 +14897,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         return;
       }
       if (button.dataset.managementFeedbackAction === "view-case") {
-        const row = allCaseRows().find((item) => item.querySelector(".case-row-main")?.textContent?.trim() === feedback.caseNo);
-        if (!row) {
-          showToast(`未找到案件 ${feedback.caseNo}`, "error");
-          return;
-        }
-        retainedManagementFeedbackId = feedback.id;
-        leaveManagementHome();
-        activateCaseRow(row, { preserveManagementSkillCard: true });
+        showManagementCaseDetail(feedback.id);
         return;
       }
       if (button.dataset.managementFeedbackAction === "ignore") {
