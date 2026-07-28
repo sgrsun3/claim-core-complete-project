@@ -14656,6 +14656,16 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const sendLabel = xosHomeSend?.querySelector("span");
       if (sendLabel) sendLabel.textContent = "发送";
       if (xosHomeSend) xosHomeSend.setAttribute("title", "发送");
+      if (resultMessage) {
+        xosHomeDialogueThread.insertAdjacentHTML("beforeend", `
+          <div class="management-dialogue-copy xos-home-dialogue-message agent">
+            <p class="management-feedback-card-result" style="margin:0;">${escapeManagementText(resultMessage)}</p>
+            <footer class="xos-agent-answer-meta"><strong>XAgent</strong><time>${formatAgentRecordTime()}</time></footer>
+          </div>
+        `);
+        xosHomeDialogueThread.scrollTop = xosHomeDialogueThread.scrollHeight;
+        return;
+      }
       xosHomeDialogueThread.innerHTML = `
         <button class="xos-home-dialogue-back" type="button" data-home-dialogue-back aria-label="返回管理待办" title="返回管理待办"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button>
         <div class="management-dialogue-copy xos-home-dialogue-message agent">
@@ -14822,8 +14832,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const clusterLabel = managementRoleLabels[feedback.cluster] || "";
       const focusMetric = managementFocusMetrics[feedback.cluster];
       const deviationAnalysis = feedback.deviationAnalysis || "建议根据反馈内容优化提示词中的判定条件与置信度阈值。";
-      xosHomeDialogueThread.innerHTML = `
-        <button class="xos-home-dialogue-back" type="button" data-home-dialogue-back aria-label="返回管理待办" title="返回管理待办"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button>
+      xosHomeDialogueThread.insertAdjacentHTML("beforeend", `
         <div class="management-dialogue-copy xos-home-dialogue-message agent">
           ${focusMetric ? `<div class="mg-focus-metric" style="margin-bottom:10px;"><span class="mg-focus-metric-label">${escapeManagementText(focusMetric.label)}</span><span class="mg-focus-metric-desc">${escapeManagementText(focusMetric.desc)}</span></div>` : ""}
           <p style="margin:0 0 8px;color:#26354f;font-size:13px;line-height:21px;">我分析了这条反馈的偏差原因：</p>
@@ -14837,7 +14846,8 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
           </div>
           <footer class="xos-agent-answer-meta"><strong>XAgent</strong><time>${formatAgentRecordTime()}</time></footer>
         </div>
-      `;
+      `);
+      xosHomeDialogueThread.scrollTop = xosHomeDialogueThread.scrollHeight;
     };
     const showPromptDebugResult = (id, editedPrompt) => {
       const feedback = getManagementFeedback(id);
@@ -14916,7 +14926,13 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const message = xosHomeInput?.value.trim();
       if (!feedback || !message) return false;
       feedback.messages = [...(feedback.messages || []), message];
-      showManagementFeedbackDialogue(feedback.id);
+      xosHomeDialogueThread?.insertAdjacentHTML("beforeend", `
+        <div class="management-dialogue-copy xos-home-dialogue-message user">
+          <p style="margin:0;color:#26354f;font-size:13px;line-height:21px;">${escapeManagementText(message)}</p>
+        </div>
+      `);
+      xosHomeDialogueThread.scrollTop = xosHomeDialogueThread.scrollHeight;
+      if (xosHomeInput) xosHomeInput.value = "";
       return true;
     };
     const activeTaskCluster = () => document.querySelector(".case-row.active")?.dataset.cluster || spActiveTaskContext?.cluster || (spActiveTaskContext?.isReviewTask ? "review" : spActiveTaskContext?.isDamageTask ? "damage" : "survey");
