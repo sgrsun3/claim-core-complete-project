@@ -5700,6 +5700,43 @@
     .mg-taskflow-node.is-current { background: #175dff; color: #fff; font-weight: 600; }
     .mg-taskflow-arrow { color: #c5cad3; font-size: 12px; }
 
+    /* 管理岗右侧案件详情面板 */
+    .mg-case-panel { display: none; flex-direction: column; min-width: 0; flex: 1; overflow: hidden; background: #fff; border-radius: 8px; border: 1px solid #e1e8eb; }
+    .mg-case-panel[hidden] { display: none !important; }
+    .content.mg-case-open .vehicle-damage-detail,
+    .content.mg-case-open .content-tabs,
+    .content.mg-case-open > .tab-pane,
+    .content.mg-case-open > .task-detail-actions,
+    .content.mg-case-open > .content-workspace-close { display: none !important; }
+    .content.mg-case-open .mg-case-panel { display: flex; }
+    .mg-case-panel-head { padding: 12px 16px; border-bottom: 1px solid #edf1f5; }
+    .mg-case-panel-title-row { display: flex; align-items: center; gap: 10px; }
+    .mg-case-panel-title-row strong { color: #202a39; font-size: 15px; }
+    .mg-case-panel-case-no { color: #748195; font-size: 12px; }
+    .mg-case-panel-tabs { display: flex; gap: 2px; padding: 0 12px; border-bottom: 1px solid #edf1f5; overflow-x: auto; }
+    .mg-case-panel-tab { flex-shrink: 0; padding: 10px 14px; border: 0; border-bottom: 2px solid transparent; background: none; color: #66758a; font-size: 13px; cursor: pointer; white-space: nowrap; }
+    .mg-case-panel-tab:hover { color: #175dff; }
+    .mg-case-panel-tab.active { color: #175dff; border-bottom-color: #175dff; font-weight: 600; }
+    .mg-case-panel-body { flex: 1; overflow-y: auto; padding: 16px; }
+    .mg-case-panel-pane { display: none; }
+    .mg-case-panel-pane.active { display: block; }
+    .mg-case-panel-pane .mg-tl-agent,
+    .mg-case-panel-pane .mg-tl-human { margin-bottom: 14px; }
+    .mg-case-panel-pane .mg-case-fields > div { padding: 4px 0; }
+
+    /* 对话式按钮统一样式 */
+    .mg-action-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 80px; height: 32px; padding: 0 14px; border: 1px solid #d7dde7; border-radius: 6px; background: #fff; color: #556070; font-size: 12px; cursor: pointer; transition: all .15s ease; }
+    .mg-action-btn:hover { border-color: #9ab8ff; color: #175dff; }
+    .mg-action-btn.is-skill { border-color: #00c070; color: #00a060; }
+    .mg-action-btn.is-skill:hover { border-color: #00c070; background: #f0fdf6; color: #00a060; }
+    .mg-action-btn.is-primary { border-color: #175dff; background: #175dff; color: #fff; }
+    .mg-action-btn.is-primary:hover { background: #1247d4; border-color: #1247d4; }
+    .mg-action-row { display: flex; justify-content: flex-end; gap: 8px; }
+
+    /* 对话区用户消息气泡 */
+    .xos-home-dialogue-message.user { align-self: flex-end; max-width: 80%; padding: 10px 14px; border-radius: 12px 12px 2px 12px; background: #175dff; color: #fff; }
+    .xos-home-dialogue-message.user p { margin: 0; font-size: 13px; line-height: 20px; }
+
     .xos-home-dialogue-back {
       display: inline-flex;
       align-items: center;
@@ -10115,6 +10152,30 @@
                 <div class="damage-cart-total"><span>定损合计</span><strong id="damageTotalAmount">¥10,500</strong></div>
               </div>
             </section>
+          </section>
+          <section class="mg-case-panel" id="mgCaseDetailPanel" hidden aria-label="管理岗案件详情">
+            <div class="mg-case-panel-head">
+              <div class="mg-case-panel-title-row">
+                <strong id="mgCasePanelTitle">案件详情</strong>
+                <span class="mg-case-panel-case-no" id="mgCasePanelCaseNo"></span>
+              </div>
+            </div>
+            <div class="mg-case-panel-tabs" role="tablist" aria-label="管理岗案件详情">
+              <button class="mg-case-panel-tab active" type="button" role="tab" aria-selected="true" data-mg-case-tab="timeline">作业轨迹</button>
+              <button class="mg-case-panel-tab" type="button" role="tab" aria-selected="false" data-mg-case-tab="task">任务信息</button>
+              <button class="mg-case-panel-tab" type="button" role="tab" aria-selected="false" data-mg-case-tab="case">案件信息</button>
+              <button class="mg-case-panel-tab" type="button" role="tab" aria-selected="false" data-mg-case-tab="doc">材料单证</button>
+              <button class="mg-case-panel-tab" type="button" role="tab" aria-selected="false" data-mg-case-tab="flow">整案任务流</button>
+              <button class="mg-case-panel-tab" type="button" role="tab" aria-selected="false" data-mg-case-tab="pay">支付信息</button>
+            </div>
+            <div class="mg-case-panel-body">
+              <div class="mg-case-panel-pane active" data-mg-case-pane="timeline" id="mgCasePaneTimeline"></div>
+              <div class="mg-case-panel-pane" data-mg-case-pane="task" id="mgCasePaneTask"></div>
+              <div class="mg-case-panel-pane" data-mg-case-pane="case" id="mgCasePaneCase"></div>
+              <div class="mg-case-panel-pane" data-mg-case-pane="doc" id="mgCasePaneDoc"></div>
+              <div class="mg-case-panel-pane" data-mg-case-pane="flow" id="mgCasePaneFlow"></div>
+              <div class="mg-case-panel-pane" data-mg-case-pane="pay" id="mgCasePanePay"></div>
+            </div>
           </section>
           <div class="content-tabs" role="tablist" aria-label="车物查勘页面">
             <button class="content-tab ai-review-tab" type="button" id="aiReviewTab" data-pane="aiReviewPane" hidden>AI核赔</button>
@@ -14752,71 +14813,107 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         ]
       }
     };
-    const showManagementCaseDetail = (id) => {
-      const feedback = getManagementFeedback(id);
-      if (!feedback || !xosHomeDialogueThread) return;
-      const timeline = managementCaseTimeline[id] || { agent: [], human: [] };
-      const renderTimeline = (items, role, color) => items.map((item) =>
-        `<div class="mg-tl-item"><span class="mg-tl-time">${item.time}</span><span class="mg-tl-dot is-${color}"></span><div class="mg-tl-body"><strong>${role}</strong><span>${escapeManagementText(item.action)}</span></div></div>`
-      ).join("");
+    const appendDialogueUserMessage = (text) => {
+      if (!xosHomeDialogueThread) return;
+      xosHomeDialogueThread.insertAdjacentHTML("beforeend", `
+        <div class="xos-home-dialogue-message user"><p>${escapeManagementText(text)}</p></div>
+      `);
+      xosHomeDialogueThread.scrollTop = xosHomeDialogueThread.scrollHeight;
+    };
+    const appendDialogueAgentMessage = (htmlContent) => {
+      if (!xosHomeDialogueThread) return;
       xosHomeDialogueThread.insertAdjacentHTML("beforeend", `
         <div class="management-dialogue-copy xos-home-dialogue-message agent">
-          <div class="mg-case-detail">
-            <div class="mg-case-detail-head"><strong>案件详情 · ${escapeManagementText(feedback.caseNo)}</strong></div>
-            <div class="mg-case-section">
-              <div class="mg-case-section-title"><strong>作业轨迹</strong></div>
-              <div class="mg-tl-agent"><div class="mg-tl-group-label">Agent 自动处理</div><div class="mg-timeline">${renderTimeline(timeline.agent, "Agent", "blue")}</div></div>
-              <div class="mg-tl-human"><div class="mg-tl-group-label">人工处理</div><div class="mg-timeline">${renderTimeline(timeline.human, "人工", "green")}</div></div>
-            </div>
-            <div class="mg-case-section">
-              <div class="mg-case-section-title"><strong>任务信息</strong></div>
-              <dl class="mg-case-fields">
-                <div><dt>任务类型</dt><dd>${escapeManagementText(feedback.title)}</dd></div>
-                <div><dt>失败原因</dt><dd>${escapeManagementText(feedback.reason || skillProfiles[feedback.cluster]?.reason || "待复核")}</dd></div>
-                <div><dt>优化方向</dt><dd>${(feedback.optimizationTags || []).join("、")}</dd></div>
-                <div><dt>风险等级</dt><dd>${feedback.risk === "high" ? "高风险" : "普通"}</dd></div>
-                <div><dt>VIP客户</dt><dd>${feedback.vip ? "是" : "否"}</dd></div>
-              </dl>
-            </div>
-            <div class="mg-case-section">
-              <div class="mg-case-section-title"><strong>案件信息</strong></div>
-              <dl class="mg-case-fields">
-                <div><dt>案件号</dt><dd>${escapeManagementText(feedback.caseNo)}</dd></div>
-                <div><dt>报案时间</dt><dd>2026-04-15 09:36:21</dd></div>
-                <div><dt>出险地点</dt><dd>上海市浦东新区世纪大道 100 号路口</dd></div>
-                <div><dt>标的车牌</dt><dd>沪A12345</dd></div>
-                <div><dt>三者车牌</dt><dd>沪B61529</dd></div>
-                <div><dt>险种</dt><dd>机动车商业保险</dd></div>
-              </dl>
-            </div>
-            <div class="mg-case-section">
-              <div class="mg-case-section-title"><strong>材料单证</strong></div>
-              <dl class="mg-case-fields">
-                <div><dt>查勘照片</dt><dd>12 张（含 3 张补拍）</dd></div>
-                <div><dt>责任认定书</dt><dd>已上传</dd></div>
-                <div><dt>定损单</dt><dd>已上传</dd></div>
-                <div><dt>维修发票</dt><dd>已上传（¥9,800）</dd></div>
-                <div><dt>结算清单</dt><dd>已上传（¥8,350）</dd></div>
-              </dl>
-            </div>
-            <div class="mg-case-section">
-              <div class="mg-case-section-title"><strong>整案任务流</strong></div>
-              <div class="mg-taskflow"><span class="mg-taskflow-node is-done">报案</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node is-done">查勘</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node is-done">定损</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node is-done">核价核损</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node ${feedback.cluster === "review" ? "is-current" : "is-done"}">核赔</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node">结案</span></div>
-            </div>
-            <div class="mg-case-section">
-              <div class="mg-case-section-title"><strong>支付信息</strong></div>
-              <dl class="mg-case-fields">
-                <div><dt>最终赔付金额</dt><dd>${escapeManagementText(feedback.payout || "待确认")}</dd></div>
-                <div><dt>支付方式</dt><dd>银行转账</dd></div>
-                <div><dt>收款账户</dt><dd>招商银行尾号 3381</dd></div>
-                <div><dt>支付状态</dt><dd>${feedback.cluster === "review" ? "已支付" : "待核赔确认"}</dd></div>
-              </dl>
-            </div>
-          </div>
+          ${htmlContent}
           <footer class="xos-agent-answer-meta"><strong>XAgent</strong><time>${formatAgentRecordTime()}</time></footer>
         </div>
       `);
       xosHomeDialogueThread.scrollTop = xosHomeDialogueThread.scrollHeight;
+    };
+    const fillMgCasePanel = (feedback) => {
+      const timeline = managementCaseTimeline[feedback.id] || { agent: [], human: [] };
+      const renderTimeline = (items, role, color) => items.map((item) =>
+        `<div class="mg-tl-item"><span class="mg-tl-time">${item.time}</span><span class="mg-tl-dot is-${color}"></span><div class="mg-tl-body"><strong>${role}</strong><span>${escapeManagementText(item.action)}</span></div></div>`
+      ).join("");
+      const reason = feedback.reason || skillProfiles[feedback.cluster]?.reason || "待复核";
+      const paneTimeline = document.getElementById("mgCasePaneTimeline");
+      const paneTask = document.getElementById("mgCasePaneTask");
+      const paneCase = document.getElementById("mgCasePaneCase");
+      const paneDoc = document.getElementById("mgCasePaneDoc");
+      const paneFlow = document.getElementById("mgCasePaneFlow");
+      const panePay = document.getElementById("mgCasePanePay");
+      const titleEl = document.getElementById("mgCasePanelTitle");
+      const caseNoEl = document.getElementById("mgCasePanelCaseNo");
+      if (titleEl) titleEl.textContent = "案件详情";
+      if (caseNoEl) caseNoEl.textContent = feedback.caseNo;
+      if (paneTimeline) paneTimeline.innerHTML = `
+        <div class="mg-tl-agent"><div class="mg-tl-group-label">Agent 自动处理</div><div class="mg-timeline">${renderTimeline(timeline.agent, "Agent", "blue")}</div></div>
+        <div class="mg-tl-human"><div class="mg-tl-group-label">人工处理</div><div class="mg-timeline">${renderTimeline(timeline.human, "人工", "green")}</div></div>
+      `;
+      if (paneTask) paneTask.innerHTML = `
+        <dl class="mg-case-fields">
+          <div><dt>任务类型</dt><dd>${escapeManagementText(feedback.title)}</dd></div>
+          <div><dt>失败原因</dt><dd>${escapeManagementText(reason)}</dd></div>
+          <div><dt>优化方向</dt><dd>${(feedback.optimizationTags || []).join("、")}</dd></div>
+          <div><dt>风险等级</dt><dd>${feedback.risk === "high" ? "高风险" : "普通"}</dd></div>
+          <div><dt>VIP客户</dt><dd>${feedback.vip ? "是" : "否"}</dd></div>
+        </dl>
+      `;
+      if (paneCase) paneCase.innerHTML = `
+        <dl class="mg-case-fields">
+          <div><dt>案件号</dt><dd>${escapeManagementText(feedback.caseNo)}</dd></div>
+          <div><dt>报案时间</dt><dd>2026-04-15 09:36:21</dd></div>
+          <div><dt>出险地点</dt><dd>上海市浦东新区世纪大道 100 号路口</dd></div>
+          <div><dt>标的车牌</dt><dd>沪A12345</dd></div>
+          <div><dt>三者车牌</dt><dd>沪B61529</dd></div>
+          <div><dt>险种</dt><dd>机动车商业保险</dd></div>
+        </dl>
+      `;
+      if (paneDoc) paneDoc.innerHTML = `
+        <dl class="mg-case-fields">
+          <div><dt>查勘照片</dt><dd>12 张（含 3 张补拍）</dd></div>
+          <div><dt>责任认定书</dt><dd>已上传</dd></div>
+          <div><dt>定损单</dt><dd>已上传</dd></div>
+          <div><dt>维修发票</dt><dd>已上传（¥9,800）</dd></div>
+          <div><dt>结算清单</dt><dd>已上传（¥8,350）</dd></div>
+        </dl>
+      `;
+      if (paneFlow) paneFlow.innerHTML = `
+        <div class="mg-taskflow"><span class="mg-taskflow-node is-done">报案</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node is-done">查勘</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node is-done">定损</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node is-done">核价核损</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node ${feedback.cluster === "review" ? "is-current" : "is-done"}">核赔</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node">结案</span></div>
+      `;
+      if (panePay) panePay.innerHTML = `
+        <dl class="mg-case-fields">
+          <div><dt>最终赔付金额</dt><dd>${escapeManagementText(feedback.payout || "待确认")}</dd></div>
+          <div><dt>支付方式</dt><dd>银行转账</dd></div>
+          <div><dt>收款账户</dt><dd>招商银行尾号 3381</dd></div>
+          <div><dt>支付状态</dt><dd>${feedback.cluster === "review" ? "已支付" : "待核赔确认"}</dd></div>
+        </dl>
+      `;
+      document.querySelectorAll(".mg-case-panel-tab").forEach((tab) => {
+        const pane = tab.dataset.mgCaseTab;
+        tab.onclick = () => {
+          document.querySelectorAll(".mg-case-panel-tab").forEach((t) => t.classList.toggle("active", t === tab));
+          document.querySelectorAll(".mg-case-panel-pane").forEach((p) => p.classList.toggle("active", p.dataset.mgCasePane === pane));
+        };
+      });
+      const content = document.querySelector(".content");
+      const panel = document.getElementById("mgCaseDetailPanel");
+      if (content) content.classList.add("mg-case-open");
+      if (panel) panel.hidden = false;
+      setWorkspaceOpen(true);
+    };
+    const hideMgCasePanel = () => {
+      const content = document.querySelector(".content");
+      const panel = document.getElementById("mgCaseDetailPanel");
+      if (content) content.classList.remove("mg-case-open");
+      if (panel) panel.hidden = true;
+    };
+    const showManagementCaseDetail = (id) => {
+      const feedback = getManagementFeedback(id);
+      if (!feedback || !xosHomeDialogueThread) return;
+      appendDialogueUserMessage("查看案件详情");
+      fillMgCasePanel(feedback);
+      appendDialogueAgentMessage(`<p style="margin:0;color:#26354f;font-size:13px;line-height:21px;">已为你展开案件详情面板，右侧包含作业轨迹、任务信息、案件信息、材料单证、整案任务流和支付信息。</p>`);
     };
     const showPromptEditFlow = (id) => {
       const feedback = getManagementFeedback(id);
@@ -14841,8 +14938,8 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
             <label class="mg-prompt-block-label">当前提示词（可直接修改）</label>
             <textarea class="mg-prompt-textarea" id="mgPromptTextarea">${escapeManagementText(feedback.prompt)}</textarea>
           </div>
-          <div style="display:flex;justify-content:flex-end;gap:8px;">
-            <button class="management-feedback-actions" style="min-width:100px;height:32px;padding:0 14px;border:1px solid #00c070;border-radius:5px;background:#fff;color:#00a060;font-size:12px;cursor:pointer;" type="button" data-mg-action="debug" data-mg-feedback-id="${feedback.id}">调试预览</button>
+          <div class="mg-action-row">
+            <button class="mg-action-btn is-skill" type="button" data-mg-action="debug" data-mg-feedback-id="${feedback.id}">调试预览</button>
           </div>
           <footer class="xos-agent-answer-meta"><strong>XAgent</strong><time>${formatAgentRecordTime()}</time></footer>
         </div>
@@ -14868,9 +14965,9 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
             <div class="mg-publish-info-row"><span>版本变更</span><span>${oldVersion} → ${newVersion}</span></div>
             <div class="mg-publish-info-row"><span>灰度比例</span><span>建议先 20% 灰度</span></div>
           </div>
-          <div style="display:flex;justify-content:flex-end;gap:8px;">
-            <button style="min-width:80px;height:32px;padding:0 12px;border:1px solid #d7dde7;border-radius:5px;background:#fff;color:#556070;font-size:12px;cursor:pointer;" type="button" data-mg-action="revise" data-mg-feedback-id="${feedback.id}">再改改</button>
-            <button style="min-width:100px;height:32px;padding:0 14px;border:1px solid #175dff;border-radius:5px;background:#175dff;color:#fff;font-size:12px;cursor:pointer;" type="button" data-mg-action="publish" data-mg-feedback-id="${feedback.id}">确认发布</button>
+          <div class="mg-action-row">
+            <button class="mg-action-btn" type="button" data-mg-action="revise" data-mg-feedback-id="${feedback.id}">再改改</button>
+            <button class="mg-action-btn is-primary" type="button" data-mg-action="publish" data-mg-feedback-id="${feedback.id}">确认发布</button>
           </div>
           <footer class="xos-agent-answer-meta"><strong>XAgent</strong><time>${formatAgentRecordTime()}</time></footer>
         </div>
@@ -14903,6 +15000,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const feedback = getManagementFeedback(button.dataset.managementFeedbackId);
       if (!feedback) return;
       if (button.dataset.managementFeedbackAction === "edit-prompt") {
+        appendDialogueUserMessage("修改提示词并发布");
         showPromptEditFlow(feedback.id);
         return;
       }
@@ -14911,6 +15009,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         return;
       }
       if (button.dataset.managementFeedbackAction === "ignore") {
+        appendDialogueUserMessage("忽视反馈");
         feedback.status = "ignored";
         if (button.closest('[data-management-skill-card="task"]')) {
           if (typeof spRenderAll === "function") spRenderAll();
@@ -15837,6 +15936,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     const closeHomeDialogue = () => {
       if (!xosHome || xosHome.classList.contains("task-dialogue-mode")) return;
       if (xosHome.classList.contains("management-home")) {
+        hideMgCasePanel();
         xosHome.classList.remove("show-dialogue");
         activeManagementFeedbackId = null;
         if (xosHomeInput) xosHomeInput.placeholder = "选择一条 Skill 反馈后，在对话中补充修改";
@@ -15975,12 +16075,15 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
           const textarea = document.getElementById("mgPromptTextarea");
           const editedPrompt = textarea?.value?.trim() || "";
           mgAction.closest(".xos-home-dialogue-message")?.remove();
+          appendDialogueUserMessage("调试预览");
           showPromptDebugResult(mgId, editedPrompt);
         } else if (mgAct === "revise") {
           mgAction.closest(".xos-home-dialogue-message")?.remove();
+          appendDialogueUserMessage("再改改");
           showPromptEditFlow(mgId);
         } else if (mgAct === "publish") {
           mgAction.closest(".xos-home-dialogue-message")?.remove();
+          appendDialogueUserMessage("确认发布");
           showPromptPublished(mgId);
         }
         return;
