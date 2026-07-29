@@ -5753,26 +5753,24 @@
     .mg-publish-info-row span:first-child { color: #66758a; font-size: 12px; }
     .mg-publish-info-row span:last-child { color: #26354f; font-size: 12px; font-weight: 600; }
 
-    /* 管理岗作业轨迹：独立于任务/支付分页，按审计记录组织内容。 */
+    /* 管理岗作业轨迹：只保留案件摘要、判断变化与关键节点。 */
     #mgTimelinePane {
       margin: 0 -20px;
-      padding: 0 20px 88px;
+      padding: 0 20px 16px;
       background: #f7f8f9;
     }
-    .workspace.task-active #mgTimelinePane { margin: 0 -12px; padding: 0 12px 72px; }
+    .workspace.task-active #mgTimelinePane { margin: 0 -12px; padding: 0 12px 16px; }
     .mg-trace-page { display: grid; gap: 12px; }
-    .mg-trace-hero,
+    .mg-trace-overview,
     .mg-trace-panel {
       border: 1px solid #e1e8eb;
       border-radius: 8px;
       background: #fff;
       box-shadow: 0 1px 2px rgba(31, 45, 61, .04);
     }
-    .mg-trace-hero { padding: 16px; }
-    .mg-trace-hero-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
-    .mg-trace-hero-copy { min-width: 0; }
-    .mg-trace-hero-copy strong { display: block; color: #222; font-size: 16px; line-height: 24px; }
-    .mg-trace-hero-copy span { display: block; margin-top: 4px; color: #616161; font-size: 12px; line-height: 18px; }
+    .mg-trace-overview { padding: 16px; }
+    .mg-trace-overview-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .mg-trace-overview-head strong { min-width: 0; color: #222; font-size: 16px; line-height: 24px; }
     .mg-trace-status {
       flex: 0 0 auto;
       display: inline-flex;
@@ -5786,34 +5784,22 @@
       font-weight: 600;
       white-space: nowrap;
     }
-    .mg-trace-meta {
+    .mg-trace-overview-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px 24px;
-      margin: 16px 0 0;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
       padding-top: 12px;
       border-top: 1px solid #eef1f6;
     }
-    .mg-trace-meta > div { display: grid; grid-template-columns: 68px minmax(0, 1fr); gap: 8px; }
-    .mg-trace-meta dt { color: #909090; font-size: 12px; line-height: 20px; }
-    .mg-trace-meta dd { min-width: 0; margin: 0; color: #222; font-size: 12px; line-height: 20px; overflow-wrap: anywhere; }
-    .mg-trace-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
-    .mg-trace-kpi {
-      min-width: 0;
-      padding: 12px;
-      border: 1px solid #e1e8eb;
-      border-radius: 8px;
-      background: #fff;
-    }
-    .mg-trace-kpi span { display: block; color: #909090; font-size: 11px; line-height: 18px; }
-    .mg-trace-kpi strong { display: block; margin-top: 4px; color: #222; font-size: 15px; line-height: 22px; overflow-wrap: anywhere; }
-    .mg-trace-kpi.is-primary strong { color: #175dff; }
-    .mg-trace-kpi.is-danger strong { color: #d94f4f; }
+    .mg-trace-overview-grid span { display: block; color: #909090; font-size: 11px; line-height: 18px; }
+    .mg-trace-overview-grid strong { display: block; margin-top: 2px; color: #222; font-size: 12px; line-height: 20px; overflow-wrap: anywhere; }
+    .mg-trace-issue { margin: 12px 0 0; color: #616161; font-size: 12px; line-height: 20px; }
     .mg-trace-panel { overflow: hidden; }
     .mg-trace-panel-head {
       display: flex;
       align-items: center;
-      min-height: 44px;
+      min-height: 40px;
       padding: 0 16px;
       border-bottom: 1px solid #eef1f6;
       color: #222;
@@ -5828,97 +5814,59 @@
       background: #175dff;
       content: "";
     }
-    .mg-trace-panel-body { padding: 14px 16px 16px; }
-    .mg-trace-compare { display: grid; gap: 8px; }
+    .mg-trace-panel-body { padding: 4px 16px 8px; }
+    .mg-trace-compare { display: grid; }
     .mg-trace-compare-row {
       display: grid;
-      grid-template-columns: 86px minmax(0, 1fr);
+      grid-template-columns: 76px minmax(0, 1fr);
       gap: 12px;
-      padding: 10px 12px;
-      border: 1px solid #eef1f6;
-      border-radius: 6px;
-      background: #fafbfd;
+      padding: 10px 0;
+      border-bottom: 1px solid #eef1f6;
     }
+    .mg-trace-compare-row:last-child { border-bottom: 0; }
     .mg-trace-compare-row strong { color: #616161; font-size: 11px; line-height: 20px; }
     .mg-trace-compare-row p { margin: 0; color: #222; font-size: 12px; line-height: 20px; }
-    .mg-trace-compare-row.is-before { border-left: 3px solid #f3982d; }
-    .mg-trace-compare-row.is-after { border-left: 3px solid #175dff; }
-    .mg-trace-compare-row.is-result { border-left: 3px solid #00c070; }
-    .mg-trace-stream { position: relative; display: grid; gap: 0; }
-    .mg-trace-event {
+    .mg-trace-compare-row.is-result p { color: #148653; font-weight: 500; }
+    .mg-trace-steps { display: grid; padding: 4px 0; }
+    .mg-trace-step {
       position: relative;
       display: grid;
-      grid-template-columns: 42px 16px minmax(0, 1fr);
+      grid-template-columns: 42px 12px minmax(0, 1fr);
       gap: 8px;
-      padding-bottom: 12px;
+      padding: 8px 0;
     }
-    .mg-trace-event:last-child { padding-bottom: 0; }
-    .mg-trace-event-time { padding-top: 1px; color: #909090; font-size: 11px; line-height: 20px; }
-    .mg-trace-event-rail { position: relative; display: flex; justify-content: center; }
-    .mg-trace-event-rail::after {
+    .mg-trace-step time { color: #909090; font-size: 11px; line-height: 20px; }
+    .mg-trace-step-mark { position: relative; display: flex; justify-content: center; }
+    .mg-trace-step-mark::after {
       position: absolute;
-      top: 14px;
-      bottom: -4px;
+      top: 13px;
+      bottom: -13px;
       width: 1px;
       background: #dfe5ee;
       content: "";
     }
-    .mg-trace-event:last-child .mg-trace-event-rail::after { display: none; }
-    .mg-trace-event-dot {
+    .mg-trace-step:last-child .mg-trace-step-mark::after { display: none; }
+    .mg-trace-step-mark::before {
       position: relative;
       z-index: 1;
-      width: 9px;
-      height: 9px;
+      width: 7px;
+      height: 7px;
       margin-top: 6px;
       border: 2px solid #fff;
       border-radius: 50%;
       box-shadow: 0 0 0 1px #8baeff;
       background: #175dff;
+      content: "";
     }
-    .mg-trace-event.is-human .mg-trace-event-dot { box-shadow: 0 0 0 1px #70d7a9; background: #00c070; }
-    .mg-trace-event-card { padding: 10px 12px; border: 1px solid #e7ecf3; border-radius: 6px; background: #fff; }
-    .mg-trace-event-card header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .mg-trace-event-card header strong { color: #222; font-size: 12px; line-height: 18px; }
-    .mg-trace-event-card header span {
-      flex: 0 0 auto;
-      padding: 1px 6px;
-      border-radius: 4px;
-      background: #eef3ff;
-      color: #175dff;
-      font-size: 10px;
-      line-height: 16px;
-    }
-    .mg-trace-event.is-human .mg-trace-event-card header span { background: #eaf8f1; color: #148653; }
-    .mg-trace-event-card p { margin: 6px 0 0; color: #3f4858; font-size: 12px; line-height: 19px; }
-    .mg-trace-event-card footer { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; color: #909090; font-size: 10px; line-height: 16px; }
-    .mg-trace-review { margin: 0; color: #3f4858; font-size: 12px; line-height: 20px; }
-    .mg-trace-evidence { display: grid; margin: 0; }
-    .mg-trace-evidence > div {
-      display: grid;
-      grid-template-columns: 88px minmax(0, 1fr);
-      gap: 12px;
-      padding: 9px 0;
-      border-bottom: 1px solid #eef1f6;
-    }
-    .mg-trace-evidence > div:first-child { padding-top: 0; }
-    .mg-trace-evidence > div:last-child { padding-bottom: 0; border-bottom: 0; }
-    .mg-trace-evidence dt { color: #909090; font-size: 12px; line-height: 20px; }
-    .mg-trace-evidence dd { min-width: 0; margin: 0; color: #222; font-size: 12px; line-height: 20px; overflow-wrap: anywhere; }
-    .mg-trace-tag {
-      display: inline-flex;
-      align-items: center;
-      height: 22px;
-      margin: 0 6px 4px 0;
-      padding: 0 7px;
-      border-radius: 4px;
-      background: #f1f6ff;
-      color: #175dff;
-      font-size: 11px;
-      font-style: normal;
-    }
+    .mg-trace-step.is-human .mg-trace-step-mark::before { box-shadow: 0 0 0 1px #70d7a9; background: #00c070; }
+    .mg-trace-step-copy strong { display: block; color: #616161; font-size: 11px; line-height: 18px; }
+    .mg-trace-step-copy p { margin: 2px 0 0; color: #222; font-size: 12px; line-height: 20px; }
+    .mg-trace-direction { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; padding: 10px 0 4px; border-top: 1px solid #eef1f6; }
+    .mg-trace-direction > span { margin-right: 2px; color: #909090; font-size: 11px; line-height: 22px; }
+    .workspace.management-case-active .bottom-action-bar.sp-action-bar { display: none !important; }
+    .workspace.management-case-active .task-detail-actions:has(.payment-calculation-summary[hidden]) { display: none; }
     @media (max-width: 1500px) {
-      .mg-trace-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .mg-trace-meta { grid-template-columns: minmax(0, 1fr); }
+      .mg-trace-overview-grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
     }
 
     /* 管理岗使用 Codex / WorkBuddy 风格的连续任务记录。 */
@@ -10157,7 +10105,7 @@
           </div></section>
           <section class="demo-lifecycle-group" data-demo-role-group="survey-manage"><h3>管理岗 · 查勘</h3><div class="demo-lifecycle-steps">
             <button class="demo-lifecycle-step" type="button" data-demo-manager-home="survey"><i>H</i><span><strong>首页查看待办</strong><small>进入 Skill 反馈待办并去处理</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-feedback="survey-liability"><i>F</i><span><strong>查看反馈闭环</strong><small>五维溯源：判断→修正→结果→后续→赔付</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-feedback="survey-liability"><i>F</i><span><strong>查看反馈闭环</strong><small>查看处理结论与关键纠偏节点</small></span></button>
             <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="edit" data-demo-skill-feedback="survey-liability"><i>M</i><span><strong>修改技能</strong><small>用自然语言补充规则与修改目标</small></span></button>
             <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="debug" data-demo-skill-feedback="survey-liability"><i>T</i><span><strong>调试技能</strong><small>对比修改前后并校验测试样本</small></span></button>
             <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="publish" data-demo-skill-feedback="survey-liability"><i>P</i><span><strong>发布技能</strong><small>确认版本、灰度比例与回滚策略</small></span></button>
@@ -10170,7 +10118,7 @@
           </div></section>
           <section class="demo-lifecycle-group" data-demo-role-group="damage-manage"><h3>管理岗 · 定损</h3><div class="demo-lifecycle-steps">
             <button class="demo-lifecycle-step" type="button" data-demo-manager-home="damage"><i>H</i><span><strong>首页查看待办</strong><small>进入 Skill 反馈待办并去处理</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-feedback="damage-image"><i>F</i><span><strong>查看反馈闭环</strong><small>五维溯源：判断→修正→结果→后续→赔付</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-feedback="damage-image"><i>F</i><span><strong>查看反馈闭环</strong><small>查看处理结论与关键纠偏节点</small></span></button>
             <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="edit" data-demo-skill-feedback="damage-image"><i>M</i><span><strong>修改技能</strong><small>用自然语言补充规则与修改目标</small></span></button>
             <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="debug" data-demo-skill-feedback="damage-image"><i>T</i><span><strong>调试技能</strong><small>对比修改前后并校验测试样本</small></span></button>
             <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="publish" data-demo-skill-feedback="damage-image"><i>P</i><span><strong>发布技能</strong><small>确认版本、灰度比例与回滚策略</small></span></button>
@@ -10183,7 +10131,7 @@
           </div></section>
           <section class="demo-lifecycle-group" data-demo-role-group="review-manage"><h3>管理岗 · 核赔</h3><div class="demo-lifecycle-steps">
             <button class="demo-lifecycle-step" type="button" data-demo-manager-home="review"><i>H</i><span><strong>首页查看待办</strong><small>进入 Skill 反馈待办并去处理</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-feedback="review-rule"><i>F</i><span><strong>查看反馈闭环</strong><small>五维溯源：判断→修正→结果→后续→赔付</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-feedback="review-rule"><i>F</i><span><strong>查看反馈闭环</strong><small>查看处理结论与关键纠偏节点</small></span></button>
             <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="edit" data-demo-skill-feedback="review-rule"><i>M</i><span><strong>修改技能</strong><small>用自然语言补充规则与修改目标</small></span></button>
             <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="debug" data-demo-skill-feedback="review-rule"><i>T</i><span><strong>调试技能</strong><small>对比修改前后并校验测试样本</small></span></button>
             <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="publish" data-demo-skill-feedback="review-rule"><i>P</i><span><strong>发布技能</strong><small>确认版本、灰度比例与回滚策略</small></span></button>
@@ -13651,7 +13599,6 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     const spCaseMeta = document.getElementById("spCaseMeta");
     const spNodeMeta = document.getElementById("spNodeMeta");
     const taskPoolBtn = document.getElementById("taskPoolBtn");
-    const homeTaskPoolBtn = document.getElementById("homeTaskPoolBtn");
     const homeMetricsBtn = document.getElementById("homeMetricsBtn");
     const notificationBtn = document.getElementById("notificationBtn");
     const indicatorTrackingBtn = document.getElementById("indicatorTrackingBtn");
@@ -15114,9 +15061,18 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       ensureMgTimelineTab();
       const timeline = managementCaseTimeline[feedback.id] || { agent: [], human: [] };
       const events = [
-        ...timeline.agent.map((item, index) => ({ ...item, role: "XAgent", kind: "agent", index })),
-        ...timeline.human.map((item, index) => ({ ...item, role: "人工处理", kind: "human", index }))
+        ...timeline.agent.map((item) => ({ ...item, role: "XAgent", kind: "agent" })),
+        ...timeline.human.map((item) => ({ ...item, role: "人工处理", kind: "human" }))
       ].sort((left, right) => left.time.localeCompare(right.time));
+      const keyEvents = [
+        timeline.agent[0] ? { ...timeline.agent[0], role: "XAgent", kind: "agent" } : null,
+        timeline.agent.at(-1) ? { ...timeline.agent.at(-1), role: "XAgent", kind: "agent" } : null,
+        timeline.human[0] ? { ...timeline.human[0], role: "人工处理", kind: "human" } : null,
+        timeline.human.at(-1) ? { ...timeline.human.at(-1), role: "人工处理", kind: "human" } : null
+      ]
+        .filter(Boolean)
+        .filter((item, index, items) => items.findIndex((candidate) => candidate.time === item.time && candidate.action === item.action) === index)
+        .sort((left, right) => left.time.localeCompare(right.time));
       const toMinutes = (time) => {
         const [hour = 0, minute = 0] = String(time || "").split(":").map(Number);
         return (hour * 60) + minute;
@@ -15128,79 +15084,46 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         ? `${Math.floor(durationMinutes / 60)}小时${durationMinutes % 60 ? `${durationMinutes % 60}分` : ""}`
         : `${durationMinutes}分钟`;
       const roleLabel = managementRoleLabels[feedback.cluster] || "理赔";
-      const sourceMap = {
-        survey: "报案信息、现场影像、责任认定材料",
-        damage: "损失影像、配件价格库、工时标准库",
-        review: "责任材料、定损单、理算清单"
-      };
-      const ruleVersionMap = {
-        survey: "查勘识别规则 v3.4.2",
-        damage: "图像定损规则 v2.8.6",
-        review: "核赔校验规则 v4.1.3"
-      };
       const traceTags = (feedback.optimizationTags || [])
         .map((tag) => `<i class="mg-trace-tag">${escapeManagementText(tag)}</i>`)
         .join("");
-      const renderEvents = events.map((item, index) => `
-        <article class="mg-trace-event${item.kind === "human" ? " is-human" : ""}">
-          <time class="mg-trace-event-time">${escapeManagementText(item.time)}</time>
-          <span class="mg-trace-event-rail"><i class="mg-trace-event-dot"></i></span>
-          <div class="mg-trace-event-card">
-            <header><strong>${item.role}</strong><span>${item.kind === "human" ? "人工纠偏" : "自动执行"}</span></header>
-            <p>${escapeManagementText(item.action)}</p>
-            <footer><span>事件 MG-${String(index + 1).padStart(2, "0")}</span><span>${item.kind === "human" ? "来源：管理岗复核" : "来源：Agent 运行日志"}</span><span>状态：已记录</span></footer>
-          </div>
+      const renderKeyEvents = keyEvents.map((item) => `
+        <article class="mg-trace-step${item.kind === "human" ? " is-human" : ""}">
+          <time>${escapeManagementText(item.time)}</time>
+          <span class="mg-trace-step-mark"></span>
+          <div class="mg-trace-step-copy"><strong>${item.role}</strong><p>${escapeManagementText(item.action)}</p></div>
         </article>
       `).join("");
       const timelinePane = document.getElementById("mgTimelinePane");
       if (timelinePane) timelinePane.innerHTML = `
         <div class="mg-trace-page">
-          <section class="mg-trace-hero">
-            <div class="mg-trace-hero-head">
-              <div class="mg-trace-hero-copy"><strong>${escapeManagementText(feedback.title)}</strong><span>${escapeManagementText(feedback.issue)}</span></div>
+          <section class="mg-trace-overview">
+            <div class="mg-trace-overview-head">
+              <strong>${escapeManagementText(feedback.title)}</strong>
               <span class="mg-trace-status">已完成人工纠偏</span>
             </div>
-            <dl class="mg-trace-meta">
-              <div><dt>案件号</dt><dd>${escapeManagementText(feedback.caseNo)}</dd></div>
-              <div><dt>业务节点</dt><dd>${escapeManagementText(roleLabel)}管理复核</dd></div>
-              <div><dt>规则版本</dt><dd>${ruleVersionMap[feedback.cluster] || "理赔规则 v1.0.0"}</dd></div>
-              <div><dt>数据来源</dt><dd>${sourceMap[feedback.cluster] || "理赔作业记录"}</dd></div>
-            </dl>
+            <div class="mg-trace-overview-grid">
+              <div><span>案件号</span><strong>${escapeManagementText(feedback.caseNo)}</strong></div>
+              <div><span>业务节点</span><strong>${escapeManagementText(roleLabel)}管理复核</strong></div>
+              <div><span>处理耗时</span><strong>${durationLabel}</strong></div>
+            </div>
+            <p class="mg-trace-issue">${escapeManagementText(feedback.issue)}</p>
           </section>
-          <div class="mg-trace-kpis" aria-label="作业轨迹摘要">
-            <div class="mg-trace-kpi is-primary"><span>Agent 自动处理</span><strong>${timeline.agent.length} 次</strong></div>
-            <div class="mg-trace-kpi"><span>人工处理</span><strong>${timeline.human.length} 次</strong></div>
-            <div class="mg-trace-kpi"><span>全程耗时</span><strong>${durationLabel}</strong></div>
-            <div class="mg-trace-kpi${feedback.risk === "high" ? " is-danger" : ""}"><span>原始风险</span><strong>${feedback.risk === "high" ? "高风险" : "一般风险"}</strong></div>
-          </div>
           <section class="mg-trace-panel">
-            <header class="mg-trace-panel-head">关键判断变化</header>
+            <header class="mg-trace-panel-head">处理结论</header>
             <div class="mg-trace-panel-body">
               <div class="mg-trace-compare">
-                <div class="mg-trace-compare-row is-before"><strong>Agent 原判断</strong><p>${escapeManagementText(feedback.agentDecision)}</p></div>
-                <div class="mg-trace-compare-row is-after"><strong>人工纠偏</strong><p>${escapeManagementText(feedback.humanCorrection)}</p></div>
+                <div class="mg-trace-compare-row"><strong>Agent 判断</strong><p>${escapeManagementText(feedback.agentDecision)}</p></div>
+                <div class="mg-trace-compare-row"><strong>人工修正</strong><p>${escapeManagementText(feedback.humanCorrection)}</p></div>
                 <div class="mg-trace-compare-row is-result"><strong>最终结论</strong><p>${escapeManagementText(feedback.finalResult)}</p></div>
               </div>
             </div>
           </section>
           <section class="mg-trace-panel">
-            <header class="mg-trace-panel-head">完整处理记录</header>
-            <div class="mg-trace-panel-body"><div class="mg-trace-stream">${renderEvents || '<p class="mg-trace-review">暂无处理记录。</p>'}</div></div>
-          </section>
-          <section class="mg-trace-panel">
-            <header class="mg-trace-panel-head">偏差复盘</header>
-            <div class="mg-trace-panel-body"><p class="mg-trace-review">${escapeManagementText(feedback.deviationAnalysis || "已记录本次 Agent 判断与人工结论差异，待纳入下一版本规则评测。")}</p></div>
-          </section>
-          <section class="mg-trace-panel">
-            <header class="mg-trace-panel-head">证据与审计信息</header>
+            <header class="mg-trace-panel-head">关键轨迹</header>
             <div class="mg-trace-panel-body">
-              <dl class="mg-trace-evidence">
-                <div><dt>异常发现</dt><dd>${escapeManagementText(feedback.issue)}</dd></div>
-                <div><dt>作业岗反馈</dt><dd>${escapeManagementText(feedback.description)}</dd></div>
-                <div><dt>后续复核</dt><dd>${escapeManagementText(feedback.followUp || "无退回，无投诉。")}</dd></div>
-                <div><dt>优化方向</dt><dd>${traceTags || "待管理岗补充"}</dd></div>
-                <div><dt>审计状态</dt><dd>证据链完整 · 操作记录可追溯 · 待纳入 Skill 版本评测</dd></div>
-              </dl>
+              <div class="mg-trace-steps">${renderKeyEvents || '<p class="mg-trace-issue">暂无处理记录。</p>'}</div>
+              <div class="mg-trace-direction"><span>优化方向</span>${traceTags || "待管理岗补充"}</div>
             </div>
           </section>
         </div>
@@ -15211,12 +15134,6 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         document.querySelector(".content-tabs")?.prepend(tlTab);
       }
       workspace?.classList.add("management-case-active");
-      if (actionBar && taskDetailActions) {
-        taskDetailActions.hidden = false;
-        actionBar.hidden = false;
-        taskDetailActions.appendChild(actionBar);
-      }
-      if (taskDetailActionBtn) taskDetailActionBtn.hidden = false;
       switchPane("mgTimelinePane");
       setWorkspaceOpen(true);
       return true;
@@ -15238,7 +15155,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         appendDialogueAgentMessage(`<p style="margin:0;color:#c9363e;font-size:13px;line-height:21px;">暂未找到案件 ${escapeManagementText(feedback.caseNo)}，请稍后重试。</p>`);
         return;
       }
-      appendDialogueAgentMessage(`<p style="margin:0;color:#26354f;font-size:13px;line-height:21px;">已在右侧展开案件。作业轨迹使用独立审计视图；案件资料、材料单证、整案任务流及底部操作均复用理赔空间交互。</p>`);
+      appendDialogueAgentMessage(`<p style="margin:0;color:#26354f;font-size:13px;line-height:21px;">已在右侧展开案件。管理端仅提供复盘查看，不展示作业操作按钮。</p>`);
     };
     const showPromptEditFlow = (id) => {
       const feedback = getManagementFeedback(id);
@@ -15472,8 +15389,6 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       "reopen-case": "案件重开：请提供案件号和重开原因。",
       "recovery-claim": "追偿申请：请提供案件号和追偿对象。"
     };
-    const thirdPartyBtn = document.getElementById("thirdPartyBtn");
-    const thirdPartyMenu = document.getElementById("thirdPartyMenu");
     const thirdPartyPrompts = {
       "parts-inquiry": "配件询报供：请提供案件号和配件清单。",
       "parts-carbon": "配件低碳：请提供案件号和待评估配件。",
@@ -15481,6 +15396,8 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       "total-loss": "全损计算：请提供案件号和车辆损失信息。"
     };
     const setThirdPartyMenu = (open) => {
+      const thirdPartyBtn = xosHomeQuickActions?.querySelector("#thirdPartyBtn");
+      const thirdPartyMenu = xosHomeQuickActions?.querySelector("#thirdPartyMenu");
       if (!thirdPartyBtn || !thirdPartyMenu) return;
       thirdPartyMenu.hidden = !open;
       thirdPartyBtn.setAttribute("aria-expanded", String(open));
@@ -15490,6 +15407,11 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       if (analyticsHomeMode && topic) {
         setAnalyticsDemoStage("summary");
         renderAnalyticsDialogue(topic.dataset.analyticsTopic === "overview" ? null : topic.dataset.analyticsTopic);
+        return;
+      }
+      const taskPoolTrigger = event.target.closest("#homeTaskPoolBtn");
+      if (!analyticsHomeMode && taskPoolTrigger) {
+        showHomeDialogue("pool");
         return;
       }
       const action = event.target.closest("[data-home-action]");
@@ -15503,6 +15425,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       }
       const thirdPartyToggle = event.target.closest("#thirdPartyBtn");
       if (!analyticsHomeMode && thirdPartyToggle) {
+        const thirdPartyMenu = xosHomeQuickActions.querySelector("#thirdPartyMenu");
         setThirdPartyMenu(thirdPartyMenu?.hidden);
         return;
       }
@@ -15576,7 +15499,6 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       else showToast("未找到对应任务", "error");
     }));
     if (taskPoolBtn) taskPoolBtn.addEventListener("click", () => showHomeDialogue("pool"));
-    if (homeTaskPoolBtn) homeTaskPoolBtn.addEventListener("click", () => showHomeDialogue("pool"));
     if (homeMetricsBtn) homeMetricsBtn.addEventListener("click", () => openWorkbenchDialog("metrics"));
     if (notificationBtn) notificationBtn.addEventListener("click", () => openWorkbenchDialog("notifications"));
     if (indicatorTrackingBtn) indicatorTrackingBtn.addEventListener("click", () => openWorkbenchDialog("metrics"));
