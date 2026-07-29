@@ -67,6 +67,14 @@ netlify deploy --prod --dir .
 - **角色专属关注指标**：查勘岗关注「录入准确性」（字段识别准确率、信息录入完整性与一致性校验），定损岗关注「图像识别准确率」（损伤部位识别、配件换修判定、工时匹配偏差），核赔岗关注「理算规则与材料交叉校验」（责任-金额一致性、材料完整性、渗漏风险拦截）。每条记录补充角色专属 deviationAnalysis 偏差分析。
 - 涉及文件：`index.html`（CSS 样式、数据层、卡片渲染函数、提示词编辑流程、Demo 控制器步骤、事件绑定）。
 
+### 2026-07-28 四项问题修复：办公区加载 + 右侧面板复用 + 对话区标题 + 技能修改纯对话式
+
+- **办公区延迟加载**：`switchGlobalModule` 中 `fitAgentOfficeFrame` 改为 100ms + 1000ms 双延迟调用，确保 iframe contentDocument 就绪后再注入适配 CSS。
+- **右侧面板复用理赔空间**：管理岗「查看案件详情」不再生成独立面板，而是在已有 `.content-tabs` 前动态插入「作业轨迹」tab，其余 tab（任务信息/案件信息/材料单证/整案任务流/理算信息）直接复用理赔空间已有内容，隐藏定损中心。
+- **隐藏管理岗错误标题**：CSS 增加 `.xos-home.management-home .xos-home-title, .xos-home-mark { display: none; }`。
+- **技能修改改为纯对话式**：去掉 textarea 编辑器和所有胶囊按钮（调试预览/再改改/确认发布），改为 Agent 展示当前提示词后询问「你想怎么修改？」→ 用户在输入框回复修改意见 → Agent 自动调试对比 → 询问「是否确认发布？」→ 用户输入「发布」确认。
+- 涉及文件：`index.html`（CSS 样式、`fitAgentOfficeFrame` 调整、`fillMgCasePanel`/`hideMgCasePanel` 重写、`showPromptEditFlow`/`showPromptDebugResult`/`sendManagementFeedbackMessage` 改为纯对话式）。
+
 ### 2026-07-28 修复办公区 iframe 内素材不显示问题
 
 - **根因**：`fitAgentOfficeFrame` 注入的 CSS 中 agent-panel 固定 360px，在窄屏 iframe 中挤压了 canvas 区域（stage 从 570px 压缩到 285px），导致办公场景素材显示不完整。同时 loading 遮罩的 `is-hidden` 样式在 iframe 内未生效。

@@ -5532,7 +5532,9 @@
     }
 
     .xos-home.management-home .xos-home-brief,
-    .xos-home.management-home .xos-home-quick-actions { display: none; }
+    .xos-home.management-home .xos-home-quick-actions,
+    .xos-home.management-home .xos-home-title,
+    .xos-home.management-home .xos-home-mark { display: none; }
     .xos-home.management-home:not(.show-dialogue) .xos-management-home { display: block; }
     .xos-home.management-home.show-dialogue .xos-management-home { display: none; }
 
@@ -11702,7 +11704,8 @@
         if (agentOfficeFrame?.getAttribute("src") === "about:blank") {
           agentOfficeFrame.src = agentOfficeFrame.dataset.src;
         }
-        window.setTimeout(fitAgentOfficeFrame, 0);
+        window.setTimeout(fitAgentOfficeFrame, 100);
+        window.setTimeout(fitAgentOfficeFrame, 1000);
       } else if (!isClaims) {
         moduleLandingNavTitle.textContent = module.name;
         renderModuleLandingSubnav(moduleKey);
@@ -14830,90 +14833,71 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       `);
       xosHomeDialogueThread.scrollTop = xosHomeDialogueThread.scrollHeight;
     };
+    const ensureMgTimelineTab = () => {
+      if (document.getElementById("mgTimelineTab")) return;
+      const tabs = document.querySelector(".content-tabs");
+      if (!tabs) return;
+      const tab = document.createElement("button");
+      tab.className = "content-tab";
+      tab.type = "button";
+      tab.id = "mgTimelineTab";
+      tab.dataset.pane = "mgTimelinePane";
+      tab.textContent = "作业轨迹";
+      tabs.insertBefore(tab, tabs.firstChild);
+      const pane = document.createElement("div");
+      pane.className = "tab-pane";
+      pane.id = "mgTimelinePane";
+      pane.style.display = "none";
+      const flowPane = document.getElementById("flowPane");
+      if (flowPane) flowPane.parentElement.insertBefore(pane, flowPane);
+      else document.querySelector(".content")?.appendChild(pane);
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".content-tab").forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+        document.querySelectorAll(".tab-pane").forEach((p) => p.style.display = "none");
+        pane.style.display = "block";
+      });
+    };
     const fillMgCasePanel = (feedback) => {
+      ensureMgTimelineTab();
       const timeline = managementCaseTimeline[feedback.id] || { agent: [], human: [] };
       const renderTimeline = (items, role, color) => items.map((item) =>
         `<div class="mg-tl-item"><span class="mg-tl-time">${item.time}</span><span class="mg-tl-dot is-${color}"></span><div class="mg-tl-body"><strong>${role}</strong><span>${escapeManagementText(item.action)}</span></div></div>`
       ).join("");
-      const reason = feedback.reason || skillProfiles[feedback.cluster]?.reason || "待复核";
-      const paneTimeline = document.getElementById("mgCasePaneTimeline");
-      const paneTask = document.getElementById("mgCasePaneTask");
-      const paneCase = document.getElementById("mgCasePaneCase");
-      const paneDoc = document.getElementById("mgCasePaneDoc");
-      const paneFlow = document.getElementById("mgCasePaneFlow");
-      const panePay = document.getElementById("mgCasePanePay");
-      const titleEl = document.getElementById("mgCasePanelTitle");
-      const caseNoEl = document.getElementById("mgCasePanelCaseNo");
-      if (titleEl) titleEl.textContent = "案件详情";
-      if (caseNoEl) caseNoEl.textContent = feedback.caseNo;
-      if (paneTimeline) paneTimeline.innerHTML = `
+      const timelinePane = document.getElementById("mgTimelinePane");
+      if (timelinePane) timelinePane.innerHTML = `
         <div class="mg-tl-agent"><div class="mg-tl-group-label">Agent 自动处理</div><div class="mg-timeline">${renderTimeline(timeline.agent, "Agent", "blue")}</div></div>
         <div class="mg-tl-human"><div class="mg-tl-group-label">人工处理</div><div class="mg-timeline">${renderTimeline(timeline.human, "人工", "green")}</div></div>
       `;
-      if (paneTask) paneTask.innerHTML = `
-        <dl class="mg-case-fields">
-          <div><dt>任务类型</dt><dd>${escapeManagementText(feedback.title)}</dd></div>
-          <div><dt>失败原因</dt><dd>${escapeManagementText(reason)}</dd></div>
-          <div><dt>优化方向</dt><dd>${(feedback.optimizationTags || []).join("、")}</dd></div>
-          <div><dt>风险等级</dt><dd>${feedback.risk === "high" ? "高风险" : "普通"}</dd></div>
-          <div><dt>VIP客户</dt><dd>${feedback.vip ? "是" : "否"}</dd></div>
-        </dl>
-      `;
-      if (paneCase) paneCase.innerHTML = `
-        <dl class="mg-case-fields">
-          <div><dt>案件号</dt><dd>${escapeManagementText(feedback.caseNo)}</dd></div>
-          <div><dt>报案时间</dt><dd>2026-04-15 09:36:21</dd></div>
-          <div><dt>出险地点</dt><dd>上海市浦东新区世纪大道 100 号路口</dd></div>
-          <div><dt>标的车牌</dt><dd>沪A12345</dd></div>
-          <div><dt>三者车牌</dt><dd>沪B61529</dd></div>
-          <div><dt>险种</dt><dd>机动车商业保险</dd></div>
-        </dl>
-      `;
-      if (paneDoc) paneDoc.innerHTML = `
-        <dl class="mg-case-fields">
-          <div><dt>查勘照片</dt><dd>12 张（含 3 张补拍）</dd></div>
-          <div><dt>责任认定书</dt><dd>已上传</dd></div>
-          <div><dt>定损单</dt><dd>已上传</dd></div>
-          <div><dt>维修发票</dt><dd>已上传（¥9,800）</dd></div>
-          <div><dt>结算清单</dt><dd>已上传（¥8,350）</dd></div>
-        </dl>
-      `;
-      if (paneFlow) paneFlow.innerHTML = `
-        <div class="mg-taskflow"><span class="mg-taskflow-node is-done">报案</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node is-done">查勘</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node is-done">定损</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node is-done">核价核损</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node ${feedback.cluster === "review" ? "is-current" : "is-done"}">核赔</span><span class="mg-taskflow-arrow">→</span><span class="mg-taskflow-node">结案</span></div>
-      `;
-      if (panePay) panePay.innerHTML = `
-        <dl class="mg-case-fields">
-          <div><dt>最终赔付金额</dt><dd>${escapeManagementText(feedback.payout || "待确认")}</dd></div>
-          <div><dt>支付方式</dt><dd>银行转账</dd></div>
-          <div><dt>收款账户</dt><dd>招商银行尾号 3381</dd></div>
-          <div><dt>支付状态</dt><dd>${feedback.cluster === "review" ? "已支付" : "待核赔确认"}</dd></div>
-        </dl>
-      `;
-      document.querySelectorAll(".mg-case-panel-tab").forEach((tab) => {
-        const pane = tab.dataset.mgCaseTab;
-        tab.onclick = () => {
-          document.querySelectorAll(".mg-case-panel-tab").forEach((t) => t.classList.toggle("active", t === tab));
-          document.querySelectorAll(".mg-case-panel-pane").forEach((p) => p.classList.toggle("active", p.dataset.mgCasePane === pane));
-        };
-      });
       const content = document.querySelector(".content");
-      const panel = document.getElementById("mgCaseDetailPanel");
       if (content) content.classList.add("mg-case-open");
-      if (panel) panel.hidden = false;
+      document.querySelector(".vehicle-damage-detail")?.style.setProperty("display", "none");
+      document.querySelectorAll(".content-tab").forEach((t) => t.classList.remove("active"));
+      document.querySelectorAll(".tab-pane").forEach((p) => p.style.display = "none");
+      const tlTab = document.getElementById("mgTimelineTab");
+      if (tlTab) tlTab.classList.add("active");
+      if (timelinePane) timelinePane.style.display = "block";
       setWorkspaceOpen(true);
     };
     const hideMgCasePanel = () => {
       const content = document.querySelector(".content");
-      const panel = document.getElementById("mgCaseDetailPanel");
       if (content) content.classList.remove("mg-case-open");
-      if (panel) panel.hidden = true;
+      document.querySelector(".vehicle-damage-detail")?.style.removeProperty("display");
+      const tlTab = document.getElementById("mgTimelineTab");
+      const tlPane = document.getElementById("mgTimelinePane");
+      if (tlTab) tlTab.classList.remove("active");
+      if (tlPane) tlPane.style.display = "none";
+      const taskTab = document.querySelector('[data-pane="taskInfoPane"]');
+      const taskPane = document.getElementById("taskInfoPane");
+      if (taskTab) taskTab.classList.add("active");
+      if (taskPane) taskPane.style.display = "block";
     };
     const showManagementCaseDetail = (id) => {
       const feedback = getManagementFeedback(id);
       if (!feedback || !xosHomeDialogueThread) return;
       appendDialogueUserMessage("查看案件详情");
       fillMgCasePanel(feedback);
-      appendDialogueAgentMessage(`<p style="margin:0;color:#26354f;font-size:13px;line-height:21px;">已为你展开案件详情面板，右侧包含作业轨迹、任务信息、案件信息、材料单证、整案任务流和支付信息。</p>`);
+      appendDialogueAgentMessage(`<p style="margin:0;color:#26354f;font-size:13px;line-height:21px;">已展开案件详情，右侧面板包含作业轨迹、任务信息、案件信息、材料单证、整案任务流和理算信息。其余信息与理赔空间保持一致。</p>`);
     };
     const showPromptEditFlow = (id) => {
       const feedback = getManagementFeedback(id);
@@ -14935,12 +14919,10 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
           <p style="margin:0 0 8px;color:#26354f;font-size:13px;line-height:21px;">我分析了这条反馈的偏差原因：</p>
           <p style="margin:0 0 12px;padding:10px 12px;border-radius:6px;background:#f3f7ff;color:#3f5577;font-size:12px;line-height:19px;">${escapeManagementText(deviationAnalysis)}</p>
           <div class="mg-prompt-block">
-            <label class="mg-prompt-block-label">当前提示词（可直接修改）</label>
-            <textarea class="mg-prompt-textarea" id="mgPromptTextarea">${escapeManagementText(feedback.prompt)}</textarea>
+            <label class="mg-prompt-block-label">当前提示词</label>
+            <div style="padding:10px 12px;border:1px solid #d4dbe7;border-radius:6px;background:#fff;color:#26354f;font-size:12px;line-height:19px;white-space:pre-wrap;">${escapeManagementText(feedback.prompt)}</div>
           </div>
-          <div class="mg-action-row">
-            <button class="mg-action-btn is-skill" type="button" data-mg-action="debug" data-mg-feedback-id="${feedback.id}">调试预览</button>
-          </div>
+          <p style="margin:8px 0 0;color:#5c6680;font-size:12px;line-height:19px;">你想怎么修改？可以直接在下方输入你的修改意见，我会帮你调整提示词并调试。</p>
           <footer class="xos-agent-answer-meta"><strong>XAgent</strong><time>${formatAgentRecordTime()}</time></footer>
         </div>
       `);
@@ -14965,10 +14947,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
             <div class="mg-publish-info-row"><span>版本变更</span><span>${oldVersion} → ${newVersion}</span></div>
             <div class="mg-publish-info-row"><span>灰度比例</span><span>建议先 20% 灰度</span></div>
           </div>
-          <div class="mg-action-row">
-            <button class="mg-action-btn" type="button" data-mg-action="revise" data-mg-feedback-id="${feedback.id}">再改改</button>
-            <button class="mg-action-btn is-primary" type="button" data-mg-action="publish" data-mg-feedback-id="${feedback.id}">确认发布</button>
-          </div>
+          <p style="margin:8px 0 0;color:#5c6680;font-size:12px;line-height:19px;">是否确认发布？输入「发布」确认，或输入修改意见继续调整。</p>
           <footer class="xos-agent-answer-meta"><strong>XAgent</strong><time>${formatAgentRecordTime()}</time></footer>
         </div>
       `);
@@ -15026,12 +15005,19 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       if (!feedback || !message) return false;
       feedback.messages = [...(feedback.messages || []), message];
       xosHomeDialogueThread?.insertAdjacentHTML("beforeend", `
-        <div class="management-dialogue-copy xos-home-dialogue-message user">
-          <p style="margin:0;color:#26354f;font-size:13px;line-height:21px;">${escapeManagementText(message)}</p>
-        </div>
+        <div class="xos-home-dialogue-message user"><p>${escapeManagementText(message)}</p></div>
       `);
       xosHomeDialogueThread.scrollTop = xosHomeDialogueThread.scrollHeight;
       if (xosHomeInput) xosHomeInput.value = "";
+      const lastAgentMsg = xosHomeDialogueThread?.querySelector(".xos-home-dialogue-message.agent:last-of-type p:last-of-type");
+      const agentText = lastAgentMsg?.textContent || "";
+      if (agentText.includes("你想怎么修改")) {
+        window.setTimeout(() => showPromptDebugResult(feedback.id, message), 600);
+      } else if (agentText.includes("是否确认发布") && (message.includes("发布") || message.includes("确认"))) {
+        window.setTimeout(() => showPromptPublished(feedback.id), 600);
+      } else if (agentText.includes("是否确认发布")) {
+        window.setTimeout(() => showPromptEditFlow(feedback.id), 600);
+      }
       return true;
     };
     const activeTaskCluster = () => document.querySelector(".case-row.active")?.dataset.cluster || spActiveTaskContext?.cluster || (spActiveTaskContext?.isReviewTask ? "review" : spActiveTaskContext?.isDamageTask ? "damage" : "survey");
