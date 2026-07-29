@@ -67,6 +67,12 @@ netlify deploy --prod --dir .
 - **角色专属关注指标**：查勘岗关注「录入准确性」（字段识别准确率、信息录入完整性与一致性校验），定损岗关注「图像识别准确率」（损伤部位识别、配件换修判定、工时匹配偏差），核赔岗关注「理算规则与材料交叉校验」（责任-金额一致性、材料完整性、渗漏风险拦截）。每条记录补充角色专属 deviationAnalysis 偏差分析。
 - 涉及文件：`index.html`（CSS 样式、数据层、卡片渲染函数、提示词编辑流程、Demo 控制器步骤、事件绑定）。
 
+### 2026-07-28 修复办公区 iframe 内素材不显示问题
+
+- **根因**：`fitAgentOfficeFrame` 注入的 CSS 中 agent-panel 固定 360px，在窄屏 iframe 中挤压了 canvas 区域（stage 从 570px 压缩到 285px），导致办公场景素材显示不完整。同时 loading 遮罩的 `is-hidden` 样式在 iframe 内未生效。
+- **修复**：调整注入 CSS 为 `grid-template-columns: minmax(0, 1fr) 248px`，减小 workspace padding，固定 panel 宽度为 248px，并强制 `.office-loading.is-hidden` 使用 `!important` 确保 opacity 和 visibility 生效。
+- 涉及文件：`index.html`（`fitAgentOfficeFrame` 函数）。
+
 ### 2026-07-28 修复 JS 语法错误导致办公区和新手引导失效
 
 - **根因**：新手引导脚本中「办公区」描述包含中文引号 “”包裹“与他沟通”，导致 JS 解析器将双引号字符串提前终止，引发 `Unexpected identifier` 语法错误。该错误导致整个 `<script>` 块不执行，进而新手引导不显示、办公区 iframe 不加载。

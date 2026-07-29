@@ -11665,7 +11665,7 @@
         frameStyle.id = "claim-core-agent-office-fit";
         frameDocument.head.appendChild(frameStyle);
       }
-      frameStyle.textContent = "html, body { min-width: 0 !important; } .app-shell { grid-template-columns: minmax(0, 1fr) !important; } .office-layout { grid-template-columns: minmax(0, 1fr) 360px !important; }";
+      frameStyle.textContent = "html, body { min-width: 0 !important; } .app-shell { grid-template-columns: minmax(0, 1fr) !important; } .office-layout { grid-template-columns: minmax(0, 1fr) 248px !important; gap: 10px !important; } .workspace { padding: 6px !important; } .office-stage { height: calc(100vh - 110px) !important; min-height: 460px !important; } .agent-panel { height: calc(100vh - 110px) !important; min-height: 460px !important; } .reference-side { padding: 0 4px 10px 8px !important; } .office-loading.is-hidden { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }";
       const frameWindow = agentOfficeFrame.contentWindow;
       frameWindow?.dispatchEvent(new Event("resize"));
       frameWindow?.drawScene?.(frameWindow.performance.now());

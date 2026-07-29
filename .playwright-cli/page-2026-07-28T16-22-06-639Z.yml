@@ -1,0 +1,155 @@
+- generic [ref=e1]:
+  - main [ref=e3]:
+    - generic "众安保险一级导航" [ref=e4]:
+      - generic "众安保险" [ref=e5]:
+        - img "众安保险" [ref=e6]
+      - navigation "业务模块" [ref=e7]:
+        - button "理赔空间" [ref=e8] [cursor=pointer]
+        - button "办公区" [active] [ref=e9] [cursor=pointer]
+        - button "智能伙伴" [ref=e10] [cursor=pointer]
+        - button "数据分析" [ref=e11] [cursor=pointer]
+        - button "风控中心" [ref=e12] [cursor=pointer]
+        - button "业务管理" [ref=e13] [cursor=pointer]
+        - button "系统管理" [ref=e14] [cursor=pointer]
+      - generic [ref=e15]:
+        - generic [ref=e16]: 车
+        - generic [ref=e17]: 车英俊
+    - region "办公区" [ref=e229]:
+      - iframe [ref=e230]:
+        
+    - text: ✓ ✓ ✓ ✓ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  - complementary [ref=e90]:
+    - generic [ref=e91]:
+      - button "×" [ref=e92] [cursor=pointer]
+      - generic [ref=e93]:
+        - text: 上传材料单证
+        - generic [ref=e94]: (已上传 2 张，已选中 0 张)
+    - generic [ref=e95]:
+      - generic [ref=e96] [cursor=pointer]:
+        - strong [ref=e97]: ⬒
+        - generic [ref=e98]: 将文件拖到此处，或点击上传
+        - generic [ref=e99]: 支持 JPG、PNG、PDF 格式，AI 自动识别分类
+      - generic [ref=e100]:
+        - generic [ref=e101]:
+          - checkbox "全选所有图片" [ref=e102]
+          - text: 全选所有图片
+        - generic [ref=e103]: 已选 0 张
+      - generic [ref=e104]:
+        - heading "Agent 建议材料单证分类" [level=4] [ref=e105]
+        - tablist "材料单证一级分类" [ref=e106]:
+          - tab "查勘照片" [selected] [ref=e107] [cursor=pointer]
+          - tab "公用单证" [ref=e108] [cursor=pointer]
+          - tab "标的车损 - 车牌号" [ref=e109] [cursor=pointer]
+          - tab "三者车损 - 车牌号" [ref=e110] [cursor=pointer]
+          - tab "支付 - 姓名" [ref=e111] [cursor=pointer]
+          - tab "特殊结案类型" [ref=e112] [cursor=pointer]
+    - generic [ref=e113]:
+      - button "取消" [ref=e114] [cursor=pointer]
+      - button "完成上传" [ref=e115] [cursor=pointer]
+  - complementary [ref=e116]:
+    - generic [ref=e117]:
+      - button "×" [ref=e118] [cursor=pointer]
+      - generic [ref=e119]: 提起调查
+    - generic [ref=e120]:
+      - tablist "提调信息" [ref=e121]:
+        - button "规则提调" [ref=e122] [cursor=pointer]
+        - button "历史提调" [ref=e123] [cursor=pointer]
+      - generic [ref=e124]:
+        - generic [ref=e125]:
+          - generic [ref=e126]: 规则提调信息
+          - table [ref=e128]:
+            - rowgroup [ref=e129]:
+              - row [ref=e130]:
+                - columnheader "规则提调项" [ref=e131]
+                - columnheader "类型" [ref=e132]
+            - rowgroup
+        - generic [ref=e133]:
+          - generic [ref=e134]: 本次提调信息
+          - generic [ref=e135]:
+            - generic [ref=e136]:
+              - checkbox "全选" [ref=e137]
+              - text: 全选
+            - button "批量删除" [ref=e138] [cursor=pointer]
+          - table [ref=e140]:
+            - rowgroup [ref=e141]:
+              - row [ref=e142]:
+                - columnheader [ref=e143]
+                - columnheader "提调日期" [ref=e144]
+                - columnheader "调查事项" [ref=e145]
+                - columnheader "问题说明" [ref=e146]
+                - columnheader "类型" [ref=e147]
+                - columnheader "具体描述" [ref=e148]
+                - columnheader "操作" [ref=e149]
+            - rowgroup
+    - generic [ref=e150]:
+      - button "取消" [ref=e151] [cursor=pointer]
+      - button "提交" [ref=e152] [cursor=pointer]
+  - complementary [ref=e153]:
+    - generic [ref=e154]:
+      - button "×" [ref=e155] [cursor=pointer]
+      - generic [ref=e156]: 零注申请
+    - generic [ref=e157]:
+      - tablist "零注申请" [ref=e158]:
+        - button "零注申请" [ref=e159] [cursor=pointer]
+        - button "历史记录" [ref=e160] [cursor=pointer]
+      - generic [ref=e162]:
+        - generic [ref=e163]: 零注申请信息
+        - generic [ref=e164]:
+          - generic [ref=e165]: "* 申请原因"
+          - combobox "* 申请原因" [ref=e166]:
+            - option "不属于投保险别或险种出险" [selected]
+            - option "事故责任不成立"
+            - option "重复报案"
+        - generic [ref=e167]:
+          - generic [ref=e168]: 申请类型
+          - generic [ref=e169]:
+            - generic [ref=e170]:
+              - radio "零结" [ref=e171]
+              - text: 零结
+            - generic [ref=e172]:
+              - radio "注销" [checked] [ref=e173]
+              - text: 注销
+        - generic [ref=e174]:
+          - generic [ref=e175]: "* 申请机构"
+          - combobox "* 申请机构" [ref=e176]:
+            - option "310000 - 上海分公司" [selected]
+            - option "440000 - 广东分公司"
+            - option "110000 - 北京分公司"
+        - generic [ref=e177]:
+          - generic [ref=e178]: "* 申请详细原因"
+          - textbox "* 申请详细原因" [ref=e179]: 经核实，本案损失不属于投保险别或险种出险范围，建议发起注销类零注申请。
+    - generic [ref=e180]:
+      - button "提交" [ref=e181] [cursor=pointer]
+      - button "取消" [ref=e182] [cursor=pointer]
+  - complementary [ref=e183]:
+    - generic [ref=e184]:
+      - button "×" [ref=e185] [cursor=pointer]
+      - generic [ref=e186]: 转交任务
+    - generic [ref=e187]:
+      - generic [ref=e188]:
+        - generic [ref=e189]: 选择转交对象
+        - textbox "搜索姓名 / 工号 / 机构，支持直接搜索人员" [ref=e191]
+        - generic [ref=e192]: 可直接输入姓名快速检索，选中后点击确认转交。
+      - generic [ref=e193]:
+        - generic [ref=e194]: 转交说明
+        - textbox "请填写转交原因或说明（选填）" [ref=e195]
+    - generic [ref=e196]:
+      - button "确认转交" [ref=e197] [cursor=pointer]
+      - button "取消" [ref=e198] [cursor=pointer]
+  - complementary [ref=e199]:
+    - generic [ref=e200]:
+      - button "×" [ref=e201] [cursor=pointer]
+      - generic [ref=e202]: 大案上报
+    - generic [ref=e203]:
+      - generic [ref=e204]:
+        - generic [ref=e205]: 上报原因
+        - generic [ref=e206]:
+          - button "损失可能扩大" [ref=e207] [cursor=pointer]
+          - button "多方争议风险" [ref=e208] [cursor=pointer]
+          - button "资料不足需跟踪" [ref=e209] [cursor=pointer]
+      - generic [ref=e210]:
+        - generic [ref=e211]: 上报说明
+        - textbox [ref=e212]: 预计损失可能扩大，需提前上报大案并跟踪三者车损、现场照片及后续定损金额变化。
+    - generic [ref=e213]:
+      - button "取消" [ref=e214] [cursor=pointer]
+      - button "提交" [ref=e215] [cursor=pointer]
