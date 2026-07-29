@@ -5532,9 +5532,8 @@
     }
 
     .xos-home.management-home .xos-home-brief,
-    .xos-home.management-home .xos-home-quick-actions,
-    .xos-home.management-home .xos-home-title,
-    .xos-home.management-home .xos-home-mark { display: none; }
+    .xos-home.management-home .xos-home-overview-actions,
+    .xos-home.management-home .xos-home-quick-actions { display: none; }
     .xos-home.management-home:not(.show-dialogue) .xos-management-home { display: block; }
     .xos-home.management-home.show-dialogue .xos-management-home { display: none; }
 
@@ -5658,7 +5657,85 @@
     .management-feedback-actions button.is-skill { border-color: #00c070; color: #00a060; }
     .management-feedback-actions button.is-skill:hover { border-color: #00c070; background: #f0fdf6; color: #00a060; }
 
-    /* 提示词编辑流程 */
+    /* Skill 对话式修改流程 */
+    .mg-skill-stage-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #edf1f5;
+    }
+    .mg-skill-stage-index {
+      display: grid;
+      flex: 0 0 auto;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border-radius: 7px;
+      background: #175dff;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .mg-skill-stage-title { min-width: 0; flex: 1; }
+    .mg-skill-stage-title strong { display: block; color: #202a39; font-size: 14px; line-height: 20px; }
+    .mg-skill-stage-title small { display: block; margin-top: 2px; color: #748195; font-size: 11px; line-height: 17px; }
+    .mg-skill-stage-status {
+      flex: 0 0 auto;
+      padding: 3px 7px;
+      border-radius: 4px;
+      background: #eef3ff;
+      color: #175dff;
+      font-size: 11px;
+      font-style: normal;
+      line-height: 17px;
+    }
+    .mg-skill-stage-status.is-success { background: #eaf8f1; color: #148653; }
+    .mg-skill-analysis {
+      margin: 0 0 12px;
+      padding: 10px 12px;
+      border-left: 3px solid #175dff;
+      background: #f3f7ff;
+      color: #3f5577;
+      font-size: 12px;
+      line-height: 19px;
+    }
+    .mg-skill-request {
+      margin: 0 0 12px;
+      padding: 10px 12px;
+      border: 1px solid #e1e8eb;
+      border-radius: 6px;
+      background: #fafbfd;
+      color: #344155;
+      font-size: 12px;
+      line-height: 19px;
+    }
+    .mg-skill-request strong { display: block; margin-bottom: 4px; color: #66758a; font-size: 11px; }
+    .mg-skill-next {
+      margin: 12px 0 0;
+      padding-top: 10px;
+      border-top: 1px solid #edf1f5;
+      color: #5c6680;
+      font-size: 12px;
+      line-height: 19px;
+    }
+    .mg-skill-next strong { color: #175dff; font-weight: 600; }
+    .mg-debug-validation { display: grid; gap: 6px; margin: 10px 0 0; }
+    .mg-debug-validation-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 10px;
+      border: 1px solid #e7ecf3;
+      border-radius: 6px;
+      background: #fafbfd;
+      color: #465267;
+      font-size: 12px;
+      line-height: 18px;
+    }
+    .mg-debug-validation-item b { color: #148653; font-size: 11px; font-weight: 600; }
     .mg-prompt-block { margin: 12px 0; padding: 14px; border: 1px solid #e0e6f0; border-radius: 8px; background: #fafbfd; }
     .mg-prompt-block-label { display: block; margin-bottom: 8px; color: #5c6680; font-size: 12px; font-weight: 600; }
     .mg-prompt-textarea { width: 100%; min-height: 80px; padding: 10px 12px; border: 1px solid #d4dbe7; border-radius: 6px; background: #fff; color: #26354f; font-size: 13px; line-height: 20px; resize: vertical; }
@@ -5710,11 +5787,30 @@
     .xos-home.management-home.show-dialogue .xos-home-brief,
     .xos-home.management-home.show-dialogue .xos-home-overview-actions,
     .xos-home.management-home.show-dialogue .xos-home-quick-actions { display: none !important; }
-    .xos-home.management-home.show-dialogue .xos-home-center { align-items: stretch; justify-content: flex-start; padding-top: 16px; }
-    .xos-home.management-home .xos-home-dialogue-message.agent { max-width: 100%; padding: 0; border: 0; border-radius: 0; background: transparent; }
-    .xos-home.management-home .management-dialogue-copy { gap: 12px; padding: 0; }
+    .xos-home.management-home.show-dialogue .xos-home-center { align-items: center; justify-content: flex-start; padding-top: 16px; }
+    .xos-home.management-home.show-dialogue .xos-home-dialogue { width: min(760px, 100%); margin: 0 auto; }
+    .xos-home.management-home.management-case-open.show-dialogue .xos-home-center { align-items: stretch; }
+    .xos-home.management-home.management-case-open.show-dialogue .xos-home-dialogue { margin-right: auto; margin-left: 0; }
+    .xos-home.management-home .xos-home-dialogue-message.agent {
+      align-self: flex-start;
+      justify-self: start;
+      width: min(720px, 92%);
+      max-width: 92%;
+      padding: 12px 14px;
+      border: 1px solid #e1e8eb;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(31, 45, 61, .04);
+    }
+    .xos-home.management-home .management-dialogue-copy { gap: 12px; }
+    .xos-home.management-home .management-dialogue-copy:has(> .management-feedback-card) {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+    }
     .xos-home.management-home .xos-agent-answer-meta { margin-top: 0; }
-    .xos-home-dialogue-message.user { align-self: flex-end; max-width: 80%; padding: 10px 14px; border: 1px solid #e1e8eb; border-radius: 8px; background: #f2f4f8; color: #222; }
+    .xos-home-dialogue-message.user { align-self: flex-end; justify-self: end; max-width: 78%; padding: 10px 14px; border: 1px solid #e1e8eb; border-radius: 8px; background: #f2f4f8; color: #222; }
     .xos-home-dialogue-message.user p { margin: 0; font-size: 13px; line-height: 20px; }
 
     .xos-home-dialogue-back {
@@ -6276,20 +6372,25 @@
     .sp-cursor-card {
       max-width: min(720px, 92%);
       border-color: #eeeeee;
-      border-radius: 18px;
+      border-radius: 8px;
       box-shadow: none;
     }
 
     .sp-message.user .sp-bubble {
-      border-radius: 18px;
+      max-width: min(560px, 78%);
+      border-radius: 8px;
       background: #f1f3f5;
-      border-color: #f1f3f5;
+      border-color: #e1e8eb;
       color: #202124;
     }
 
     .sp-agent-reply {
       max-width: min(720px, 92%);
-      padding: 2px 0;
+      padding: 12px 14px;
+      border: 1px solid #e1e8eb;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(31, 45, 61, .04);
       color: #293241;
       font-size: 14px;
       line-height: 22px;
@@ -6300,6 +6401,23 @@
       border: 1px solid #e4e8f0;
       border-radius: 8px;
       background: #fff;
+    }
+
+    .sp-message:not(.user) > .sp-task-dialogue {
+      max-width: min(720px, 92%);
+      padding: 12px 14px;
+      border: 1px solid #e1e8eb;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(31, 45, 61, .04);
+    }
+
+    .sp-message:not(.user) > .sp-task-dialogue:has(> .sp-task-decision-card),
+    .sp-message:not(.user) > .sp-task-dialogue:has(> .management-feedback-card) {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
     }
 
     .sp-message-meta {
@@ -9900,7 +10018,9 @@
           <section class="demo-lifecycle-group" data-demo-role-group="survey-manage"><h3>管理岗 · 查勘</h3><div class="demo-lifecycle-steps">
             <button class="demo-lifecycle-step" type="button" data-demo-manager-home="survey"><i>H</i><span><strong>首页查看待办</strong><small>进入 Skill 反馈待办并去处理</small></span></button>
             <button class="demo-lifecycle-step" type="button" data-demo-feedback="survey-liability"><i>F</i><span><strong>查看反馈闭环</strong><small>五维溯源：判断→修正→结果→后续→赔付</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-edit-prompt="survey-liability"><i>P</i><span><strong>修改提示词并发布</strong><small>对话式调试与灰度发布</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="edit" data-demo-skill-feedback="survey-liability"><i>M</i><span><strong>修改技能</strong><small>用自然语言补充规则与修改目标</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="debug" data-demo-skill-feedback="survey-liability"><i>T</i><span><strong>调试技能</strong><small>对比修改前后并校验测试样本</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="publish" data-demo-skill-feedback="survey-liability"><i>P</i><span><strong>发布技能</strong><small>确认版本、灰度比例与回滚策略</small></span></button>
           </div></section>
           <section class="demo-lifecycle-group" data-demo-role-group="damage-work"><h3>作业岗 · 定损</h3><div class="demo-lifecycle-steps">
             <button class="demo-lifecycle-step" type="button" data-demo-stage="2"><i>3</i><span><strong>首页查看待办</strong><small>异常和高风险定损任务进入待办</small></span></button>
@@ -9911,7 +10031,9 @@
           <section class="demo-lifecycle-group" data-demo-role-group="damage-manage"><h3>管理岗 · 定损</h3><div class="demo-lifecycle-steps">
             <button class="demo-lifecycle-step" type="button" data-demo-manager-home="damage"><i>H</i><span><strong>首页查看待办</strong><small>进入 Skill 反馈待办并去处理</small></span></button>
             <button class="demo-lifecycle-step" type="button" data-demo-feedback="damage-image"><i>F</i><span><strong>查看反馈闭环</strong><small>五维溯源：判断→修正→结果→后续→赔付</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-edit-prompt="damage-image"><i>P</i><span><strong>修改提示词并发布</strong><small>对话式调试与灰度发布</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="edit" data-demo-skill-feedback="damage-image"><i>M</i><span><strong>修改技能</strong><small>用自然语言补充规则与修改目标</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="debug" data-demo-skill-feedback="damage-image"><i>T</i><span><strong>调试技能</strong><small>对比修改前后并校验测试样本</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="publish" data-demo-skill-feedback="damage-image"><i>P</i><span><strong>发布技能</strong><small>确认版本、灰度比例与回滚策略</small></span></button>
           </div></section>
           <section class="demo-lifecycle-group" data-demo-role-group="review-work"><h3>作业岗 · 核赔</h3><div class="demo-lifecycle-steps">
             <button class="demo-lifecycle-step" type="button" data-demo-stage="5"><i>6</i><span><strong>首页查看待办</strong><small>异常和高风险核赔任务进入待办</small></span></button>
@@ -9922,7 +10044,9 @@
           <section class="demo-lifecycle-group" data-demo-role-group="review-manage"><h3>管理岗 · 核赔</h3><div class="demo-lifecycle-steps">
             <button class="demo-lifecycle-step" type="button" data-demo-manager-home="review"><i>H</i><span><strong>首页查看待办</strong><small>进入 Skill 反馈待办并去处理</small></span></button>
             <button class="demo-lifecycle-step" type="button" data-demo-feedback="review-rule"><i>F</i><span><strong>查看反馈闭环</strong><small>五维溯源：判断→修正→结果→后续→赔付</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-edit-prompt="review-rule"><i>P</i><span><strong>修改提示词并发布</strong><small>对话式调试与灰度发布</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="edit" data-demo-skill-feedback="review-rule"><i>M</i><span><strong>修改技能</strong><small>用自然语言补充规则与修改目标</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="debug" data-demo-skill-feedback="review-rule"><i>T</i><span><strong>调试技能</strong><small>对比修改前后并校验测试样本</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="publish" data-demo-skill-feedback="review-rule"><i>P</i><span><strong>发布技能</strong><small>确认版本、灰度比例与回滚策略</small></span></button>
           </div></section>
         </div>
         <div class="demo-stage-actions">
@@ -14614,7 +14738,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
           ${resultMessage ? `<p class="management-feedback-card-result">${escapeManagementText(resultMessage)}</p>` : ""}
           <div class="management-feedback-actions">
             <button class="is-danger" type="button" data-management-feedback-action="ignore" data-management-feedback-id="${feedback.id}"${feedback.status === "ignored" ? " disabled" : ""}>${feedback.status === "ignored" ? "已忽视反馈" : "忽视反馈"}</button>
-            ${feedback.status === "published" ? "" : `<button class="is-skill" type="button" data-management-feedback-action="edit-prompt" data-management-feedback-id="${feedback.id}">修改提示词并发布</button>`}
+            ${feedback.status === "published" ? "" : `<button class="is-skill" type="button" data-management-feedback-action="edit-prompt" data-management-feedback-id="${feedback.id}">修改技能</button>`}
             <button class="is-primary" type="button" data-management-feedback-action="view-case" data-management-feedback-id="${feedback.id}">查看案件详情</button>
           </div>
         </section>
@@ -14643,7 +14767,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       if (!xosHome?.classList.contains("management-home")) return;
       activeManagementCluster = null;
       activeManagementFeedbackId = null;
-      xosHome.classList.remove("management-home", "show-dialogue");
+      xosHome.classList.remove("management-home", "show-dialogue", "management-case-open");
       if (xosHomeTitle) xosHomeTitle.innerHTML = xosHomeDefaultTitle;
       if (xosHomeInput) xosHomeInput.placeholder = xosHomeDefaultInputPlaceholder;
       xosHomeDialogueThread?.replaceChildren();
@@ -14651,11 +14775,13 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     const showManagementHome = (cluster) => {
       restoreHomeTaskDialogue();
       activeManagementCluster = cluster;
+      hideMgCasePanel();
       workspace?.classList.remove("task-active");
       setWorkspaceOpen(false);
       setTaskListVisible(false);
       setXosHome(true);
       xosHome?.classList.remove("show-dialogue");
+      xosHome?.classList.remove("management-case-open");
       xosHome?.classList.add("management-home");
       activeManagementFeedbackId = null;
       if (xosHomeTitle) xosHomeTitle.innerHTML = xosHomeDefaultTitle;
@@ -14833,6 +14959,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       activeManagementCluster = feedback.cluster;
       activeManagementFeedbackId = feedback.id;
       xosHome?.classList.add("management-home", "show-dialogue");
+      xosHome?.classList.add("management-case-open");
       if (xosHomeDialogueThread) xosHomeDialogueThread.innerHTML = conversationHtml;
       setTaskListVisible(false);
       setTaskTabVisibility(Boolean(spActiveTaskContext?.isReviewTask), true);
@@ -14864,6 +14991,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       retainedManagementFeedbackId = null;
       workspace?.classList.remove("task-active");
       setWorkspaceOpen(false);
+      xosHome?.classList.remove("management-case-open");
     };
     const showManagementCaseDetail = (id) => {
       const feedback = getManagementFeedback(id);
@@ -14886,14 +15014,18 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const focusMetric = managementFocusMetrics[feedback.cluster];
       const deviationAnalysis = feedback.deviationAnalysis || "建议根据反馈内容优化提示词中的判定条件与置信度阈值。";
       appendDialogueAgentMessage(`
+        <header class="mg-skill-stage-head">
+          <span class="mg-skill-stage-index">1</span>
+          <span class="mg-skill-stage-title"><strong>修改技能</strong><small>先明确偏差原因，再用自然语言补充规则</small></span>
+          <em class="mg-skill-stage-status">等待输入</em>
+        </header>
         ${focusMetric ? `<div class="mg-focus-metric is-inline"><span class="mg-focus-metric-label">${escapeManagementText(focusMetric.label)}</span><span class="mg-focus-metric-desc">${escapeManagementText(focusMetric.desc)}</span></div>` : ""}
-        <p style="margin:0 0 8px;color:#26354f;font-size:13px;line-height:21px;">我分析了这条反馈的偏差原因：</p>
-        <p style="margin:0 0 12px;padding:10px 12px;border-radius:6px;background:#f3f7ff;color:#3f5577;font-size:12px;line-height:19px;">${escapeManagementText(deviationAnalysis)}</p>
+        <p class="mg-skill-analysis">${escapeManagementText(deviationAnalysis)}</p>
         <div class="mg-prompt-block">
-          <label class="mg-prompt-block-label">当前提示词</label>
-          <div style="padding:10px 12px;border:1px solid #d4dbe7;border-radius:6px;background:#fff;color:#26354f;font-size:12px;line-height:19px;white-space:pre-wrap;">${escapeManagementText(feedback.prompt)}</div>
+          <span class="mg-prompt-block-label">当前技能规则</span>
+          <div class="mg-skill-request">${escapeManagementText(feedback.prompt)}</div>
         </div>
-        <p style="margin:8px 0 0;color:#5c6680;font-size:12px;line-height:19px;">你想怎么修改？直接在下方输入修改意见，我会调整提示词并运行一次调试。</p>
+        <p class="mg-skill-next"><strong>下一步</strong>　你想怎么修改？直接在下方描述修改目标，我会更新技能并自动运行调试。</p>
       `);
     };
     const showPromptDebugResult = (id, editedPrompt) => {
@@ -14904,18 +15036,27 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const oldVersion = (profile.version || "v1.2");
       const newVersion = oldVersion.replace(/(\d+)$/, (_, n) => Number(n) + 1);
       appendDialogueAgentMessage(`
-        <p style="margin:0 0 8px;color:#26354f;font-size:13px;line-height:21px;">已用修改后的提示词重新跑了一遍该案件，结果对比：</p>
+        <header class="mg-skill-stage-head">
+          <span class="mg-skill-stage-index">2</span>
+          <span class="mg-skill-stage-title"><strong>调试技能</strong><small>回放当前案件，并校验相邻风险样本</small></span>
+          <em class="mg-skill-stage-status is-success">调试通过</em>
+        </header>
+        <div class="mg-skill-request"><strong>本次修改目标</strong>${escapeManagementText(editedPrompt || "根据人工修正补充判定边界，并提高异常样本的交叉校验优先级。")}</div>
         <div class="mg-debug-compare">
           <div class="mg-debug-col is-before"><strong>修改前</strong><span>${escapeManagementText(feedback.agentDecision || "原提示词结果")}</span></div>
           <div class="mg-debug-col is-after"><strong>修改后</strong><span>${escapeManagementText(feedback.finalResult || "已与人工结论一致")}</span></div>
         </div>
-        <p style="margin:0 0 12px;color:#00a060;font-size:12px;line-height:19px;">✓ 修改后与人工结论基本一致，偏差已消除。</p>
+        <div class="mg-debug-validation">
+          <div class="mg-debug-validation-item"><span>当前反馈案件回放</span><b>通过</b></div>
+          <div class="mg-debug-validation-item"><span>同类型边界样本 12 条</span><b>12 / 12 通过</b></div>
+          <div class="mg-debug-validation-item"><span>原有技能回归样本 48 条</span><b>无新增偏差</b></div>
+        </div>
         <div class="mg-publish-info">
           <div class="mg-publish-info-row"><span>技能名称</span><span>${escapeManagementText(feedback.title)}</span></div>
           <div class="mg-publish-info-row"><span>版本变更</span><span>${oldVersion} → ${newVersion}</span></div>
           <div class="mg-publish-info-row"><span>灰度比例</span><span>建议先 20% 灰度</span></div>
         </div>
-        <p style="margin:8px 0 0;color:#5c6680;font-size:12px;line-height:19px;">是否确认发布？输入「发布」确认，或输入修改意见继续调整。</p>
+        <p class="mg-skill-next"><strong>下一步</strong>　是否确认发布？输入“发布”确认，或继续描述修改意见。</p>
       `);
     };
     const showPromptPublished = (id) => {
@@ -14927,12 +15068,17 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const oldVersion = (profile.version || "v1.2");
       const newVersion = oldVersion.replace(/(\d+)$/, (_, n) => Number(n) + 1);
       appendDialogueAgentMessage(`
-        <p style="margin:0 0 6px;color:#26354f;font-size:13px;line-height:21px;">✓ 技能已发布！</p>
+        <header class="mg-skill-stage-head">
+          <span class="mg-skill-stage-index">3</span>
+          <span class="mg-skill-stage-title"><strong>发布技能</strong><small>新版本已进入灰度，可审计、可回滚</small></span>
+          <em class="mg-skill-stage-status is-success">发布成功</em>
+        </header>
         <div class="mg-publish-info">
           <div class="mg-publish-info-row"><span>发布技能</span><span>${escapeManagementText(feedback.title)} ${newVersion}</span></div>
           <div class="mg-publish-info-row"><span>灰度比例</span><span>20%（预计 3 天后全量）</span></div>
           <div class="mg-publish-info-row"><span>优化方向</span><span>${(feedback.optimizationTags || []).join("、")}</span></div>
           <div class="mg-publish-info-row"><span>回滚状态</span><span>可一键回滚至 ${oldVersion}</span></div>
+          <div class="mg-publish-info-row"><span>审计记录</span><span>已记录反馈、修改与测试结果</span></div>
         </div>
       `);
       showToast(`${feedback.title} 已发布，灰度生效中`);
@@ -14942,7 +15088,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       if (!feedback) return;
       enterManagementConversation(feedback);
       if (button.dataset.managementFeedbackAction === "edit-prompt") {
-        appendDialogueUserMessage("修改提示词并发布");
+        appendDialogueUserMessage("修改技能");
         showPromptEditFlow(feedback.id);
         return;
       }
@@ -15494,6 +15640,17 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         });
       });
     };
+    const recordTaskActionConversation = (userText, agentText) => {
+      if (!userText || !agentText || !Array.isArray(spMessages) || typeof spRenderChat !== "function") return;
+      spMessages.push({ role: "user", text: userText });
+      spMessages.push({
+        role: "agent",
+        html: true,
+        text: `<p style="margin:0;">${spEscape(agentText)}</p>`
+      });
+      spSetTab("chat");
+      spRenderChat();
+    };
     const openDamageEvidenceDocument = (field) => {
       const profile = damageEvidenceProfiles[field];
       if (!profile) return;
@@ -15507,6 +15664,10 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       selectedDocId = file.id;
       switchPane("docPane");
       renderDocPage();
+      recordTaskActionConversation(
+        `查看无法识别图片：${profile.partName}`,
+        `已在右侧材料单证中定位“${profile.name}”。请结合原图确认损伤部位与处理方式。`
+      );
       window.requestAnimationFrame(() => {
         const card = docMainGrid?.querySelector(`[data-doc-id="${file.id}"]`);
         if (!card) return;
@@ -15519,12 +15680,17 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     const openTaskSupplementField = (field) => {
       if (!field || !taskSupplementPanel) return;
       const cluster = document.querySelector(".case-row.active")?.dataset.cluster || spActiveTaskContext?.cluster;
+      const control = taskSupplementPanel.querySelector(`[data-task-supplement-field="${field}"]`);
+      const fieldLabel = control?.closest(".task-supplement-item")?.querySelector(".task-supplement-item-head strong")?.textContent?.trim() || "待补充信息";
       setWorkspaceOpen(true);
       taskSupplementPanel.classList.remove("is-collapsed");
       taskSupplementToggle?.setAttribute("aria-expanded", "true");
       switchPane(cluster === "review" ? "aiReviewPane" : "taskInfoPane");
+      recordTaskActionConversation(
+        `处理：${fieldLabel}`,
+        `已在右侧定位“${fieldLabel}”。你可以直接填写或选择，保存后我会继续校验案件结论。`
+      );
       window.requestAnimationFrame(() => {
-        const control = taskSupplementPanel.querySelector(`[data-task-supplement-field="${field}"]`);
         const item = control?.closest(".task-supplement-item");
         if (!control || !item) return;
         item.classList.add("is-target");
@@ -15546,6 +15712,10 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       selectedDocId = file.id;
       switchPane("docPane");
       renderDocPage();
+      recordTaskActionConversation(
+        `查看问题材料：${profile.name}`,
+        `已在右侧材料单证中定位“${profile.name}”，并标记需要复核的位置。`
+      );
       window.requestAnimationFrame(() => {
         const card = docMainGrid?.querySelector(`[data-doc-id="${file.id}"]`);
         if (!card) return;
@@ -15566,6 +15736,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         ? activePaneId
         : (isReviewTask ? "docPane" : "taskInfoPane");
       switchPane(paneId);
+      recordTaskActionConversation("查看任务详情", "已在右侧展开完整任务详情，并保留当前案件上下文。");
     };
     const openTaskOverview = () => {
       setWorkspaceOpen(true);
@@ -15578,6 +15749,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         ? activePaneId
         : (isReviewTask ? "docPane" : "taskInfoPane");
       switchPane(paneId);
+      recordTaskActionConversation("返回任务概览", "已切回右侧任务概览，你可以继续从对话中发起处理。");
     };
     const addDamageQuickPart = () => {
       const input = taskSupplementPanel?.querySelector("[data-damage-quick-part]");
@@ -16539,7 +16711,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     const demoSkillButtons = Array.from(document.querySelectorAll("[data-demo-skill]"));
     const demoManagerHomeButtons = Array.from(document.querySelectorAll("[data-demo-manager-home]"));
     const demoFeedbackButtons = Array.from(document.querySelectorAll("[data-demo-feedback]"));
-    const demoEditPromptButtons = Array.from(document.querySelectorAll("[data-demo-edit-prompt]"));
+    const demoSkillStageButtons = Array.from(document.querySelectorAll("[data-demo-skill-stage]"));
     const demoLifecyclePending = document.getElementById("demoLifecyclePending");
     const demoLifecycleRisk = document.getElementById("demoLifecycleRisk");
     const demoLifecycleTaskTitle = document.getElementById("demoLifecycleTaskTitle");
@@ -16630,6 +16802,8 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       demoStageButtons.forEach((button) => button.classList.toggle("is-current", Number(button.dataset.demoStage) === demoCurrentStage));
       demoSkillButtons.forEach((button) => button.classList.remove("is-current"));
       demoManagerHomeButtons.forEach((button) => button.classList.remove("is-current"));
+      demoFeedbackButtons.forEach((button) => button.classList.remove("is-current"));
+      demoSkillStageButtons.forEach((button) => button.classList.remove("is-current"));
       demoRoleGroups.forEach((group) => group.classList.toggle("is-active", group.dataset.demoRoleGroup === stage.role));
       updateDemoHomePending(stage);
       if (stage.view === "home") {
@@ -16658,6 +16832,8 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       demoStageButtons.forEach((button) => button.classList.remove("is-current"));
       demoSkillButtons.forEach((button) => button.classList.toggle("is-current", button.dataset.demoSkill === skill));
       demoManagerHomeButtons.forEach((button) => button.classList.remove("is-current"));
+      demoFeedbackButtons.forEach((button) => button.classList.remove("is-current"));
+      demoSkillStageButtons.forEach((button) => button.classList.remove("is-current"));
       demoRoleGroups.forEach((group) => group.classList.toggle("is-active", group.dataset.demoRoleGroup === profile.group));
       if (showFeedback) {
         openSkillOptimization(skill === "review" ? "review-reject" : "manual-submit", () => showToast(`${profile.title}已提交，管理岗待办已更新`));
@@ -16671,8 +16847,37 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       demoStageButtons.forEach((button) => button.classList.remove("is-current"));
       demoSkillButtons.forEach((button) => button.classList.remove("is-current"));
       demoManagerHomeButtons.forEach((button) => button.classList.toggle("is-current", button.dataset.demoManagerHome === cluster));
+      demoFeedbackButtons.forEach((button) => button.classList.remove("is-current"));
+      demoSkillStageButtons.forEach((button) => button.classList.remove("is-current"));
       demoRoleGroups.forEach((group) => group.classList.toggle("is-active", group.dataset.demoRoleGroup === `${cluster}-manage`));
       showManagementHome(cluster);
+    };
+    const demoSkillStagePrompts = {
+      survey: "把责任判断改成先核对责任依据与变道关系；证据冲突或置信度低于 0.75 时转人工确认。",
+      damage: "补充灯具反光和遮挡场景的识别规则；无法确认维修或更换时，优先要求补拍近景并转人工。",
+      review: "核赔前强制校验上游责任比例变更记录；理算结果与最新责任材料不一致时阻断自动通过。"
+    };
+    const openDemoManagementSkillStage = (button) => {
+      const feedback = getManagementFeedback(button.dataset.demoSkillFeedback);
+      const stage = button.dataset.demoSkillStage;
+      if (!feedback || !stage) return;
+      openDemoManagerHome(feedback.cluster);
+      showManagementFeedbackDialogue(feedback.id);
+      if (stage === "edit") {
+        appendDialogueUserMessage("修改技能");
+        showPromptEditFlow(feedback.id);
+      } else if (stage === "debug") {
+        const prompt = demoSkillStagePrompts[feedback.cluster] || demoSkillStagePrompts.survey;
+        appendDialogueUserMessage(prompt);
+        showPromptDebugResult(feedback.id, prompt);
+      } else if (stage === "publish") {
+        appendDialogueUserMessage("确认发布技能");
+        showPromptPublished(feedback.id);
+      }
+      demoManagerHomeButtons.forEach((item) => item.classList.remove("is-current"));
+      demoFeedbackButtons.forEach((item) => item.classList.remove("is-current"));
+      demoSkillStageButtons.forEach((item) => item.classList.toggle("is-current", item === button));
+      if (demoStageCount) demoStageCount.textContent = stage === "edit" ? "修改技能" : stage === "debug" ? "调试技能" : "发布技能";
     };
     const markDemoSkillGap = () => openDemoSkillFeedback("review", false);
     demoPrevBtn?.addEventListener("click", () => applyDemoStage(demoCurrentStage - 1));
@@ -16690,16 +16895,12 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       if (feedback) {
         openDemoManagerHome(feedback.cluster);
         showManagementFeedbackDialogue(id);
+        demoManagerHomeButtons.forEach((item) => item.classList.remove("is-current"));
+        demoFeedbackButtons.forEach((item) => item.classList.toggle("is-current", item === button));
+        if (demoStageCount) demoStageCount.textContent = "反馈";
       }
     }));
-    demoEditPromptButtons.forEach((button) => button.addEventListener("click", () => {
-      const id = button.dataset.demoEditPrompt;
-      const feedback = getManagementFeedback(id);
-      if (feedback) {
-        openDemoManagerHome(feedback.cluster);
-        showPromptEditFlow(id);
-      }
-    }));
+    demoSkillStageButtons.forEach((button) => button.addEventListener("click", () => openDemoManagementSkillStage(button)));
     applyDemoStage(0);
     if (caseQueryBtn && caseQueryMask) {
       caseQueryBtn.addEventListener("click", () => {
