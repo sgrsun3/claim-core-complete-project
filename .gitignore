@@ -4,3 +4,4 @@
 # 编辑器
 .vscode/
 .idea/
+.playwright-cli/
