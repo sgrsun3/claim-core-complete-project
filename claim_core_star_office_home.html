@@ -796,19 +796,25 @@
     const tip = document.getElementById('canvasTip');
     const officeLoading = document.getElementById('officeLoading');
     const officeBackdrop = new Image();
-    officeBackdrop.src = 'assets/office/office.png';
+    officeBackdrop.decoding = 'async';
+    officeBackdrop.fetchPriority = 'high';
     officeBackdrop.onload = () => drawScene(performance.now());
+    officeBackdrop.src = 'assets/office/office.webp';
     const officeDesk = new Image();
-    officeDesk.src = 'assets/office/desk.png';
+    officeDesk.decoding = 'async';
+    officeDesk.onload = () => drawScene(performance.now());
+    officeDesk.src = 'assets/office/desk.webp';
     const officeChair = new Image();
-    officeChair.src = 'assets/office/chair.png';
+    officeChair.decoding = 'async';
+    officeChair.onload = () => drawScene(performance.now());
+    officeChair.src = 'assets/office/chair.webp';
     const agentSpriteSheets = [
-      { image: new Image(), frameWidth: 192, frameHeight: 208, columns: 8, src: 'assets/admin-penguin-spritesheet.webp' },
-      { image: new Image(), frameWidth: 192, frameHeight: 208, columns: 8, src: 'assets/prompt-penguin-spritesheet.webp' },
-      { image: new Image(), frameWidth: 192, frameHeight: 208, columns: 8, src: 'assets/ai-spritesheet.webp' },
-      { image: new Image(), frameWidth: 192, frameHeight: 208, columns: 8, src: 'assets/calcifer-spritesheet.webp' },
-      { image: new Image(), frameWidth: 192, frameHeight: 208, columns: 8, src: 'assets/bocchi-spritesheet.webp' },
-      { image: new Image(), frameWidth: 192, frameHeight: 208, columns: 8, src: 'assets/ayanami-spritesheet.webp' }
+      { image: new Image(), frameWidth: 96, frameHeight: 104, columns: 8, src: 'assets/admin-penguin-spritesheet.webp' },
+      { image: new Image(), frameWidth: 96, frameHeight: 104, columns: 8, src: 'assets/prompt-penguin-spritesheet.webp' },
+      { image: new Image(), frameWidth: 96, frameHeight: 104, columns: 8, src: 'assets/ai-spritesheet.webp' },
+      { image: new Image(), frameWidth: 96, frameHeight: 104, columns: 8, src: 'assets/calcifer-spritesheet.webp' },
+      { image: new Image(), frameWidth: 96, frameHeight: 104, columns: 8, src: 'assets/bocchi-spritesheet.webp' },
+      { image: new Image(), frameWidth: 96, frameHeight: 104, columns: 8, src: 'assets/ayanami-spritesheet.webp' }
     ];
     let readySpriteCount = 0;
     let loadingDismissed = false;
@@ -822,11 +828,13 @@
       if (readySpriteCount >= agentSpriteSheets.length) window.setTimeout(dismissOfficeLoading, 360);
     };
     agentSpriteSheets.forEach(({ image, src }) => {
-      image.src = src;
+      image.decoding = 'async';
+      image.fetchPriority = 'high';
       image.onload = () => { drawScene(performance.now()); markSpriteReady(); };
       image.onerror = markSpriteReady;
+      image.src = src;
     });
-    window.setTimeout(dismissOfficeLoading, 1800);
+    window.setTimeout(dismissOfficeLoading, 4000);
     let canvasWidth = 0;
     let canvasHeight = 0;
     let selectedId = null;

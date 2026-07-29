@@ -24,28 +24,20 @@ python3 -m http.server 8080
 http://127.0.0.1:8080/
 ```
 
-直接双击 `index.html` 也可以打开，但使用本地 HTTP 服务更接近 Netlify 的线上环境。
+直接双击 `index.html` 也可以打开，但使用本地 HTTP 服务更接近 GitHub Pages 的线上环境。
 
-## 部署到 Netlify
+## 部署到 GitHub Pages
 
-- 在线地址：<https://xos-claimsystem.netlify.app/>
-- GitHub 仓库：<https://github.com/sgrsun3/claim-core-complete-project>
+- 在线地址：<https://sgrsun3.github.io/xos-claimsystem/>
+- GitHub 仓库：<https://github.com/sgrsun3/xos-claimsystem>
 
-采用 **Git 持续部署**：每次 `git push origin main` 后，Netlify 自动拉取并发布，约 1 分钟生效。
+发布目标仅为 GitHub Pages，不发布到 Netlify。当前仓库从 `main` 分支根目录提供静态页面：
 
 ```bash
 git add -A
- git commit -m "更新说明"
- git push
+git commit -m "更新说明"
+git push origin main
 ```
-
-也可将本目录整体拖入 Netlify Deploys，或使用 CLI：
-
-```bash
-netlify deploy --prod --dir .
-```
-
-`netlify.toml` 已将当前目录设为发布目录（`publish = "."`，无构建命令）。
 
 ## 外部依赖状态
 
@@ -57,6 +49,15 @@ netlify deploy --prod --dir .
 完整文件用途见 [RESOURCE_MANIFEST.md](RESOURCE_MANIFEST.md)。
 
 ## 更新记录
+
+### 2026-07-29 修复办公区加载与管理岗全对话式 Skill 交互
+
+- **办公区完整加载**：修复 iframe 文档头未就绪时注入样式导致的运行时错误；办公场景改用 WebP，6 个人物精灵图从约 12 MB 合计压缩至约 1.4 MB，并在资源完成时即时刷新画布。
+- **右侧详情复用理赔空间**：管理岗点击「查看案件详情」后加载对应真实案件；除新增「作业轨迹」外，任务信息、案件信息、材料单证、整案任务流和支付/理算信息均复用理赔空间原有内容及交互。
+- **对话态隐藏首页引导**：进入 Skill 处理对话后隐藏「让我们在理赔空间做些什么」、首页简报与快捷入口；返回首页时恢复。
+- **所有业务按钮对话化**：进入反馈、修改提示词、查看案件、忽视反馈、发送修改意见和确认发布均连续追加用户任务记录与 XAgent 回复；支持 Enter 发送，去除胶囊式流程按钮。
+- **交互样式统一**：参考 Codex / WorkBuddy，将管理岗交互改为内容优先的连续任务记录，统一 8 px 圆角、克制边框和 `XAgent · 时间` 元信息。
+- 涉及文件：`index.html`、`claim_core_star_office_home.html`、办公区 WebP 素材及 Agent 精灵图。
 
 ### 2026-07-28 管理岗 Skill 闭环溯源链 + 对话式提示词修改发布
 

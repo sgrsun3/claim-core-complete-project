@@ -4,7 +4,7 @@
 
 | 文件 | 用途 | 是否直接访问 |
 |---|---|---|
-| `index.html` | Netlify 和本地服务器默认入口，包含理赔空间、办公区、智能伙伴、数据分析、风控中心、业务管理和系统管理 | 是 |
+| `index.html` | GitHub Pages 和本地服务器默认入口，包含理赔空间、办公区、智能伙伴、数据分析、风控中心、业务管理和系统管理 | 是 |
 | `claim_core_vehicle_survey_page_v4.html` | 主页面原始文件名，供办公区任务跳转使用 | 是 |
 | `claim_core_star_office_home.html` | 办公区 iframe，包含顶部指标、办公室场景和理赔动态 | 由主页面加载 |
 
@@ -21,27 +21,27 @@
 
 | 文件 | 用途 |
 |---|---|
-| `assets/office/office.png` | 办公室整体背景 |
-| `assets/office/desk.png` | Agent 办公桌 |
-| `assets/office/chair.png` | Agent 办公椅 |
+| `assets/office/office.webp` | 办公室整体背景（首屏加载优化版） |
+| `assets/office/desk.webp` | Agent 办公桌（首屏加载优化版） |
+| `assets/office/chair.webp` | Agent 办公椅（首屏加载优化版） |
 
 ## Agent 动画精灵图
 
 | 文件 | 用途 |
 |---|---|
-| `assets/admin-penguin-spritesheet.webp` | 调度 Agent 形象 |
-| `assets/prompt-penguin-spritesheet.webp` | Agent 形象 |
-| `assets/ai-spritesheet.webp` | Agent 形象 |
-| `assets/calcifer-spritesheet.webp` | Agent 形象 |
-| `assets/bocchi-spritesheet.webp` | Agent 形象 |
-| `assets/ayanami-spritesheet.webp` | Agent 形象 |
+| `assets/admin-penguin-spritesheet.webp` | 调度 Agent 形象（768×936 优化版） |
+| `assets/prompt-penguin-spritesheet.webp` | Agent 形象（768×936 优化版） |
+| `assets/ai-spritesheet.webp` | Agent 形象（768×936 优化版） |
+| `assets/calcifer-spritesheet.webp` | Agent 形象（768×936 优化版） |
+| `assets/bocchi-spritesheet.webp` | Agent 形象（768×936 优化版） |
+| `assets/ayanami-spritesheet.webp` | Agent 形象（768×936 优化版） |
 
 ## 配置与说明
 
 | 文件 | 用途 |
 |---|---|
 | `README.md` | 项目入口、本地运行和部署说明 |
-| `netlify.toml` | Netlify 静态站点发布目录配置 |
+| `netlify.toml` | 历史静态站点配置；当前不作为发布目标 |
 | `RESOURCE_MANIFEST.md` | 本文件，说明所有页面和素材的用途 |
 
 ## 依赖结论

@@ -5614,11 +5614,12 @@
       height: 32px;
       padding: 0 12px;
       border: 1px solid #d7dde7;
-      border-radius: 5px;
+      border-radius: 8px;
       background: #fff;
       color: #556070;
       font-size: 12px;
       cursor: pointer;
+      transition: border-color .15s ease, background .15s ease, color .15s ease;
     }
 
     .management-feedback-actions button:hover { border-color: #9ab8ff; color: #175dff; }
@@ -5626,7 +5627,7 @@
     .management-feedback-actions button.is-danger { border-color: #f1c4c4; color: #d84242; }
     .management-feedback-actions button.is-danger:hover { border-color: #df7777; background: #fff7f7; color: #c9363e; }
     .management-feedback-actions button:disabled { opacity: .55; cursor: default; }
-    .management-feedback-card { overflow: hidden; border: 1px solid #dfe5ee; border-radius: 10px; background: #fff; box-shadow: 0 5px 18px rgba(31, 42, 58, .08); }
+    .management-feedback-card { overflow: hidden; border: 1px solid #dfe5ee; border-radius: 8px; background: #fff; }
     .management-feedback-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 15px; border-bottom: 1px solid #e9edf3; background: #f8faff; }
     .management-feedback-card-head strong { color: #202a39; font-size: 14px; line-height: 20px; }
     .management-feedback-card-head span { color: #66758a; font-size: 11px; line-height: 18px; }
@@ -5641,7 +5642,8 @@
     .sp-management-skill-card { margin-bottom: 12px; }
 
     /* Skill 闭环溯源卡片 */
-    .mg-focus-metric { display: flex; align-items: center; gap: 8px; padding: 8px 15px; border-bottom: 1px solid #edf1f5; background: linear-gradient(90deg, #f0f4ff, #fafbfd); }
+    .mg-focus-metric { display: flex; align-items: center; gap: 8px; padding: 8px 15px; border-bottom: 1px solid #edf1f5; background: #f5f8ff; }
+    .mg-focus-metric.is-inline { margin-bottom: 12px; border: 1px solid #dce6fa; border-radius: 8px; }
     .mg-focus-metric-label { display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 4px; background: #175dff; color: #fff; font-size: 11px; font-weight: 600; white-space: nowrap; }
     .mg-focus-metric-desc { color: #5c6680; font-size: 11px; line-height: 18px; }
     .mg-trace-chain { display: grid; gap: 0; padding: 4px 15px 8px; }
@@ -5702,41 +5704,17 @@
     .mg-taskflow-node.is-current { background: #175dff; color: #fff; font-weight: 600; }
     .mg-taskflow-arrow { color: #c5cad3; font-size: 12px; }
 
-    /* 管理岗右侧案件详情面板 */
-    .mg-case-panel { display: none; flex-direction: column; min-width: 0; flex: 1; overflow: hidden; background: #fff; border-radius: 8px; border: 1px solid #e1e8eb; }
-    .mg-case-panel[hidden] { display: none !important; }
-    .content.mg-case-open .vehicle-damage-detail,
-    .content.mg-case-open .content-tabs,
-    .content.mg-case-open > .tab-pane,
-    .content.mg-case-open > .task-detail-actions,
-    .content.mg-case-open > .content-workspace-close { display: none !important; }
-    .content.mg-case-open .mg-case-panel { display: flex; }
-    .mg-case-panel-head { padding: 12px 16px; border-bottom: 1px solid #edf1f5; }
-    .mg-case-panel-title-row { display: flex; align-items: center; gap: 10px; }
-    .mg-case-panel-title-row strong { color: #202a39; font-size: 15px; }
-    .mg-case-panel-case-no { color: #748195; font-size: 12px; }
-    .mg-case-panel-tabs { display: flex; gap: 2px; padding: 0 12px; border-bottom: 1px solid #edf1f5; overflow-x: auto; }
-    .mg-case-panel-tab { flex-shrink: 0; padding: 10px 14px; border: 0; border-bottom: 2px solid transparent; background: none; color: #66758a; font-size: 13px; cursor: pointer; white-space: nowrap; }
-    .mg-case-panel-tab:hover { color: #175dff; }
-    .mg-case-panel-tab.active { color: #175dff; border-bottom-color: #175dff; font-weight: 600; }
-    .mg-case-panel-body { flex: 1; overflow-y: auto; padding: 16px; }
-    .mg-case-panel-pane { display: none; }
-    .mg-case-panel-pane.active { display: block; }
-    .mg-case-panel-pane .mg-tl-agent,
-    .mg-case-panel-pane .mg-tl-human { margin-bottom: 14px; }
-    .mg-case-panel-pane .mg-case-fields > div { padding: 4px 0; }
-
-    /* 对话式按钮统一样式 */
-    .mg-action-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 80px; height: 32px; padding: 0 14px; border: 1px solid #d7dde7; border-radius: 6px; background: #fff; color: #556070; font-size: 12px; cursor: pointer; transition: all .15s ease; }
-    .mg-action-btn:hover { border-color: #9ab8ff; color: #175dff; }
-    .mg-action-btn.is-skill { border-color: #00c070; color: #00a060; }
-    .mg-action-btn.is-skill:hover { border-color: #00c070; background: #f0fdf6; color: #00a060; }
-    .mg-action-btn.is-primary { border-color: #175dff; background: #175dff; color: #fff; }
-    .mg-action-btn.is-primary:hover { background: #1247d4; border-color: #1247d4; }
-    .mg-action-row { display: flex; justify-content: flex-end; gap: 8px; }
-
-    /* 对话区用户消息气泡 */
-    .xos-home-dialogue-message.user { align-self: flex-end; max-width: 80%; padding: 10px 14px; border-radius: 12px 12px 2px 12px; background: #175dff; color: #fff; }
+    /* 管理岗使用 Codex / WorkBuddy 风格的连续任务记录。 */
+    .xos-home.management-home.show-dialogue .xos-home-mark,
+    .xos-home.management-home.show-dialogue .xos-home-title,
+    .xos-home.management-home.show-dialogue .xos-home-brief,
+    .xos-home.management-home.show-dialogue .xos-home-overview-actions,
+    .xos-home.management-home.show-dialogue .xos-home-quick-actions { display: none !important; }
+    .xos-home.management-home.show-dialogue .xos-home-center { align-items: stretch; justify-content: flex-start; padding-top: 16px; }
+    .xos-home.management-home .xos-home-dialogue-message.agent { max-width: 100%; padding: 0; border: 0; border-radius: 0; background: transparent; }
+    .xos-home.management-home .management-dialogue-copy { gap: 12px; padding: 0; }
+    .xos-home.management-home .xos-agent-answer-meta { margin-top: 0; }
+    .xos-home-dialogue-message.user { align-self: flex-end; max-width: 80%; padding: 10px 14px; border: 1px solid #e1e8eb; border-radius: 8px; background: #f2f4f8; color: #222; }
     .xos-home-dialogue-message.user p { margin: 0; font-size: 13px; line-height: 20px; }
 
     .xos-home-dialogue-back {
@@ -10155,30 +10133,6 @@
               </div>
             </section>
           </section>
-          <section class="mg-case-panel" id="mgCaseDetailPanel" hidden aria-label="管理岗案件详情">
-            <div class="mg-case-panel-head">
-              <div class="mg-case-panel-title-row">
-                <strong id="mgCasePanelTitle">案件详情</strong>
-                <span class="mg-case-panel-case-no" id="mgCasePanelCaseNo"></span>
-              </div>
-            </div>
-            <div class="mg-case-panel-tabs" role="tablist" aria-label="管理岗案件详情">
-              <button class="mg-case-panel-tab active" type="button" role="tab" aria-selected="true" data-mg-case-tab="timeline">作业轨迹</button>
-              <button class="mg-case-panel-tab" type="button" role="tab" aria-selected="false" data-mg-case-tab="task">任务信息</button>
-              <button class="mg-case-panel-tab" type="button" role="tab" aria-selected="false" data-mg-case-tab="case">案件信息</button>
-              <button class="mg-case-panel-tab" type="button" role="tab" aria-selected="false" data-mg-case-tab="doc">材料单证</button>
-              <button class="mg-case-panel-tab" type="button" role="tab" aria-selected="false" data-mg-case-tab="flow">整案任务流</button>
-              <button class="mg-case-panel-tab" type="button" role="tab" aria-selected="false" data-mg-case-tab="pay">支付信息</button>
-            </div>
-            <div class="mg-case-panel-body">
-              <div class="mg-case-panel-pane active" data-mg-case-pane="timeline" id="mgCasePaneTimeline"></div>
-              <div class="mg-case-panel-pane" data-mg-case-pane="task" id="mgCasePaneTask"></div>
-              <div class="mg-case-panel-pane" data-mg-case-pane="case" id="mgCasePaneCase"></div>
-              <div class="mg-case-panel-pane" data-mg-case-pane="doc" id="mgCasePaneDoc"></div>
-              <div class="mg-case-panel-pane" data-mg-case-pane="flow" id="mgCasePaneFlow"></div>
-              <div class="mg-case-panel-pane" data-mg-case-pane="pay" id="mgCasePanePay"></div>
-            </div>
-          </section>
           <div class="content-tabs" role="tablist" aria-label="车物查勘页面">
             <button class="content-tab ai-review-tab" type="button" id="aiReviewTab" data-pane="aiReviewPane" hidden>AI核赔</button>
             <button class="content-tab active" type="button" data-pane="taskInfoPane">任务信息</button>
@@ -11660,7 +11614,7 @@
     const fitAgentOfficeFrame = () => {
       if (!agentOfficeFrame || agentOfficeView.hidden) return;
       const frameDocument = agentOfficeFrame.contentDocument;
-      if (!frameDocument) return;
+      if (!frameDocument?.head) return;
       let frameStyle = frameDocument.getElementById("claim-core-agent-office-fit");
       if (!frameStyle) {
         frameStyle = frameDocument.createElement("style");
@@ -14708,10 +14662,12 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       if (xosHomeInput) xosHomeInput.placeholder = "选择一条 Skill 反馈后，在对话中补充修改";
       renderManagementHome();
     };
-    const showManagementFeedbackDialogue = (id, resultMessage = "") => {
-      const feedback = getManagementFeedback(id);
-      if (!feedback || !xosHomeDialogueThread || !xosHome) return;
-      activeManagementFeedbackId = id;
+    const enterManagementConversation = (feedback) => {
+      if (!feedback || !xosHome) return false;
+      restoreHomeTaskDialogue();
+      activeManagementCluster = feedback.cluster;
+      activeManagementFeedbackId = feedback.id;
+      setXosHome(true);
       xosHome.classList.add("management-home", "show-dialogue");
       if (xosHomeInput) {
         xosHomeInput.value = "";
@@ -14720,23 +14676,21 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const sendLabel = xosHomeSend?.querySelector("span");
       if (sendLabel) sendLabel.textContent = "发送";
       if (xosHomeSend) xosHomeSend.setAttribute("title", "发送");
+      return true;
+    };
+    const showManagementFeedbackDialogue = (id, resultMessage = "") => {
+      const feedback = getManagementFeedback(id);
+      if (!feedback || !xosHomeDialogueThread || !xosHome) return;
+      enterManagementConversation(feedback);
       if (resultMessage) {
-        xosHomeDialogueThread.insertAdjacentHTML("beforeend", `
-          <div class="management-dialogue-copy xos-home-dialogue-message agent">
-            <p class="management-feedback-card-result" style="margin:0;">${escapeManagementText(resultMessage)}</p>
-            <footer class="xos-agent-answer-meta"><strong>XAgent</strong><time>${formatAgentRecordTime()}</time></footer>
-          </div>
-        `);
-        xosHomeDialogueThread.scrollTop = xosHomeDialogueThread.scrollHeight;
+        appendDialogueAgentMessage(`<p class="management-feedback-card-result" style="margin:0;">${escapeManagementText(resultMessage)}</p>`);
         return;
       }
       xosHomeDialogueThread.innerHTML = `
         <button class="xos-home-dialogue-back" type="button" data-home-dialogue-back aria-label="返回管理待办" title="返回管理待办"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button>
-        <div class="management-dialogue-copy xos-home-dialogue-message agent">
-          ${renderManagementFeedbackCard(feedback, { resultMessage })}
-          <footer class="xos-agent-answer-meta"><strong>XAgent</strong><time>${formatAgentRecordTime()}</time></footer>
-        </div>
       `;
+      appendDialogueUserMessage(`处理 Skill 反馈：${feedback.title}`);
+      appendDialogueAgentMessage(renderManagementFeedbackCard(feedback));
     };
     const managementCaseTimeline = {
       "survey-liability": {
@@ -14847,18 +14801,41 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const pane = document.createElement("div");
       pane.className = "tab-pane";
       pane.id = "mgTimelinePane";
-      pane.style.display = "none";
       const flowPane = document.getElementById("flowPane");
       if (flowPane) flowPane.parentElement.insertBefore(pane, flowPane);
       else document.querySelector(".content")?.appendChild(pane);
-      tab.addEventListener("click", () => {
-        document.querySelectorAll(".content-tab").forEach((t) => t.classList.remove("active"));
-        tab.classList.add("active");
-        document.querySelectorAll(".tab-pane").forEach((p) => p.style.display = "none");
-        pane.style.display = "block";
-      });
+      if (tabs.dataset.managementTimelineBound !== "true") {
+        tabs.dataset.managementTimelineBound = "true";
+        tabs.addEventListener("click", (event) => {
+          const selectedTab = event.target.closest(".content-tab");
+          const timelineTab = document.getElementById("mgTimelineTab");
+          const timelinePane = document.getElementById("mgTimelinePane");
+          if (!selectedTab || !timelinePane) return;
+          if (selectedTab === timelineTab) {
+            document.querySelectorAll(".content-tab").forEach((item) => item.classList.remove("active"));
+            document.querySelectorAll(".tab-pane").forEach((item) => item.classList.remove("active"));
+            timelineTab.classList.add("active");
+            timelinePane.classList.add("active");
+            return;
+          }
+          timelinePane.classList.remove("active");
+        });
+      }
     };
     const fillMgCasePanel = (feedback) => {
+      const row = allCaseRows().find((item) => item.querySelector(".case-row-main")?.textContent?.trim() === feedback.caseNo);
+      if (!row) return false;
+      const conversationHtml = xosHomeDialogueThread?.innerHTML || "";
+      retainedManagementFeedbackId = feedback.id;
+      activateCaseRow(row, { preserveManagementSkillCard: true });
+      restoreHomeTaskDialogue();
+      setXosHome(true);
+      activeManagementCluster = feedback.cluster;
+      activeManagementFeedbackId = feedback.id;
+      xosHome?.classList.add("management-home", "show-dialogue");
+      if (xosHomeDialogueThread) xosHomeDialogueThread.innerHTML = conversationHtml;
+      setTaskListVisible(false);
+      setTaskTabVisibility(Boolean(spActiveTaskContext?.isReviewTask), true);
       ensureMgTimelineTab();
       const timeline = managementCaseTimeline[feedback.id] || { agent: [], human: [] };
       const renderTimeline = (items, role, color) => items.map((item) =>
@@ -14869,115 +14846,101 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         <div class="mg-tl-agent"><div class="mg-tl-group-label">Agent 自动处理</div><div class="mg-timeline">${renderTimeline(timeline.agent, "Agent", "blue")}</div></div>
         <div class="mg-tl-human"><div class="mg-tl-group-label">人工处理</div><div class="mg-timeline">${renderTimeline(timeline.human, "人工", "green")}</div></div>
       `;
-      const content = document.querySelector(".content");
-      if (content) content.classList.add("mg-case-open");
-      document.querySelector(".vehicle-damage-detail")?.style.setProperty("display", "none");
       document.querySelectorAll(".content-tab").forEach((t) => t.classList.remove("active"));
-      document.querySelectorAll(".tab-pane").forEach((p) => p.style.display = "none");
+      document.querySelectorAll(".tab-pane").forEach((p) => p.classList.remove("active"));
       const tlTab = document.getElementById("mgTimelineTab");
-      if (tlTab) tlTab.classList.add("active");
-      if (timelinePane) timelinePane.style.display = "block";
+      if (tlTab) {
+        tlTab.hidden = false;
+        tlTab.classList.add("active");
+        document.querySelector(".content-tabs")?.prepend(tlTab);
+      }
+      if (timelinePane) timelinePane.classList.add("active");
       setWorkspaceOpen(true);
+      return true;
     };
     const hideMgCasePanel = () => {
-      const content = document.querySelector(".content");
-      if (content) content.classList.remove("mg-case-open");
-      document.querySelector(".vehicle-damage-detail")?.style.removeProperty("display");
-      const tlTab = document.getElementById("mgTimelineTab");
-      const tlPane = document.getElementById("mgTimelinePane");
-      if (tlTab) tlTab.classList.remove("active");
-      if (tlPane) tlPane.style.display = "none";
-      const taskTab = document.querySelector('[data-pane="taskInfoPane"]');
-      const taskPane = document.getElementById("taskInfoPane");
-      if (taskTab) taskTab.classList.add("active");
-      if (taskPane) taskPane.style.display = "block";
+      document.getElementById("mgTimelineTab")?.remove();
+      document.getElementById("mgTimelinePane")?.remove();
+      retainedManagementFeedbackId = null;
+      workspace?.classList.remove("task-active");
+      setWorkspaceOpen(false);
     };
     const showManagementCaseDetail = (id) => {
       const feedback = getManagementFeedback(id);
       if (!feedback || !xosHomeDialogueThread) return;
+      enterManagementConversation(feedback);
       appendDialogueUserMessage("查看案件详情");
-      fillMgCasePanel(feedback);
-      appendDialogueAgentMessage(`<p style="margin:0;color:#26354f;font-size:13px;line-height:21px;">已展开案件详情，右侧面板包含作业轨迹、任务信息、案件信息、材料单证、整案任务流和理算信息。其余信息与理赔空间保持一致。</p>`);
+      if (!fillMgCasePanel(feedback)) {
+        appendDialogueAgentMessage(`<p style="margin:0;color:#c9363e;font-size:13px;line-height:21px;">暂未找到案件 ${escapeManagementText(feedback.caseNo)}，请稍后重试。</p>`);
+        return;
+      }
+      appendDialogueAgentMessage(`<p style="margin:0;color:#26354f;font-size:13px;line-height:21px;">已在右侧展开案件。除新增的「作业轨迹」外，其余任务信息均直接复用理赔空间中的案件数据与交互。</p>`);
     };
     const showPromptEditFlow = (id) => {
       const feedback = getManagementFeedback(id);
       if (!feedback || !xosHomeDialogueThread || !xosHome) return;
-      activeManagementFeedbackId = id;
-      xosHome.classList.add("management-home", "show-dialogue");
+      enterManagementConversation(feedback);
       if (xosHomeInput) {
-        xosHomeInput.value = "";
         xosHomeInput.placeholder = "可在此补充修改说明";
       }
-      const sendLabel = xosHomeSend?.querySelector("span");
-      if (sendLabel) sendLabel.textContent = "发送";
-      const clusterLabel = managementRoleLabels[feedback.cluster] || "";
       const focusMetric = managementFocusMetrics[feedback.cluster];
       const deviationAnalysis = feedback.deviationAnalysis || "建议根据反馈内容优化提示词中的判定条件与置信度阈值。";
-      xosHomeDialogueThread.insertAdjacentHTML("beforeend", `
-        <div class="management-dialogue-copy xos-home-dialogue-message agent">
-          ${focusMetric ? `<div class="mg-focus-metric" style="margin-bottom:10px;"><span class="mg-focus-metric-label">${escapeManagementText(focusMetric.label)}</span><span class="mg-focus-metric-desc">${escapeManagementText(focusMetric.desc)}</span></div>` : ""}
-          <p style="margin:0 0 8px;color:#26354f;font-size:13px;line-height:21px;">我分析了这条反馈的偏差原因：</p>
-          <p style="margin:0 0 12px;padding:10px 12px;border-radius:6px;background:#f3f7ff;color:#3f5577;font-size:12px;line-height:19px;">${escapeManagementText(deviationAnalysis)}</p>
-          <div class="mg-prompt-block">
-            <label class="mg-prompt-block-label">当前提示词</label>
-            <div style="padding:10px 12px;border:1px solid #d4dbe7;border-radius:6px;background:#fff;color:#26354f;font-size:12px;line-height:19px;white-space:pre-wrap;">${escapeManagementText(feedback.prompt)}</div>
-          </div>
-          <p style="margin:8px 0 0;color:#5c6680;font-size:12px;line-height:19px;">你想怎么修改？可以直接在下方输入你的修改意见，我会帮你调整提示词并调试。</p>
-          <footer class="xos-agent-answer-meta"><strong>XAgent</strong><time>${formatAgentRecordTime()}</time></footer>
+      appendDialogueAgentMessage(`
+        ${focusMetric ? `<div class="mg-focus-metric is-inline"><span class="mg-focus-metric-label">${escapeManagementText(focusMetric.label)}</span><span class="mg-focus-metric-desc">${escapeManagementText(focusMetric.desc)}</span></div>` : ""}
+        <p style="margin:0 0 8px;color:#26354f;font-size:13px;line-height:21px;">我分析了这条反馈的偏差原因：</p>
+        <p style="margin:0 0 12px;padding:10px 12px;border-radius:6px;background:#f3f7ff;color:#3f5577;font-size:12px;line-height:19px;">${escapeManagementText(deviationAnalysis)}</p>
+        <div class="mg-prompt-block">
+          <label class="mg-prompt-block-label">当前提示词</label>
+          <div style="padding:10px 12px;border:1px solid #d4dbe7;border-radius:6px;background:#fff;color:#26354f;font-size:12px;line-height:19px;white-space:pre-wrap;">${escapeManagementText(feedback.prompt)}</div>
         </div>
+        <p style="margin:8px 0 0;color:#5c6680;font-size:12px;line-height:19px;">你想怎么修改？直接在下方输入修改意见，我会调整提示词并运行一次调试。</p>
       `);
-      xosHomeDialogueThread.scrollTop = xosHomeDialogueThread.scrollHeight;
     };
     const showPromptDebugResult = (id, editedPrompt) => {
       const feedback = getManagementFeedback(id);
       if (!feedback || !xosHomeDialogueThread) return;
+      enterManagementConversation(feedback);
       const profile = skillProfiles[feedback.cluster] || {};
       const oldVersion = (profile.version || "v1.2");
       const newVersion = oldVersion.replace(/(\d+)$/, (_, n) => Number(n) + 1);
-      xosHomeDialogueThread.insertAdjacentHTML("beforeend", `
-        <div class="management-dialogue-copy xos-home-dialogue-message agent">
-          <p style="margin:0 0 8px;color:#26354f;font-size:13px;line-height:21px;">已用修改后的提示词重新跑了一遍该案件，结果对比：</p>
-          <div class="mg-debug-compare">
-            <div class="mg-debug-col is-before"><strong>修改前</strong><span>${escapeManagementText(feedback.agentDecision || "原提示词结果")}</span></div>
-            <div class="mg-debug-col is-after"><strong>修改后</strong><span>${escapeManagementText(feedback.finalResult || "已与人工结论一致")}</span></div>
-          </div>
-          <p style="margin:0 0 12px;color:#00a060;font-size:12px;line-height:19px;">✓ 修改后与人工结论基本一致，偏差已消除。</p>
-          <div class="mg-publish-info">
-            <div class="mg-publish-info-row"><span>技能名称</span><span>${escapeManagementText(feedback.title)}</span></div>
-            <div class="mg-publish-info-row"><span>版本变更</span><span>${oldVersion} → ${newVersion}</span></div>
-            <div class="mg-publish-info-row"><span>灰度比例</span><span>建议先 20% 灰度</span></div>
-          </div>
-          <p style="margin:8px 0 0;color:#5c6680;font-size:12px;line-height:19px;">是否确认发布？输入「发布」确认，或输入修改意见继续调整。</p>
-          <footer class="xos-agent-answer-meta"><strong>XAgent</strong><time>${formatAgentRecordTime()}</time></footer>
+      appendDialogueAgentMessage(`
+        <p style="margin:0 0 8px;color:#26354f;font-size:13px;line-height:21px;">已用修改后的提示词重新跑了一遍该案件，结果对比：</p>
+        <div class="mg-debug-compare">
+          <div class="mg-debug-col is-before"><strong>修改前</strong><span>${escapeManagementText(feedback.agentDecision || "原提示词结果")}</span></div>
+          <div class="mg-debug-col is-after"><strong>修改后</strong><span>${escapeManagementText(feedback.finalResult || "已与人工结论一致")}</span></div>
         </div>
+        <p style="margin:0 0 12px;color:#00a060;font-size:12px;line-height:19px;">✓ 修改后与人工结论基本一致，偏差已消除。</p>
+        <div class="mg-publish-info">
+          <div class="mg-publish-info-row"><span>技能名称</span><span>${escapeManagementText(feedback.title)}</span></div>
+          <div class="mg-publish-info-row"><span>版本变更</span><span>${oldVersion} → ${newVersion}</span></div>
+          <div class="mg-publish-info-row"><span>灰度比例</span><span>建议先 20% 灰度</span></div>
+        </div>
+        <p style="margin:8px 0 0;color:#5c6680;font-size:12px;line-height:19px;">是否确认发布？输入「发布」确认，或输入修改意见继续调整。</p>
       `);
-      xosHomeDialogueThread.scrollTop = xosHomeDialogueThread.scrollHeight;
     };
     const showPromptPublished = (id) => {
       const feedback = getManagementFeedback(id);
       if (!feedback || !xosHomeDialogueThread) return;
+      enterManagementConversation(feedback);
       feedback.status = "published";
       const profile = skillProfiles[feedback.cluster] || {};
       const oldVersion = (profile.version || "v1.2");
       const newVersion = oldVersion.replace(/(\d+)$/, (_, n) => Number(n) + 1);
-      xosHomeDialogueThread.insertAdjacentHTML("beforeend", `
-        <div class="management-dialogue-copy xos-home-dialogue-message agent">
-          <p style="margin:0 0 6px;color:#26354f;font-size:13px;line-height:21px;">✓ 技能已发布！</p>
-          <div class="mg-publish-info">
-            <div class="mg-publish-info-row"><span>发布技能</span><span>${escapeManagementText(feedback.title)} ${newVersion}</span></div>
-            <div class="mg-publish-info-row"><span>灰度比例</span><span>20%（预计 3 天后全量）</span></div>
-            <div class="mg-publish-info-row"><span>优化方向</span><span>${(feedback.optimizationTags || []).join("、")}</span></div>
-            <div class="mg-publish-info-row"><span>回滚状态</span><span>可一键回滚至 ${oldVersion}</span></div>
-          </div>
-          <footer class="xos-agent-answer-meta"><strong>XAgent</strong><time>${formatAgentRecordTime()}</time></footer>
+      appendDialogueAgentMessage(`
+        <p style="margin:0 0 6px;color:#26354f;font-size:13px;line-height:21px;">✓ 技能已发布！</p>
+        <div class="mg-publish-info">
+          <div class="mg-publish-info-row"><span>发布技能</span><span>${escapeManagementText(feedback.title)} ${newVersion}</span></div>
+          <div class="mg-publish-info-row"><span>灰度比例</span><span>20%（预计 3 天后全量）</span></div>
+          <div class="mg-publish-info-row"><span>优化方向</span><span>${(feedback.optimizationTags || []).join("、")}</span></div>
+          <div class="mg-publish-info-row"><span>回滚状态</span><span>可一键回滚至 ${oldVersion}</span></div>
         </div>
       `);
-      xosHomeDialogueThread.scrollTop = xosHomeDialogueThread.scrollHeight;
       showToast(`${feedback.title} 已发布，灰度生效中`);
     };
     const handleManagementFeedbackAction = (button) => {
       const feedback = getManagementFeedback(button.dataset.managementFeedbackId);
       if (!feedback) return;
+      enterManagementConversation(feedback);
       if (button.dataset.managementFeedbackAction === "edit-prompt") {
         appendDialogueUserMessage("修改提示词并发布");
         showPromptEditFlow(feedback.id);
@@ -14990,12 +14953,8 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       if (button.dataset.managementFeedbackAction === "ignore") {
         appendDialogueUserMessage("忽视反馈");
         feedback.status = "ignored";
-        if (button.closest('[data-management-skill-card="task"]')) {
-          if (typeof spRenderAll === "function") spRenderAll();
-          showToast("已忽视本次反馈");
-          return;
-        }
         showManagementFeedbackDialogue(feedback.id, "已忽视本次反馈。我会保留原始样本，不纳入当前技能评测。");
+        if (typeof spRenderAll === "function") spRenderAll();
         return;
       }
     };
@@ -15004,19 +14963,18 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const message = xosHomeInput?.value.trim();
       if (!feedback || !message) return false;
       feedback.messages = [...(feedback.messages || []), message];
-      xosHomeDialogueThread?.insertAdjacentHTML("beforeend", `
-        <div class="xos-home-dialogue-message user"><p>${escapeManagementText(message)}</p></div>
-      `);
-      xosHomeDialogueThread.scrollTop = xosHomeDialogueThread.scrollHeight;
+      appendDialogueUserMessage(message);
       if (xosHomeInput) xosHomeInput.value = "";
-      const lastAgentMsg = xosHomeDialogueThread?.querySelector(".xos-home-dialogue-message.agent:last-of-type p:last-of-type");
-      const agentText = lastAgentMsg?.textContent || "";
+      const agentMessages = Array.from(xosHomeDialogueThread?.querySelectorAll(".xos-home-dialogue-message.agent") || []);
+      const agentText = agentMessages.at(-1)?.textContent || "";
       if (agentText.includes("你想怎么修改")) {
-        window.setTimeout(() => showPromptDebugResult(feedback.id, message), 600);
+        window.setTimeout(() => showPromptDebugResult(feedback.id, message), 360);
       } else if (agentText.includes("是否确认发布") && (message.includes("发布") || message.includes("确认"))) {
-        window.setTimeout(() => showPromptPublished(feedback.id), 600);
+        window.setTimeout(() => showPromptPublished(feedback.id), 360);
       } else if (agentText.includes("是否确认发布")) {
-        window.setTimeout(() => showPromptEditFlow(feedback.id), 600);
+        window.setTimeout(() => showPromptEditFlow(feedback.id), 360);
+      } else {
+        window.setTimeout(() => appendDialogueAgentMessage(`<p style="margin:0;color:#26354f;font-size:13px;line-height:21px;">已记录这条补充说明。我会把它作为当前 Skill 的优化约束，继续结合案件样本校验。</p>`), 360);
       }
       return true;
     };
@@ -15121,7 +15079,8 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       showToast("请选择左侧任务后开始处理");
     });
     if (xosHomeInput) xosHomeInput.addEventListener("keydown", (event) => {
-      if (!analyticsHomeMode || event.key !== "Enter" || event.shiftKey || event.isComposing) return;
+      const canSendDialogue = analyticsHomeMode || Boolean(xosHome?.classList.contains("management-home") && xosHome.classList.contains("show-dialogue"));
+      if (!canSendDialogue || event.key !== "Enter" || event.shiftKey || event.isComposing) return;
       event.preventDefault();
       xosHomeSend?.click();
     });
@@ -16051,27 +16010,6 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const managementAction = event.target.closest("[data-management-feedback-action]");
       if (managementAction) {
         handleManagementFeedbackAction(managementAction);
-        return;
-      }
-      const mgAction = event.target.closest("[data-mg-action]");
-      if (mgAction) {
-        const mgId = mgAction.dataset.mgFeedbackId;
-        const mgAct = mgAction.dataset.mgAction;
-        if (mgAct === "debug") {
-          const textarea = document.getElementById("mgPromptTextarea");
-          const editedPrompt = textarea?.value?.trim() || "";
-          mgAction.closest(".xos-home-dialogue-message")?.remove();
-          appendDialogueUserMessage("调试预览");
-          showPromptDebugResult(mgId, editedPrompt);
-        } else if (mgAct === "revise") {
-          mgAction.closest(".xos-home-dialogue-message")?.remove();
-          appendDialogueUserMessage("再改改");
-          showPromptEditFlow(mgId);
-        } else if (mgAct === "publish") {
-          mgAction.closest(".xos-home-dialogue-message")?.remove();
-          appendDialogueUserMessage("确认发布");
-          showPromptPublished(mgId);
-        }
         return;
       }
       if (handleProgressTab(event, xosHomeDialogueThread)) return;
