@@ -9284,13 +9284,13 @@
       inset: 10px 10px auto calc(var(--global-module-width) + 10px);
       width: auto;
       min-width: 0;
-      max-height: 148px;
-      border-color: rgba(139, 174, 255, .34);
+      max-height: 144px;
+      border-color: rgba(139, 174, 255, .24);
       border-radius: 10px;
-      background: rgba(246, 249, 255, .58);
-      box-shadow: 0 6px 18px rgba(31, 45, 61, .09), inset 0 1px 0 rgba(255, 255, 255, .64);
-      -webkit-backdrop-filter: blur(16px) saturate(112%);
-      backdrop-filter: blur(16px) saturate(112%);
+      background: rgba(246, 249, 255, .38);
+      box-shadow: 0 4px 12px rgba(31, 45, 61, .06), inset 0 1px 0 rgba(255, 255, 255, .48);
+      -webkit-backdrop-filter: blur(20px) saturate(108%);
+      backdrop-filter: blur(20px) saturate(108%);
       transition: max-height .2s ease, width .2s ease, min-width .2s ease;
     }
     .demo-controller.is-horizontal.is-collapsed {
@@ -9305,8 +9305,8 @@
       gap: 12px;
       min-height: 38px;
       padding: 0 8px 0 12px;
-      border-color: rgba(208, 213, 223, .38);
-      background: rgba(255, 255, 255, .22);
+      border-color: rgba(208, 213, 223, .24);
+      background: rgba(255, 255, 255, .12);
     }
     .demo-controller.is-horizontal .demo-controller-case-info {
       display: flex;
@@ -9320,19 +9320,26 @@
       height: 24px;
     }
     .demo-controller-context { min-width: 0; display: flex; align-items: center; gap: 8px; }
-    .demo-controller-context span { flex: 0 0 auto; min-height: 20px; display: inline-flex; align-items: center; padding: 0 7px; border-radius: 4px; background: rgba(23, 93, 255, .08); color: #175dff; font-size: 10px; font-weight: 600; line-height: 16px; }
+    .demo-controller-context span { flex: 0 0 auto; min-height: 20px; display: inline-flex; align-items: center; padding: 0 8px; border-radius: 4px; background: rgba(23, 93, 255, .06); color: #175dff; font-size: 10px; font-weight: 600; line-height: 16px; }
     .demo-controller-context small { overflow: hidden; color: #616161; font-size: 10px; line-height: 16px; text-overflow: ellipsis; white-space: nowrap; }
-    .demo-role-tabs { display: grid; grid-template-columns: repeat(6, minmax(124px, 1fr)); gap: 4px; padding: 4px 8px; overflow-x: auto; border-bottom: 1px solid rgba(208, 213, 223, .38); scrollbar-width: thin; scrollbar-color: rgba(117, 129, 152, .32) transparent; }
-    .demo-role-tab { min-width: 0; min-height: 34px; display: grid; grid-template-columns: auto auto minmax(0, 1fr); grid-template-areas: "type name desc"; align-items: center; gap: 5px; padding: 4px 7px; border: 1px solid rgba(208, 213, 223, .5); border-radius: 6px; background: rgba(255, 255, 255, .26); color: #616161; text-align: left; cursor: pointer; }
-    .demo-role-tab:hover { border-color: rgba(139, 174, 255, .72); background: rgba(245, 248, 255, .48); }
+    .demo-role-navigation { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 8px; padding: 4px 8px; border-bottom: 1px solid rgba(208, 213, 223, .24); }
+    .demo-role-mode-switch { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 2px; border: 1px solid rgba(208, 213, 223, .34); border-radius: 8px; background: rgba(255, 255, 255, .12); }
+    .demo-role-mode-btn { min-width: 0; min-height: 28px; padding: 0 8px; border: 0; border-radius: 4px; background: transparent; color: #616161; font-size: 10px; font-weight: 500; line-height: 16px; cursor: pointer; }
+    .demo-role-mode-btn:hover { background: rgba(245, 248, 255, .28); color: #175dff; }
+    .demo-role-mode-btn.is-active { background: rgba(231, 238, 255, .48); color: #175dff; box-shadow: inset 0 0 0 1px rgba(139, 174, 255, .42); }
+    .demo-role-mode-btn:focus-visible { outline: 2px solid #175dff; outline-offset: 2px; }
+    .demo-role-tabs { display: grid; grid-template-columns: repeat(3, minmax(124px, 1fr)); gap: 4px; min-width: 0; overflow-x: auto; scrollbar-width: thin; scrollbar-color: rgba(117, 129, 152, .28) transparent; }
+    .demo-role-tab { min-width: 0; min-height: 32px; display: grid; grid-template-columns: auto auto minmax(0, 1fr); grid-template-areas: "type name desc"; align-items: center; gap: 4px; padding: 4px 8px; border: 1px solid rgba(208, 213, 223, .32); border-radius: 8px; background: rgba(255, 255, 255, .14); color: #616161; text-align: left; cursor: pointer; }
+    .demo-role-tab[hidden] { display: none; }
+    .demo-role-tab:hover { border-color: rgba(139, 174, 255, .54); background: rgba(245, 248, 255, .3); }
     .demo-role-tab small { grid-area: type; color: #909090; font-size: 9px; line-height: 14px; }
     .demo-role-tab strong { grid-area: name; color: #222; font-size: 10px; font-weight: 600; line-height: 14px; }
     .demo-role-tab span { grid-area: desc; overflow: hidden; color: #758198; font-size: 9px; line-height: 14px; text-overflow: ellipsis; white-space: nowrap; }
-    .demo-role-tab.is-active { border-color: rgba(139, 174, 255, .78); background: rgba(231, 238, 255, .54); box-shadow: inset 0 -2px #175dff; }
+    .demo-role-tab.is-active { border-color: rgba(139, 174, 255, .62); background: rgba(231, 238, 255, .38); box-shadow: inset 0 -2px #175dff; }
     .demo-role-tab.is-active small,
     .demo-role-tab.is-active strong { color: #175dff; }
     .demo-role-tab:focus-visible { outline: 2px solid #175dff; outline-offset: 2px; }
-    .demo-controller.is-horizontal .demo-lifecycle { min-height: 56px; padding: 5px 8px 7px; overflow-x: auto; overflow-y: hidden; }
+    .demo-controller.is-horizontal .demo-lifecycle { min-height: 56px; padding: 4px 8px 8px; overflow-x: auto; overflow-y: hidden; }
     .demo-controller.is-horizontal .demo-lifecycle-group { display: none; min-width: 100%; padding: 0; }
     .demo-controller.is-horizontal .demo-lifecycle-group.is-active { display: block; }
     .demo-controller.is-horizontal .demo-role-brief { display: none; }
@@ -9341,14 +9348,15 @@
     .demo-role-duty { display: grid; gap: 5px; }
     .demo-role-duty span { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 6px; color: #616161; font-size: 10px; line-height: 16px; }
     .demo-role-duty small { color: #909090; font-size: inherit; line-height: inherit; }
-    .demo-controller.is-horizontal .demo-lifecycle-steps { grid-auto-flow: column; grid-auto-columns: minmax(154px, 1fr); gap: 5px; min-width: max-content; }
-    .demo-controller.is-horizontal .demo-lifecycle-step { min-width: 154px; min-height: 44px; gap: 6px; align-items: center; padding: 5px 7px; border-color: rgba(208, 213, 223, .5); border-radius: 6px; background: rgba(255, 255, 255, .24); }
+    .demo-controller.is-horizontal .demo-lifecycle-steps { grid-auto-flow: column; grid-auto-columns: minmax(154px, 1fr); gap: 24px; min-width: max-content; }
+    .demo-controller.is-horizontal .demo-lifecycle-step { position: relative; min-width: 154px; min-height: 44px; gap: 8px; align-items: center; padding: 4px 8px; border-color: rgba(208, 213, 223, .32); border-radius: 8px; background: rgba(255, 255, 255, .12); }
+    .demo-controller.is-horizontal .demo-lifecycle-step:not(:last-child)::after { position: absolute; top: 50%; right: -20px; width: 16px; height: 10px; background: rgba(117, 129, 152, .58); clip-path: polygon(0 43%, 68% 43%, 68% 12%, 100% 50%, 68% 88%, 68% 57%, 0 57%); content: ""; transform: translateY(-50%); pointer-events: none; }
     .demo-controller.is-horizontal .demo-lifecycle-step i { width: 22px; height: 22px; font-size: 9px; }
     .demo-controller.is-horizontal .demo-lifecycle-step strong { font-size: 10px; line-height: 14px; }
     .demo-controller.is-horizontal .demo-lifecycle-step small { margin-top: 0; font-size: 9px; line-height: 13px; }
-    .demo-controller.is-horizontal .demo-lifecycle-step:hover { border-color: rgba(139, 174, 255, .72); background: rgba(245, 248, 255, .48); }
-    .demo-controller.is-horizontal .demo-lifecycle-step.is-current { border-color: rgba(139, 174, 255, .78); background: rgba(231, 238, 255, .54); }
-    .demo-controller.is-horizontal .demo-lifecycle-step.is-skill.is-current { border-color: rgba(243, 152, 45, .7); background: rgba(255, 248, 233, .58); }
+    .demo-controller.is-horizontal .demo-lifecycle-step:hover { border-color: rgba(139, 174, 255, .54); background: rgba(245, 248, 255, .3); }
+    .demo-controller.is-horizontal .demo-lifecycle-step.is-current { border-color: rgba(139, 174, 255, .62); background: rgba(231, 238, 255, .38); }
+    .demo-controller.is-horizontal .demo-lifecycle-step.is-skill.is-current { border-color: rgba(243, 152, 45, .54); background: rgba(255, 248, 233, .38); }
     .demo-controller.is-horizontal .demo-stage-actions { display: flex; min-height: 0; justify-content: flex-end; gap: 5px; padding: 0; border: 0; background: transparent; }
     .demo-controller.is-horizontal .demo-stage-count { min-width: 68px; font-size: 10px; line-height: 24px; }
     .demo-controller.is-horizontal .demo-control-btn { height: 24px; min-width: 24px; padding: 0 6px; font-size: 10px; }
@@ -10299,14 +10307,20 @@
       <section class="demo-controller is-horizontal" id="demoController" aria-label="岗位与任务环节 Demo 控制器">
         <button class="demo-expand-btn" id="demoExpandBtn" type="button" title="展开岗位与任务环节 Demo 控制器" aria-label="展开岗位与任务环节 Demo 控制器" aria-expanded="true" aria-controls="demoController"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 12h10M4 19h16"/><path d="m17 9 3 3-3 3"/></svg></button>
         <div class="demo-controller-case"><div class="demo-controller-case-info"><span>岗位任务演示</span><strong>案件 Z4401000100003100001</strong></div><div class="demo-controller-context"><span id="demoActiveRoleName">查勘作业岗</span><small id="demoActiveRoleWork">核实事故事实、责任关系与现场证据</small></div><div class="demo-stage-actions"><button class="demo-control-btn" id="demoPrevBtn" type="button" aria-label="上一步" title="上一步">‹</button><span class="demo-stage-count" id="demoStageCount">主流程 1 / 8</span><button class="demo-control-btn is-primary" id="demoNextBtn" type="button">下一步</button></div><button class="demo-collapse-btn" id="demoCollapseBtn" type="button" title="收起 Demo 控制器" aria-label="收起"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="m15 18-6-6 6-6"/></svg></button></div>
-        <nav class="demo-role-tabs" role="tablist" aria-label="岗位切换">
-          <button class="demo-role-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="demoRoleSurveyWork" data-demo-role-tab="survey-work"><small>查勘环节</small><strong>作业岗</strong><span>核实事故与责任</span></button>
-          <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleSurveyManage" data-demo-role-tab="survey-manage"><small>查勘环节</small><strong>管理岗</strong><span>复盘偏差与规则</span></button>
-          <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleDamageWork" data-demo-role-tab="damage-work"><small>定损环节</small><strong>作业岗</strong><span>核定配件与工时</span></button>
-          <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleDamageManage" data-demo-role-tab="damage-manage"><small>定损环节</small><strong>管理岗</strong><span>纠偏识别与换修</span></button>
-          <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleReviewWork" data-demo-role-tab="review-work"><small>核赔环节</small><strong>作业岗</strong><span>复核责任与理算</span></button>
-          <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleReviewManage" data-demo-role-tab="review-manage"><small>核赔环节</small><strong>管理岗</strong><span>优化核赔规则</span></button>
-        </nav>
+        <div class="demo-role-navigation">
+          <div class="demo-role-mode-switch" role="group" aria-label="岗位类型切换">
+            <button class="demo-role-mode-btn is-active" type="button" aria-pressed="true" data-demo-role-mode="work">作业岗流程</button>
+            <button class="demo-role-mode-btn" type="button" aria-pressed="false" data-demo-role-mode="manage">管理岗流程</button>
+          </div>
+          <nav class="demo-role-tabs" role="tablist" aria-label="任务环节切换">
+            <button class="demo-role-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="demoRoleSurveyWork" data-demo-role-tab="survey-work" data-demo-role-type="work"><small>查勘环节</small><strong>作业岗</strong><span>核实事故与责任</span></button>
+            <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleSurveyManage" data-demo-role-tab="survey-manage" data-demo-role-type="manage" hidden><small>查勘环节</small><strong>管理岗</strong><span>复盘偏差与规则</span></button>
+            <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleDamageWork" data-demo-role-tab="damage-work" data-demo-role-type="work"><small>定损环节</small><strong>作业岗</strong><span>核定配件与工时</span></button>
+            <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleDamageManage" data-demo-role-tab="damage-manage" data-demo-role-type="manage" hidden><small>定损环节</small><strong>管理岗</strong><span>纠偏识别与换修</span></button>
+            <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleReviewWork" data-demo-role-tab="review-work" data-demo-role-type="work"><small>核赔环节</small><strong>作业岗</strong><span>复核责任与理算</span></button>
+            <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleReviewManage" data-demo-role-tab="review-manage" data-demo-role-type="manage" hidden><small>核赔环节</small><strong>管理岗</strong><span>优化核赔规则</span></button>
+          </nav>
+        </div>
         <div class="demo-lifecycle" aria-label="完整案件生命周期">
           <section class="demo-lifecycle-group is-active" id="demoRoleSurveyWork" role="tabpanel" data-demo-role-group="survey-work"><div class="demo-role-brief"><strong>查勘作业岗</strong><div class="demo-role-duty"><span><small>岗位职责</small>核实事故事实、责任关系与现场证据</span><span><small>主要产出</small>查勘结论、损失范围、定损材料</span></div></div><div class="demo-lifecycle-steps">
             <button class="demo-lifecycle-step is-current" type="button" data-demo-stage="0"><i>1</i><span><strong>首页查看待办</strong><small>异常和高风险任务进入待办</small></span></button>
@@ -17274,6 +17288,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     const demoStageButtons = Array.from(document.querySelectorAll("[data-demo-stage]"));
     const demoRoleGroups = Array.from(document.querySelectorAll("[data-demo-role-group]"));
     const demoRoleTabs = Array.from(document.querySelectorAll("[data-demo-role-tab]"));
+    const demoRoleModeButtons = Array.from(document.querySelectorAll("[data-demo-role-mode]"));
     const demoActiveRoleName = document.getElementById("demoActiveRoleName");
     const demoActiveRoleWork = document.getElementById("demoActiveRoleWork");
     const demoSkillButtons = Array.from(document.querySelectorAll("[data-demo-skill]"));
@@ -17294,8 +17309,15 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     };
     const setDemoActiveRole = (roleKey) => {
       const profile = demoRoleProfiles[roleKey] || demoRoleProfiles["survey-work"];
+      const roleMode = roleKey.endsWith("-manage") ? "manage" : "work";
+      demoRoleModeButtons.forEach((button) => {
+        const active = button.dataset.demoRoleMode === roleMode;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
       demoRoleTabs.forEach((tab) => {
         const active = tab.dataset.demoRoleTab === roleKey;
+        tab.hidden = tab.dataset.demoRoleType !== roleMode;
         tab.classList.toggle("is-active", active);
         tab.setAttribute("aria-selected", String(active));
       });
@@ -17306,6 +17328,16 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       });
       if (demoActiveRoleName) demoActiveRoleName.textContent = profile.name;
       if (demoActiveRoleWork) demoActiveRoleWork.textContent = profile.work;
+    };
+    const resetDemoRoleOverview = () => {
+      demoStageButtons.forEach((button) => button.classList.remove("is-current"));
+      demoSkillButtons.forEach((button) => button.classList.remove("is-current"));
+      demoManagerHomeButtons.forEach((button) => button.classList.remove("is-current"));
+      demoFeedbackButtons.forEach((button) => button.classList.remove("is-current"));
+      demoSkillStageButtons.forEach((button) => button.classList.remove("is-current"));
+      if (demoStageCount) demoStageCount.textContent = "岗位概览";
+      if (demoPrevBtn) demoPrevBtn.disabled = true;
+      if (demoNextBtn) demoNextBtn.disabled = true;
     };
     const demoStages = [
       { role: "survey-work", title: "首页查看待办", description: "Agent 只把无法继续处理或高风险的异常项放入待办，并按风险与未决状态排序。", view: "home", task: "Z4401000100003100001_3" },
@@ -17471,16 +17503,16 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       if (demoStageCount) demoStageCount.textContent = stage === "edit" ? "修改技能" : stage === "debug" ? "调试技能" : "发布技能";
     };
     const markDemoSkillGap = () => openDemoSkillFeedback("review", false);
+    demoRoleModeButtons.forEach((button) => button.addEventListener("click", () => {
+      const activeRole = demoRoleTabs.find((tab) => tab.classList.contains("is-active"))?.dataset.demoRoleTab || "survey-work";
+      const cluster = activeRole.split("-")[0];
+      const roleMode = button.dataset.demoRoleMode;
+      setDemoActiveRole(`${cluster}-${roleMode === "manage" ? "manage" : "work"}`);
+      resetDemoRoleOverview();
+    }));
     demoRoleTabs.forEach((tab) => tab.addEventListener("click", () => {
       setDemoActiveRole(tab.dataset.demoRoleTab);
-      demoStageButtons.forEach((button) => button.classList.remove("is-current"));
-      demoSkillButtons.forEach((button) => button.classList.remove("is-current"));
-      demoManagerHomeButtons.forEach((button) => button.classList.remove("is-current"));
-      demoFeedbackButtons.forEach((button) => button.classList.remove("is-current"));
-      demoSkillStageButtons.forEach((button) => button.classList.remove("is-current"));
-      if (demoStageCount) demoStageCount.textContent = "岗位概览";
-      if (demoPrevBtn) demoPrevBtn.disabled = true;
-      if (demoNextBtn) demoNextBtn.disabled = true;
+      resetDemoRoleOverview();
     }));
     demoPrevBtn?.addEventListener("click", () => applyDemoStage(demoCurrentStage - 1));
     demoNextBtn?.addEventListener("click", () => applyDemoStage(demoCurrentStage + 1));
