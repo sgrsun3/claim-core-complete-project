@@ -7523,6 +7523,42 @@
     [data-damage-conditional][hidden] { display: none !important; }
     [data-survey-conditional][hidden] { display: none !important; }
 
+    .survey-task-sections { display: grid; gap: 12px; }
+    .survey-task-section { margin: 0 !important; border: 1px solid #e1e8eb; border-radius: 8px !important; background: #fff; }
+    .survey-task-section .section-header { min-height: 44px; height: auto; padding: 0 16px; border-bottom: 1px solid #eef1f6; background: #fff; }
+    .survey-task-section .section-title-text { position: relative; padding-left: 10px; color: #26354f; font-size: 14px !important; font-weight: 600; line-height: 20px; }
+    .survey-task-section .section-title-text::before { position: absolute; top: 3px; bottom: 3px; left: 0; width: 3px; border-radius: 3px; background: #175dff; content: ""; }
+    .survey-task-section.collapsed .section-toggle { transform: none; }
+    .survey-task-section .section-body { padding: 0 !important; }
+    .survey-task-section .damage-detail-grid { padding: 16px; }
+    .survey-reminder-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid #eef1f6; }
+    .survey-reminder-metric { min-width: 0; padding: 14px 16px; border-right: 1px solid #eef1f6; }
+    .survey-reminder-metric:last-child { border-right: 0; }
+    .survey-reminder-metric span { display: block; margin-bottom: 4px; color: #758198; font-size: 11px; line-height: 16px; }
+    .survey-reminder-metric strong { display: block; overflow: hidden; color: #26354f; font-size: 13px; font-weight: 600; line-height: 20px; text-overflow: ellipsis; white-space: nowrap; }
+    .survey-reminder-metric strong.is-warning { color: #b86400; }
+    .survey-reminder-focus { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 12px; align-items: start; margin: 16px; padding: 12px; border: 1px solid #f0d7ae; border-radius: 6px; background: #fffaf2; }
+    .survey-reminder-focus > span { display: inline-flex; min-height: 24px; align-items: center; justify-content: center; border-radius: 4px; background: #f3982d; color: #fff; font-size: 11px; font-weight: 600; line-height: 16px; }
+    .survey-reminder-focus strong { display: block; margin-bottom: 3px; color: #3b4658; font-size: 12px; line-height: 18px; }
+    .survey-reminder-focus p { margin: 0; color: #616b7d; font-size: 12px; line-height: 19px; }
+    .survey-report-summary { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; margin: 16px 16px 0; padding: 12px; border: 1px solid #d9e5ff; border-radius: 6px; background: #f5f8ff; }
+    .survey-report-summary span { display: inline-flex; min-height: 24px; align-items: center; padding: 0 8px; border-radius: 4px; background: #175dff; color: #fff; font-size: 11px; font-weight: 600; line-height: 16px; white-space: nowrap; }
+    .survey-report-summary p { margin: 0; color: #45536a; font-size: 12px; line-height: 20px; }
+    .survey-field-attention .damage-detail-control { border-color: #f3982d; background: #fffaf2; }
+    .survey-field-attention .damage-detail-hint { color: #b86400; }
+    .survey-damage-field { grid-column: 1 / -1; display: grid; gap: 8px; }
+    .survey-damage-field .damage-detail-label { align-items: center; display: flex; }
+    .survey-damage-field .damage-block { grid-template-columns: 1fr; border: 1px solid #e1e8eb; border-radius: 6px; overflow: hidden; }
+    .survey-damage-field .damage-content { padding: 12px; }
+    .survey-damage-field .car-map { margin: 0 auto; }
+    .survey-damage-field .damage-selected { border-radius: 4px; }
+
+    @media (max-width: 1280px) {
+      .survey-reminder-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .survey-reminder-metric:nth-child(2) { border-right: 0; }
+      .survey-reminder-metric:nth-child(-n + 2) { border-bottom: 1px solid #eef1f6; }
+    }
+
     @media (max-width: 1280px) {
       .damage-detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .damage-detail-field.is-wide { grid-column: span 1; }
@@ -10673,214 +10709,129 @@
               </div>
             </section>
 <div class="task-info-layout">
-          <div class="task-info-main">
-          <section class="section-card case-reminder" id="anchor-agent-judgement">
+          <div class="task-info-main survey-task-sections">
+          <section class="section-card case-reminder survey-task-section" id="anchor-agent-judgement">
             <div class="section-header" role="button" tabindex="0" aria-expanded="true">
               <span class="section-title-text">案件提醒</span>
               <span class="section-toggle">▼</span>
             </div>
             <div class="section-body">
-              <div class="case-reminder-summary">
-                <p>本案为商业险报案，近 30 天标的出险 1 次、作为三者出险 0 次，历史赔付率 0.00%；交强险及保单特别约定均无异常。</p>
-                <div class="case-reminder-risk">
-                  <span class="case-reminder-risk-label">风险关注</span>
-                  <span>已填写的出险经过为“车辆变道时与前车发生碰撞”，事故责任系数为 60%。需结合事故现场补充影像和责任认定材料完成一致性核验。</span>
-                </div>
+              <div class="survey-reminder-metrics">
+                <div class="survey-reminder-metric"><span>当前核验状态</span><strong class="is-warning">需人工复核</strong></div>
+                <div class="survey-reminder-metric"><span>近 30 天标的出险</span><strong>1 次</strong></div>
+                <div class="survey-reminder-metric"><span>作为三者出险</span><strong>0 次</strong></div>
+                <div class="survey-reminder-metric"><span>历史赔付率</span><strong>0.00%</strong></div>
+              </div>
+              <div class="survey-reminder-focus">
+                <span>风险关注</span>
+                <div><strong>事故经过与责任系数需要一致性核验</strong><p>当前出险经过为“车辆变道时与前车发生碰撞”，事故责任系数为 60%。交强险及保单特别约定无异常，请结合事故现场补充影像和责任认定材料完成复核。</p></div>
               </div>
             </div>
           </section>
 
-          <section class="section-card" id="anchor-report-info">
+          <section class="section-card survey-task-section" id="anchor-report-info">
             <div class="section-header" role="button" tabindex="0" aria-expanded="true">
               <span class="section-title-text">报案信息</span>
               <span class="section-toggle">▼</span>
             </div>
             <div class="section-body">
-              <div class="report-view-tabs" role="tablist" aria-label="报案信息视图">
-                <button class="report-view-tab active" type="button" data-report-view="reportAgentSummary">智能总结</button>
-                <button class="report-view-tab" type="button" data-report-view="reportRawInfo">原始信息</button>
-              </div>
-              <div class="report-view-panel active" id="reportAgentSummary">
-              <div class="agent-panel" style="margin-top:12px;">
-                <div class="agent-text">客户通过 Xwork 报案，事故发生于 2026-04-15 09:36，地点为上海市浦东新区张杨路188号。事故原因为追尾碰撞，车辆当前可正常行驶，未报警，未通知120，无明显出血，责任明确。建议进入车物查勘流程，并补充三者车辆信息与事故现场材料。</div>
-                <div class="agent-summary-grid">
-                  <div class="agent-summary-item">
-                    <div class="agent-summary-label">事故类型</div>
-                    <div class="agent-summary-value">追尾碰撞</div>
-                  </div>
-                  <div class="agent-summary-item">
-                    <div class="agent-summary-label">是否有人伤</div>
-                    <div class="agent-summary-value">否</div>
-                  </div>
-                  <div class="agent-summary-item">
-                    <div class="agent-summary-label">车辆状态</div>
-                    <div class="agent-summary-value">可正常行驶</div>
-                  </div>
-                  <div class="agent-summary-item">
-                    <div class="agent-summary-label">责任状态</div>
-                    <div class="agent-summary-value">责任明确</div>
-                  </div>
-                  <div class="agent-summary-item">
-                    <div class="agent-summary-label">查勘建议</div>
-                    <div class="agent-summary-value">继续现场查勘</div>
-                  </div>
-                  <div class="agent-summary-item">
-                    <div class="agent-summary-label">缺失信息</div>
-                    <div class="agent-summary-value">三者信息、损伤照片</div>
-                  </div>
-                </div>
-              </div>
-              </div>
-              <div class="report-view-panel" id="reportRawInfo">
-              <table class="kv-grid">
-                <tr>
-                  <td class="key">案件号：</td><td class="value">Z4401000100003100001_1</td>
-                  <td class="key">案件来源：</td><td class="value">Xwork</td>
-                  <td class="key">报案来电电话：</td><td class="value">138****1023</td>
-                </tr>
-                <tr>
-                  <td class="key">报案驾驶员：</td><td class="value">张三</td>
-                  <td class="key">报案人：</td><td class="value">李四</td>
-                  <td class="key">报案人联系电话：</td><td class="value">139****2201</td>
-                </tr>
-                <tr>
-                  <td class="key">出险时间：</td><td class="value">2026-04-15 09:36:02</td>
-                  <td class="key">报案时间：</td><td class="value">2026-04-15 09:42:16</td>
-                  <td class="key">是否现场报案：</td><td class="value">是</td>
-                </tr>
-                <tr>
-                  <td class="key">出险地点：</td><td class="value">上海市浦东新区张杨路188号</td>
-                  <td class="key">是否免现场：</td><td class="value">否</td>
-                  <td class="key">出险原因：</td><td class="value">追尾碰撞</td>
-                </tr>
-                <tr>
-                  <td class="key">出险经过：</td><td class="value risk-field-cell">车辆变道时与前车发生碰撞，前保险杠和左翼子板受损<span class="risk-field-tag">风险关注</span></td>
-                  <td class="key">责任是否明确：</td><td class="value">是</td>
-                  <td class="key">是否能正常行驶：</td><td class="value">是</td>
-                </tr>
-                <tr>
-                  <td class="key">是否已报警并通知120：</td><td class="value">否</td>
-                  <td class="key">是否死者有明显出血：</td><td class="value">否</td>
-                  <td class="key">备注：</td><td class="value">无</td>
-                </tr>
-              </table>
+              <div class="survey-report-summary"><span>Agent 摘要</span><p>客户通过 Xwork 报案，事故发生于 2026-04-15 09:36，车辆当前可正常行驶，无人伤。建议进入车物查勘流程，并补充三者车辆信息、事故现场影像与责任认定材料。</p></div>
+              <div class="damage-detail-grid">
+                <label class="damage-detail-field"><span class="damage-detail-label">案件号</span><input class="damage-detail-control" readonly value="Z4401000100003100001_1"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">案件来源</span><input class="damage-detail-control" readonly value="Xwork"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">报案来电电话</span><input class="damage-detail-control" readonly value="138****1023"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">报案驾驶员</span><input class="damage-detail-control" readonly value="张三"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">报案人</span><input class="damage-detail-control" readonly value="李四"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">报案人联系电话</span><input class="damage-detail-control" readonly value="139****2201"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">出险时间</span><input class="damage-detail-control" readonly value="2026-04-15 09:36:02"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">报案时间</span><input class="damage-detail-control" readonly value="2026-04-15 09:42:16"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">是否现场报案</span><input class="damage-detail-control" readonly value="是"></label>
+                <label class="damage-detail-field is-wide"><span class="damage-detail-label">出险地点</span><input class="damage-detail-control" readonly value="上海市浦东新区张杨路188号"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">是否免现场</span><input class="damage-detail-control" readonly value="否"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">出险原因</span><input class="damage-detail-control" readonly value="追尾碰撞"></label>
+                <label class="damage-detail-field is-wide survey-field-attention"><span class="damage-detail-label">出险经过</span><input class="damage-detail-control" readonly value="车辆变道时与前车发生碰撞，前保险杠和左翼子板受损"><small class="damage-detail-hint">需与事故现场影像及责任认定材料核验</small></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">责任是否明确</span><input class="damage-detail-control" readonly value="是"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">是否能正常行驶</span><input class="damage-detail-control" readonly value="是"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">是否已报警并通知 120</span><input class="damage-detail-control" readonly value="否"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">是否有明显出血</span><input class="damage-detail-control" readonly value="否"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">备注</span><input class="damage-detail-control" readonly value="无"></label>
               </div>
             </div>
           </section>
 
-          <section class="section-card" id="anchor-base-info">
+          <section class="section-card survey-task-section" id="anchor-base-info">
             <div class="section-header" role="button" tabindex="0" aria-expanded="true">
               <span class="section-title-text">案件基本信息</span>
               <span class="section-toggle">▼</span>
             </div>
             <div class="section-body">
-              <table class="kv-grid">
-                <tr>
-                  <td class="key">报案号：</td><td><input class="field" readonly value="BA20260415193001" /></td>
-                  <td class="key">处理机构：</td><td><select class="field"><option>上海浦东一部</option><option>上海浦东二部</option></select></td>
-                  <td class="key">是否免现场：</td><td><input class="field" readonly value="否" /></td>
-                </tr>
-                <tr>
-                  <td class="key required">查勘类型：</td><td><select class="field" data-autofill="surveyMode"><option>现场查勘</option><option>补勘现场</option><option>非现场查勘</option><option>盗抢查勘</option><option>线上查勘</option><option>远程查勘</option></select></td>
-                  <td class="key required">是否高峰快闪：</td><td><select class="field"><option>否</option><option>是</option></select></td>
-                  <td class="key required">车牌号类型：</td><td><select class="field"><option>小型汽车号牌</option><option>大型汽车号牌</option><option>小型新能源汽车</option><option>大型新能源汽车</option><option>挂车号牌</option><option>两、三轮摩托车号牌</option><option>使馆汽车号牌</option><option>领馆汽车号牌</option><option>境外汽车号牌</option><option>外籍汽车号牌</option><option>临时行驶车号牌</option><option>教练汽车号牌</option><option>农用运输车号牌</option><option>拖拉机号牌</option><option>武警号牌</option><option>军队号牌</option><option>公安警车号牌</option><option>汽车其他号牌</option></select></td>
-                </tr>
-                <tr>
-                  <td class="key required">车牌号：</td><td><input class="field" value="沪A12345" /></td>
-                  <td class="key">车架号(VIN码)：</td><td><input class="field" readonly value="LSVAB23E9GY012888" /></td>
-                  <td class="key">发动机号：</td><td><input class="field" readonly value="EA211-987654" /></td>
-                </tr>
-                <tr>
-                  <td class="key required">行驶证注册日期：</td><td><input class="field" type="date" value="2023-08-16" /></td>
-                  <td class="key required">行驶证发证日期：</td><td><input class="field" type="date" value="2023-08-20" /></td>
-                  <td class="key required">证件类型：</td><td><select class="field"><option>居民身份证</option><option>护照</option><option>军官证</option><option>港澳通行证</option><option>港澳台居民居住证</option><option>外国人永久居留身份证</option><option>台湾通行证</option><option>户口簿</option><option>出生证</option><option>驾驶证</option><option>警官证</option><option>士兵证</option><option>营业执照</option><option>组织机构代码证</option><option>税务登记证</option><option>统一社会信用代码</option><option>其他</option></select></td>
-                </tr>
-                <tr>
-                  <td class="key required">出险驾驶员：</td><td><input class="field" value="张三" /></td>
-                  <td class="key required">证件号码：</td><td><input class="field" value="310***********022" /></td>
-                  <td class="key required">驾驶员性别：</td><td><select class="field"><option>男</option><option>女</option><option>未说明的性别</option></select></td>
-                </tr>
-                <tr>
-                  <td class="key required">驾驶员是否被保险人：</td><td><select class="field"><option>是</option><option>否</option><option>企业</option></select></td>
-                  <td class="key">出险地点：</td><td colspan="3"><input class="field" id="agentLocationField" value="上海市浦东新区张杨路188号" /></td>
-                </tr>
-              </table>
+              <div class="damage-detail-grid">
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">报案号</span><input class="damage-detail-control field" readonly value="BA20260415193001"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">处理机构</span><select class="damage-detail-control field"><option>上海浦东一部</option><option>上海浦东二部</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">是否免现场</span><select class="damage-detail-control field"><option>否</option><option>是</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">查勘类型</span><select class="damage-detail-control field" data-autofill="surveyMode"><option>现场查勘</option><option>补勘现场</option><option>非现场查勘</option><option>盗抢查勘</option><option>线上查勘</option><option>远程查勘</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">是否高峰快闪</span><select class="damage-detail-control field"><option>否</option><option>是</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">车牌号类型</span><select class="damage-detail-control field"><option>小型汽车号牌</option><option>大型汽车号牌</option><option>小型新能源汽车</option><option>大型新能源汽车</option><option>挂车号牌</option><option>两、三轮摩托车号牌</option><option>使馆汽车号牌</option><option>领馆汽车号牌</option><option>境外汽车号牌</option><option>外籍汽车号牌</option><option>临时行驶车号牌</option><option>教练汽车号牌</option><option>农用运输车号牌</option><option>拖拉机号牌</option><option>武警号牌</option><option>军队号牌</option><option>公安警车号牌</option><option>汽车其他号牌</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">车牌号</span><input class="damage-detail-control field" value="沪A12345"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">VIN码</span><input class="damage-detail-control field" value="LSVAB23E9GY012888"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">发动机号</span><input class="damage-detail-control field" value="EA211-987654"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">行驶证注册日期</span><input class="damage-detail-control field" type="date" value="2023-08-16"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">行驶证发证日期</span><input class="damage-detail-control field" type="date" value="2023-08-20"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">出险驾驶员</span><input class="damage-detail-control field" value="张三"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">证件类型</span><select class="damage-detail-control field"><option>居民身份证</option><option>护照</option><option>军官证</option><option>港澳通行证</option><option>港澳台居民居住证</option><option>外国人永久居留身份证</option><option>台湾通行证</option><option>户口簿</option><option>出生证</option><option>驾驶证</option><option>警官证</option><option>士兵证</option><option>营业执照</option><option>组织机构代码证</option><option>税务登记证</option><option>统一社会信用代码</option><option>其他</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">证件号码</span><input class="damage-detail-control field" value="310***********022"></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">驾驶员性别</span><select class="damage-detail-control field"><option>男</option><option>女</option><option>未说明的性别</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">驾驶员是否是被保险人</span><select class="damage-detail-control field"><option>是</option><option>否</option><option>企业</option></select></label>
+                <label class="damage-detail-field is-wide"><span class="damage-detail-label is-required">出险地点</span><input class="damage-detail-control field" id="agentLocationField" value="上海市浦东新区张杨路188号"></label>
+              </div>
             </div>
           </section>
 
-          <section class="section-card" id="anchor-liability-info">
+          <section class="section-card survey-task-section" id="anchor-liability-info">
             <div class="section-header" role="button" tabindex="0" aria-expanded="true">
               <span class="section-title-text">事故保险责任信息</span>
               <span class="section-toggle">▼</span>
             </div>
             <div class="section-body">
-              <table class="kv-grid">
-                <tr>
-                  <td class="key required">事故类型：</td><td><select class="field" data-autofill="accidentType"><option>单方</option><option>双方</option><option>多方</option></select></td>
-                  <td class="key required">事故详细类型：</td><td><select class="field" data-autofill="accidentDetail"><option>碰撞</option><option>火烧</option><option>自然灾害</option></select></td>
-                  <td class="key required">事故损失项：</td><td><select class="field"><option>标的车损</option><option>三者车损</option><option>车上人员</option><option>第三者人伤</option><option>车载货物</option><option>其他财产</option></select></td>
-                </tr>
-                <tr>
-                  <td class="key required">赔付结论：</td><td><select class="field" data-autofill="indemnityConclusion"><option>赔付</option><option>零结</option><option>商业险拒赔</option><option>整案拒赔</option><option>注销/报案注销</option></select></td>
-                  <td class="key required">事故责任系数：</td>
-                  <td>
-                    <div class="progress-wrap risk-field-control">
-                      <input
-                        class="coef-slider"
-                        id="liabilityCoefSlider"
-                        type="range"
-                        min="0"
-                        max="100"
-                        value="60"
-                      />
-                      <div class="progress-track"><div class="progress-fill" id="liabilityCoefFill">60%</div></div><span class="risk-field-tag">风险关注</span>
-                    </div>
-                  </td>
-                  <td class="key required">赔付方式：</td><td><select class="field" data-autofill="indemnityMode"><option>按责赔付</option><option>互碰自赔</option><option>各自修车</option></select></td>
-                </tr>
-                <tr>
-                  <td class="key required manual-field-key">责任认定书类型：</td><td class="manual-field-cell"><select class="field manual-field-control" id="liabilityTypeField" data-autofill="liabilityType"><option value="" selected>请选择</option><option>交警事故认定书</option><option>交警事故证明</option><option>自行协商协议书</option><option>法院判决书</option><option>仲裁文书</option><option>无责任认定材料</option></select></td>
-                  <td class="key required">事故处理方式：</td><td><select class="field" data-autofill="disposeStyle"><option>保险公司处理</option><option>自行协商</option><option>交管正常处理</option><option>交警简易程序处理</option><option>其他</option></select></td>
-                  <td class="key required">是否无法找到第三方：</td><td><select class="field"><option>否</option><option>是</option></select></td>
-                </tr>
-                <tr>
-                  <td class="key required">出险时是否开启智驾：</td><td><select class="field"><option>否</option><option>是</option><option>无法确认</option><option>车辆不支持</option></select></td>
-                  <td class="key required">减损类型：</td><td><select class="field"><option>无</option><option>施救减损</option><option>残值处理</option><option>低碳维修</option><option>配件修复</option><option>旧件回收</option><option>其他</option></select></td>
-                  <td class="key required">是否大灾：</td><td><select class="field" id="surveyCatastropheField"><option>否</option><option>是</option></select></td>
-                </tr>
-                <tr>
-                  <td class="key required" data-survey-conditional="catastrophe" hidden>灾害名称：</td><td data-survey-conditional="catastrophe" hidden><select class="field"><option>台风</option><option>暴雨</option><option>洪水</option><option>冰雹</option><option>地震</option><option>其他自然灾害</option></select></td>
-                  <td class="key required">人伤大案：</td><td><select class="field"><option>否</option><option>是</option></select></td>
-                  <td class="key required">是否代位求偿：</td><td><select class="field"><option>否</option><option>是</option></select></td>
-                </tr>
-                <tr>
-                  <td class="key">挂车商业三者险限额：</td><td><input class="field" value="50万元" /></td>
-                  <td class="key">事故责任补充：</td><td colspan="3"><input class="field" value="责任材料待核验，当前按 60% 初步处理" /></td>
-                </tr>
-                <tr>
-                  <td class="key">查勘说明：</td><td colspan="5"><input class="field" id="surveyOpinionField" data-autofill="surveyOpinion" value="责任明确，建议按责赔付；车辆可正常行驶。" /></td>
-                </tr>
-              </table>
-              <div class="damage-block" id="damagePartField">
-                <div class="key required manual-field-key" style="border-top:1px solid var(--color-border-light); border-right:1px solid var(--color-border-light); display:flex; align-items:center; justify-content:center;">标的损失部位</div>
-                <div class="damage-content">
-                  <div class="car-map" id="damageMap">
-                    <button class="map-tag left-front" data-damage="左前" type="button">左前</button>
-                    <button class="map-tag front" data-damage="前" type="button">前</button>
-                    <button class="map-tag right-front" data-damage="右前" type="button">右前</button>
-                    <button class="map-tag left-mid" data-damage="左侧" type="button">左侧</button>
-                    <button class="map-tag right-mid" data-damage="右侧" type="button">右侧</button>
-                    <button class="map-tag top-roof" data-damage="车顶" type="button">车顶</button>
-                    <button class="map-tag bottom" data-damage="底部" type="button">底部</button>
-                    <button class="map-tag left-rear" data-damage="左后" type="button">左后</button>
-                    <button class="map-tag rear" data-damage="后" type="button">后</button>
-                    <button class="map-tag right-rear" data-damage="右后" type="button">右后</button>
-                    <div class="center">
-                      <img class="car-top-image" src="./assets/car-top-view.png" alt="车辆俯视图" />
+              <div class="damage-detail-grid">
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">事故类型</span><select class="damage-detail-control field" data-autofill="accidentType"><option>单方</option><option>双方</option><option>多方</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">事故详细类型</span><select class="damage-detail-control field" data-autofill="accidentDetail"><option>碰撞</option><option>火烧</option><option>自然灾害</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">事故损失项</span><select class="damage-detail-control field"><option>标的车损</option><option>三者车损</option><option>车上人员</option><option>第三者人伤</option><option>车载货物</option><option>其他财产</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">赔付结论</span><select class="damage-detail-control field" data-autofill="indemnityConclusion"><option>赔付</option><option>零结</option><option>商业险拒赔</option><option>整案拒赔</option><option>注销/报案注销</option></select></label>
+                <label class="damage-detail-field survey-field-attention"><span class="damage-detail-label is-required">事故责任系数</span><div class="progress-wrap risk-field-control"><input class="coef-slider" id="liabilityCoefSlider" type="range" min="0" max="100" value="60"><div class="progress-track"><div class="progress-fill" id="liabilityCoefFill">60%</div></div><span class="risk-field-tag">风险关注</span></div></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">赔付方式</span><select class="damage-detail-control field" data-autofill="indemnityMode"><option>按责赔付</option><option>互碰自赔</option><option>各自修车</option></select></label>
+                <label class="damage-detail-field survey-field-attention"><span class="damage-detail-label is-required">责任认定书类型</span><select class="damage-detail-control field manual-field-control" id="liabilityTypeField" data-autofill="liabilityType"><option value="" selected>请选择</option><option>交警事故认定书</option><option>交警事故证明</option><option>自行协商协议书</option><option>法院判决书</option><option>仲裁文书</option><option>无责任认定材料</option></select><small class="damage-detail-hint">待人工确认责任认定材料</small></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">事故处理方式</span><select class="damage-detail-control field" data-autofill="disposeStyle"><option>保险公司处理</option><option>自行协商</option><option>交管正常处理</option><option>交警简易程序处理</option><option>其他</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">是否无法找到第三方</span><select class="damage-detail-control field"><option>否</option><option>是</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">出险时是否开启智驾</span><select class="damage-detail-control field"><option>否</option><option>是</option><option>无法确认</option><option>车辆不支持</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">减损类型</span><select class="damage-detail-control field"><option>无</option><option>施救减损</option><option>残值处理</option><option>低碳维修</option><option>配件修复</option><option>旧件回收</option><option>其他</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">是否大灾</span><select class="damage-detail-control field" id="surveyCatastropheField"><option>否</option><option>是</option></select></label>
+                <label class="damage-detail-field" data-survey-conditional="catastrophe" hidden><span class="damage-detail-label is-required">灾害名称</span><select class="damage-detail-control field"><option>台风</option><option>暴雨</option><option>洪水</option><option>冰雹</option><option>地震</option><option>其他自然灾害</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">人伤大案</span><select class="damage-detail-control field"><option>否</option><option>是</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">是否代位求偿</span><select class="damage-detail-control field"><option>否</option><option>是</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label">挂车商业三者险限额</span><input class="damage-detail-control field" value="50万元"></label>
+                <label class="damage-detail-field is-wide"><span class="damage-detail-label is-required">查勘说明</span><input class="damage-detail-control field" id="surveyOpinionField" data-autofill="surveyOpinion" value="责任明确，建议按责赔付；车辆可正常行驶。"></label>
+                <div class="survey-damage-field" id="damagePartField">
+                  <span class="damage-detail-label is-required">标的损失部位</span>
+                  <div class="damage-block">
+                    <div class="damage-content">
+                      <div class="car-map" id="damageMap">
+                        <button class="map-tag left-front" data-damage="左前" type="button">左前</button>
+                        <button class="map-tag front" data-damage="前" type="button">前</button>
+                        <button class="map-tag right-front" data-damage="右前" type="button">右前</button>
+                        <button class="map-tag left-mid" data-damage="左侧" type="button">左侧</button>
+                        <button class="map-tag right-mid" data-damage="右侧" type="button">右侧</button>
+                        <button class="map-tag top-roof" data-damage="车顶" type="button">车顶</button>
+                        <button class="map-tag bottom" data-damage="底部" type="button">底部</button>
+                        <button class="map-tag left-rear" data-damage="左后" type="button">左后</button>
+                        <button class="map-tag rear" data-damage="后" type="button">后</button>
+                        <button class="map-tag right-rear" data-damage="右后" type="button">右后</button>
+                        <div class="center"><img class="car-top-image" src="./assets/car-top-view.png" alt="车辆俯视图"></div>
+                      </div>
+                      <div class="damage-selected" id="damageSelectedText">已选部位：未选择</div>
+                      <div class="manual-field-tip">待确认：请结合现场影像核对标的损失部位</div>
                     </div>
                   </div>
-                  <div class="damage-selected" id="damageSelectedText">已选部位：未选择</div>
-                  <div class="manual-field-tip">待确认：请结合现场影像核对标的损失部位</div>
                 </div>
               </div>
             </div>
