@@ -7499,6 +7499,36 @@
       background: transparent;
     }
 
+    .damage-required-sections { display: grid; gap: 12px; }
+    .damage-detail-section { overflow: hidden; border: 1px solid #e1e8eb; border-radius: 8px; background: #fff; }
+    .damage-detail-section-head { min-height: 44px; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid #eef1f6; }
+    .damage-detail-section-head strong { position: relative; padding-left: 10px; color: #26354f; font-size: 14px; font-weight: 600; line-height: 20px; }
+    .damage-detail-section-head strong::before { position: absolute; top: 3px; bottom: 3px; left: 0; width: 3px; border-radius: 3px; background: #175dff; content: ""; }
+    .damage-detail-section-head span { color: #758198; font-size: 11px; line-height: 16px; }
+    .damage-detail-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 16px; padding: 16px; }
+    .damage-detail-field { display: grid; align-content: start; gap: 6px; min-width: 0; }
+    .damage-detail-field.is-wide { grid-column: span 2; }
+    .damage-detail-field.is-full { grid-column: 1 / -1; }
+    .damage-detail-label { color: #616161; font-size: 12px; line-height: 18px; }
+    .damage-detail-label.is-required::before { margin-right: 3px; color: #ff5e5e; content: "*"; }
+    .damage-detail-control { width: 100%; min-width: 0; height: 32px; padding: 0 9px; border: 1px solid #d0d5df; border-radius: 4px; outline: 0; background: #fff; color: #222; font: inherit; font-size: 12px; }
+    textarea.damage-detail-control { min-height: 64px; height: auto; padding: 7px 9px; line-height: 18px; resize: vertical; }
+    .damage-detail-control:focus { border-color: #175dff; box-shadow: 0 0 0 2px rgba(23, 93, 255, .1); }
+    .damage-detail-control:disabled, .damage-detail-control[readonly] { background: #f5f6fa; color: #616161; cursor: not-allowed; }
+    .damage-detail-control-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+    .damage-detail-inline-btn { min-height: 32px; padding: 0 12px; border: 1px solid #175dff; border-radius: 4px; background: #fff; color: #175dff; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .damage-detail-inline-btn:hover { background: #f1f6ff; }
+    .damage-detail-hint { display: flex; align-items: flex-start; gap: 5px; color: #b86400; font-size: 11px; line-height: 16px; }
+    .damage-detail-hint::before { flex: 0 0 auto; content: "!"; font-weight: 700; }
+    [data-damage-conditional][hidden] { display: none !important; }
+    [data-survey-conditional][hidden] { display: none !important; }
+
+    @media (max-width: 1280px) {
+      .damage-detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .damage-detail-field.is-wide { grid-column: span 1; }
+      .damage-detail-field.is-full { grid-column: 1 / -1; }
+    }
+
     .content.damage-task-active .vehicle-damage-detail { display: none; }
     .content.damage-task-active.task-detail-open .vehicle-damage-detail { display: grid; align-content: start; gap: 12px; }
     .content.damage-task-active #taskInfoPane > :not(.vehicle-damage-detail):not(.task-supplement-panel):not(.task-brief-panel) { display: none !important; }
@@ -7514,6 +7544,15 @@
     .damage-center-search button { display: inline-flex; align-items: center; justify-content: center; border: 0; border-left: 1px solid #e7ebf1; background: #fff; color: #516078; cursor: pointer; }
     .damage-center-search button:hover { background: #f5f8ff; color: #175dff; }
     .damage-center-search svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 1.8; }
+    .damage-center-shortcuts { display: flex; min-height: 44px; align-items: center; gap: 8px; padding: 6px 16px; border-bottom: 1px solid #eef1f6; }
+    .damage-center-shortcuts > span { margin-right: 4px; color: #758198; font-size: 11px; white-space: nowrap; }
+    .damage-center-shortcuts button { min-height: 28px; padding: 0 10px; border: 1px solid #d0d5df; border-radius: 4px; background: #fff; color: #526178; font-size: 11px; cursor: pointer; }
+    .damage-center-shortcuts button:hover, .damage-center-shortcuts button.is-active { border-color: #175dff; background: #f1f6ff; color: #175dff; }
+    .damage-center-custom { display: grid; grid-template-columns: 104px minmax(0, 1fr) 92px auto; gap: 8px; padding: 10px 16px; border-bottom: 1px solid #eef1f6; background: #fafcff; }
+    .damage-center-custom[hidden] { display: none !important; }
+    .damage-center-custom select, .damage-center-custom input { min-width: 0; height: 30px; padding: 0 8px; border: 1px solid #d0d5df; border-radius: 4px; outline: 0; background: #fff; color: #26354f; font-size: 11px; }
+    .damage-center-custom select:focus, .damage-center-custom input:focus { border-color: #175dff; }
+    .damage-center-custom button { min-height: 30px; padding: 0 12px; border: 1px solid #175dff; border-radius: 4px; background: #175dff; color: #fff; font-size: 11px; font-weight: 600; cursor: pointer; }
     .damage-center-modes { display: flex; gap: 16px; min-height: 36px; padding: 0 16px; border-bottom: 1px solid #eef1f6; }
     .damage-center-mode { height: 36px; padding: 0; border: 0; border-bottom: 2px solid transparent; background: transparent; color: #758198; font-size: 12px; cursor: pointer; }
     .damage-center-mode.active { border-bottom-color: #175dff; color: #175dff; font-weight: 600; }
@@ -7568,7 +7607,7 @@
     .damage-center-part-card.is-risk .damage-center-part-card-head b { color: #b83d2d; }
     .damage-center-part-meta { display: block; margin-top: 2px; color: #7a8798; font-size: 11px; line-height: 16px; }
     .damage-center-risk-tag { display: inline-flex; align-items: center; margin-left: 6px; padding: 0 4px; border-radius: 3px; background: #fde6e1; color: #b83d2d; font-size: 10px; line-height: 16px; vertical-align: 1px; }
-    .damage-center-part-actions { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; margin-top: 8px; }
+    .damage-center-part-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; margin-top: 8px; }
     .damage-center-part-action { min-height: 25px; padding: 0 2px; border: 1px solid #dce4ef; border-radius: 3px; background: #fff; color: #596a82; font-size: 10px; cursor: pointer; }
     .damage-center-part-action:hover, .damage-center-part-action.active { border-color: #175dff; background: #edf4ff; color: #175dff; font-weight: 600; }
     .damage-center-work-label { margin-top: 10px; color: #758198; font-size: 11px; line-height: 16px; }
@@ -7591,7 +7630,7 @@
     .damage-cart-panel.active { display: block; }
     .damage-cart-table-wrap { overflow: hidden; }
     .damage-cart-table { width: 100%; table-layout: fixed; border-collapse: collapse; color: #314056; font-size: 12px; }
-    .damage-cart-table th, .damage-cart-table td { height: 52px; padding: 0 12px; border-bottom: 1px solid #eef1f6; text-align: left; }
+    .damage-cart-table th, .damage-cart-table td { height: 52px; padding: 8px 12px; border-bottom: 1px solid #eef1f6; text-align: left; }
     .damage-cart-table th { background: #fafbfd; color: #68758c; font-weight: 600; }
     .damage-cart-table th:first-child, .damage-cart-table td:first-child { width: 42px; padding-right: 0; text-align: center; }
     .damage-cart-table th:nth-child(2), .damage-cart-table td:nth-child(2) { width: 38%; }
@@ -7614,8 +7653,18 @@
     .damage-cart-project { min-width: 0; }
     .damage-cart-project strong, .damage-cart-quote b { display: block; overflow: hidden; color: #26354f; font-size: 12px; font-weight: 600; line-height: 18px; text-overflow: ellipsis; white-space: nowrap; }
     .damage-cart-project small, .damage-cart-quote span { display: block; margin-top: 2px; overflow: hidden; color: #758198; font-size: 11px; line-height: 16px; text-overflow: ellipsis; white-space: nowrap; }
+    .damage-cart-row-fields { display: grid; grid-template-columns: 64px minmax(90px, 1fr) 96px; gap: 6px; margin-top: 6px; }
+    .damage-cart-row-fields.is-work { grid-template-columns: 78px 64px minmax(96px, 1fr); }
+    .damage-cart-row-fields label { display: grid; gap: 2px; min-width: 0; color: #8a96a8; font-size: 10px; line-height: 14px; }
+    .damage-cart-row-fields input, .damage-cart-row-fields select { min-width: 0; width: 100%; height: 24px; padding: 0 5px; border: 1px solid #d7dee8; border-radius: 3px; outline: 0; background: #fff; color: #3f4c61; font-size: 10px; }
+    .damage-cart-row-fields input:focus, .damage-cart-row-fields select:focus { border-color: #175dff; }
+    .damage-cart-price-meta { display: block; margin-top: 3px; color: #758198; font-size: 10px; line-height: 15px; }
     .damage-cart-line-total { color: #26354f; font-weight: 600; }
     .damage-cart-line-total.is-empty { color: #a6afbd; font-weight: 400; }
+    .damage-cart-note-editor { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 10px; align-items: start; padding: 10px 16px; border-top: 1px solid #eef1f6; background: #fafbfd; }
+    .damage-cart-note-editor span { padding-top: 6px; color: #616161; font-size: 11px; line-height: 16px; }
+    .damage-cart-note-editor textarea { width: 100%; min-height: 42px; padding: 6px 8px; border: 1px solid #d0d5df; border-radius: 4px; outline: 0; background: #fff; color: #3f4c61; font: inherit; font-size: 11px; line-height: 16px; resize: vertical; }
+    .damage-cart-note-editor textarea:focus { border-color: #175dff; }
     .damage-cart-foot { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: stretch; min-height: 72px; border-top: 1px solid #e1e8eb; background: #fff; }
     .damage-cart-select-all { display: inline-flex; align-items: center; gap: 8px; padding: 0 16px; color: #4b5a70; font-size: 12px; white-space: nowrap; }
     .damage-cart-summary { display: flex; align-items: center; justify-content: flex-end; gap: 16px; padding: 0 12px; }
@@ -10305,9 +10354,24 @@
             </div>
           </div>
           <section class="vehicle-damage-detail" id="vehicleDamageDetail">
+            <div class="damage-required-sections" id="damageRequiredSections" aria-label="车定损必要信息"></div>
             <section class="damage-center" id="damageCenter" aria-label="定损中心">
               <div class="damage-center-head"><strong>定损中心</strong></div>
               <div class="damage-center-search"><input id="damageCenterSearchInput" type="search" placeholder="输入配件名称或 OE 号" /><button id="damageCenterSearchBtn" type="button" title="搜索配件" aria-label="搜索配件"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg></button></div>
+              <div class="damage-center-shortcuts" aria-label="定损快捷添加">
+                <span>快捷添加</span>
+                <button type="button" data-damage-shortcut="disassemble">常用拆装</button>
+                <button type="button" data-damage-shortcut="paint">常用喷漆</button>
+                <button type="button" data-damage-shortcut="repair">常用维修</button>
+                <button type="button" data-damage-shortcut="material">常用辅料</button>
+                <button type="button" data-damage-shortcut="custom">自定义添加</button>
+              </div>
+              <div class="damage-center-custom" id="damageCenterCustom" hidden>
+                <select id="damageCustomType" aria-label="自定义项目类型"><option>配件</option><option>工时</option><option>辅料</option></select>
+                <input id="damageCustomName" type="text" placeholder="输入项目名称" aria-label="自定义项目名称">
+                <input id="damageCustomAmount" type="number" value="300" min="0" placeholder="金额" aria-label="自定义项目金额">
+                <button type="button" id="damageCustomAdd">加入定损单</button>
+              </div>
               <div class="damage-center-modes" role="tablist" aria-label="定损中心选件方式"><button class="damage-center-mode active" type="button" role="tab" aria-selected="true" data-damage-center-mode="map">点击选件</button><button class="damage-center-mode" type="button" role="tab" aria-selected="false" data-damage-center-mode="tree">结构树查件</button></div>
               <div class="damage-center-body">
                 <div class="damage-center-map-pane" id="damageCenterMapPane">
@@ -10337,9 +10401,10 @@
             <section class="damage-cart" id="damageCart" aria-label="定损清单">
               <div class="damage-cart-head"><strong>定损清单</strong><span class="damage-cart-status" id="damageCartDerivedText">当前已选 <b id="damageSelectedCount">6</b> 项，价格已带出</span></div>
               <div class="damage-cart-tabs" role="tablist" aria-label="定损项目分类">
-                <button class="damage-cart-tab active" type="button" role="tab" aria-selected="true" data-damage-cart-pane="damagePartsPane">配件项目</button>
-                <button class="damage-cart-tab" type="button" role="tab" aria-selected="false" data-damage-cart-pane="damageLaborPane">工时项目</button>
-                <button class="damage-cart-tab" type="button" role="tab" aria-selected="false" data-damage-cart-pane="damageLowCarbonPane">低碳项目</button>
+                <button class="damage-cart-tab active" type="button" role="tab" aria-selected="true" data-damage-cart-pane="damagePartsPane">配件信息</button>
+                <button class="damage-cart-tab" type="button" role="tab" aria-selected="false" data-damage-cart-pane="damageLaborPane">工时信息</button>
+                <button class="damage-cart-tab" type="button" role="tab" aria-selected="false" data-damage-cart-pane="damageMaterialsPane">辅料信息</button>
+                <button class="damage-cart-tab" type="button" role="tab" aria-selected="false" data-damage-cart-pane="damageLowCarbonPane">低碳信息</button>
               </div>
               <div class="damage-cart-panel active" id="damagePartsPane" role="tabpanel">
                 <div class="damage-cart-table-wrap"><table class="damage-cart-table"><thead><tr><th>选择</th><th>定损项目</th><th>当前报价</th><th>小计</th></tr></thead><tbody>
@@ -10366,6 +10431,12 @@
                   <tr class="damage-cart-row damage-cart-work-row" data-damage-item="fogLampReplace" data-damage-material="0" data-damage-labor="160" data-damage-outsource="0" data-damage-manage="0" data-damage-total="160"><td><input class="damage-cart-check" type="checkbox" aria-label="选择左前雾灯更换"></td><td class="damage-cart-project"><strong>左前雾灯总成 - 更换</strong><small>工时项目</small></td><td class="damage-cart-quote"><b>¥160</b><span>参考工时价</span></td><td class="damage-cart-line-total is-empty" data-damage-line-total>未选择</td></tr>
                 </tbody></table></div>
               </div>
+              <div class="damage-cart-panel" id="damageMaterialsPane" role="tabpanel">
+                <div class="damage-cart-table-wrap"><table class="damage-cart-table"><thead><tr><th>选择</th><th>辅料信息</th><th>数量与参考价</th><th>小计</th></tr></thead><tbody>
+                  <tr class="damage-cart-row damage-cart-material-row" data-damage-item="bodyFiller" data-damage-material="180" data-damage-labor="0" data-damage-outsource="0" data-damage-manage="0" data-damage-total="180"><td><input class="damage-cart-check" type="checkbox" aria-label="选择环保型原子灰"></td><td class="damage-cart-project"><strong>环保型原子灰</strong><small>钣金辅料 · 1 套</small></td><td class="damage-cart-quote"><b>¥180</b><span>参考价</span></td><td class="damage-cart-line-total is-empty" data-damage-line-total>未选择</td></tr>
+                  <tr class="damage-cart-row damage-cart-material-row" data-damage-item="paintMaterials" data-damage-material="420" data-damage-labor="0" data-damage-outsource="0" data-damage-manage="0" data-damage-total="420"><td><input class="damage-cart-check" type="checkbox" aria-label="选择喷漆辅料套装"></td><td class="damage-cart-project"><strong>底漆 / 色漆 / 清漆</strong><small>喷漆辅料 · 1 套</small></td><td class="damage-cart-quote"><b>¥420</b><span>参考价</span></td><td class="damage-cart-line-total is-empty" data-damage-line-total>未选择</td></tr>
+                </tbody></table></div>
+              </div>
               <div class="damage-cart-panel" id="damageLowCarbonPane" role="tabpanel">
                 <div class="damage-cart-table-wrap"><table class="damage-cart-table"><thead><tr><th>选择</th><th>定损项目</th><th>当前报价</th><th>小计</th></tr></thead><tbody>
                   <tr class="damage-cart-row" data-damage-item="bumperLowCarbon" data-damage-material="0" data-damage-labor="0" data-damage-outsource="520" data-damage-manage="0" data-damage-total="520"><td><input class="damage-cart-check" type="checkbox" aria-label="选择前保险杠低碳修复"></td><td class="damage-cart-project"><strong>前保险杠总成 - 低碳修复</strong><small>低碳项目</small></td><td class="damage-cart-quote"><b>¥520</b><span>低碳方案参考价</span></td><td class="damage-cart-line-total is-empty" data-damage-line-total>未选择</td></tr>
@@ -10373,12 +10444,14 @@
                   <tr class="damage-cart-row" data-damage-item="fenderLowCarbon" data-damage-material="0" data-damage-labor="0" data-damage-outsource="280" data-damage-manage="0" data-damage-total="280"><td><input class="damage-cart-check" type="checkbox" aria-label="选择左前翼子板低碳修复"></td><td class="damage-cart-project"><strong>左前翼子板 - 低碳修复</strong><small>低碳项目</small></td><td class="damage-cart-quote"><b>¥280</b><span>低碳方案参考价</span></td><td class="damage-cart-line-total is-empty" data-damage-line-total>未选择</td></tr>
                 </tbody></table></div>
               </div>
+              <label class="damage-cart-note-editor"><span>定损备注</span><textarea rows="2">左前损伤边界以现有影像和拆检结果为准；大灯总成价格待完成询价复核后确认。</textarea></label>
               <div class="damage-cart-foot">
                 <label class="damage-cart-select-all"><input id="damageCartAll" type="checkbox" checked> 全选</label>
                 <div class="damage-cart-summary"><span class="damage-cart-summary-item"><span>材料</span><strong id="damageMaterialAmount">¥4,240</strong></span><span class="damage-cart-summary-item"><span>工时</span><strong id="damageLaborAmount">¥2,820</strong></span><span class="damage-cart-summary-item"><span>低碳</span><strong id="damageOutsourceAmount">¥0</strong></span><span class="damage-cart-summary-item"><span>管理</span><strong id="damageManageAmount">¥0</strong></span></div>
                 <div class="damage-cart-total"><span>定损合计</span><strong id="damageTotalAmount">¥10,500</strong></div>
               </div>
             </section>
+            <div class="damage-required-sections" id="damagePostSections" aria-label="车定损明细信息"></div>
           </section>
           <div class="content-tabs" role="tablist" aria-label="车物查勘页面">
             <button class="content-tab ai-review-tab" type="button" id="aiReviewTab" data-pane="aiReviewPane" hidden>AI核赔</button>
@@ -10745,7 +10818,7 @@
                 <tr>
                   <td class="key required">事故类型：</td><td><select class="field" data-autofill="accidentType"><option>单方</option><option>双方</option><option>多方</option></select></td>
                   <td class="key required">事故详细类型：</td><td><select class="field" data-autofill="accidentDetail"><option>碰撞</option><option>火烧</option><option>自然灾害</option></select></td>
-                  <td class="key">事故损失项：</td><td>标的物、司机</td>
+                  <td class="key required">事故损失项：</td><td><select class="field"><option>标的车损</option><option>三者车损</option><option>车上人员</option><option>第三者人伤</option><option>车载货物</option><option>其他财产</option></select></td>
                 </tr>
                 <tr>
                   <td class="key required">赔付结论：</td><td><select class="field" data-autofill="indemnityConclusion"><option>赔付</option><option>零结</option><option>商业险拒赔</option><option>整案拒赔</option><option>注销/报案注销</option></select></td>
@@ -10766,9 +10839,23 @@
                   <td class="key required">赔付方式：</td><td><select class="field" data-autofill="indemnityMode"><option>按责赔付</option><option>互碰自赔</option><option>各自修车</option></select></td>
                 </tr>
                 <tr>
-                  <td class="key required manual-field-key">责任认定书类型：</td><td class="manual-field-cell"><select class="field manual-field-control" id="liabilityTypeField" data-autofill="liabilityType"><option value="" selected>请选择</option><option>全部责任</option><option>主要责任</option><option>同等责任</option><option>次要责任</option><option>无责任</option><option>无法界定责任</option></select></td>
+                  <td class="key required manual-field-key">责任认定书类型：</td><td class="manual-field-cell"><select class="field manual-field-control" id="liabilityTypeField" data-autofill="liabilityType"><option value="" selected>请选择</option><option>交警事故认定书</option><option>交警事故证明</option><option>自行协商协议书</option><option>法院判决书</option><option>仲裁文书</option><option>无责任认定材料</option></select></td>
                   <td class="key required">事故处理方式：</td><td><select class="field" data-autofill="disposeStyle"><option>保险公司处理</option><option>自行协商</option><option>交管正常处理</option><option>交警简易程序处理</option><option>其他</option></select></td>
-                  <td class="key">挂车商业三者险限额：</td><td><input class="field" value="50万" /></td>
+                  <td class="key required">是否无法找到第三方：</td><td><select class="field"><option>否</option><option>是</option></select></td>
+                </tr>
+                <tr>
+                  <td class="key required">出险时是否开启智驾：</td><td><select class="field"><option>否</option><option>是</option><option>无法确认</option><option>车辆不支持</option></select></td>
+                  <td class="key required">减损类型：</td><td><select class="field"><option>无</option><option>施救减损</option><option>残值处理</option><option>低碳维修</option><option>配件修复</option><option>旧件回收</option><option>其他</option></select></td>
+                  <td class="key required">是否大灾：</td><td><select class="field" id="surveyCatastropheField"><option>否</option><option>是</option></select></td>
+                </tr>
+                <tr>
+                  <td class="key required" data-survey-conditional="catastrophe" hidden>灾害名称：</td><td data-survey-conditional="catastrophe" hidden><select class="field"><option>台风</option><option>暴雨</option><option>洪水</option><option>冰雹</option><option>地震</option><option>其他自然灾害</option></select></td>
+                  <td class="key required">人伤大案：</td><td><select class="field"><option>否</option><option>是</option></select></td>
+                  <td class="key required">是否代位求偿：</td><td><select class="field"><option>否</option><option>是</option></select></td>
+                </tr>
+                <tr>
+                  <td class="key">挂车商业三者险限额：</td><td><input class="field" value="50万元" /></td>
+                  <td class="key">事故责任补充：</td><td colspan="3"><input class="field" value="责任材料待核验，当前按 60% 初步处理" /></td>
                 </tr>
                 <tr>
                   <td class="key">查勘说明：</td><td colspan="5"><input class="field" id="surveyOpinionField" data-autofill="surveyOpinion" value="责任明确，建议按责赔付；车辆可正常行驶。" /></td>
@@ -12057,6 +12144,8 @@
     const vehicleDamageDetail = document.getElementById("vehicleDamageDetail");
     const taskInfoPane = document.getElementById("taskInfoPane");
     if (vehicleDamageDetail && taskInfoPane) taskInfoPane.prepend(vehicleDamageDetail);
+    const damageRequiredSections = document.getElementById("damageRequiredSections");
+    const damagePostSections = document.getElementById("damagePostSections");
     const damageCart = document.getElementById("damageCart");
     const damageCenter = document.getElementById("damageCenter");
     const damageCenterSearchInput = document.getElementById("damageCenterSearchInput");
@@ -12071,18 +12160,191 @@
     const damageCenterTree = document.getElementById("damageCenterTree");
     const damageCenterPartCards = document.getElementById("damageCenterPartCards");
     const damageCenterPartCatalog = {
-      bumper: { name: "前保险杠总成", oe: "OE 52119-0K970", price: "¥1,180" },
-      headlight: { name: "左前大灯总成", oe: "OE 81150-0K741", price: "¥2,410", risk: "低配高赔" },
-      grille: { name: "中网格栅总成", oe: "OE 53101-0K240", price: "¥650" },
-      fender: { name: "左前翼子板", oe: "OE 53812-0K390", price: "¥980", risk: "碰撞逻辑待核" },
-      fogLamp: { name: "左前雾灯总成", oe: "OE 81220-0K130", price: "¥420" },
-      frontReinforcement: { name: "前防撞梁", oe: "OE 52021-0K020", price: "¥860" },
-      radiatorGrille: { name: "散热器格栅", oe: "OE 53112-0K370", price: "¥540" },
-      underShield: { name: "发动机下护板", oe: "OE 51441-0K250", price: "¥390" },
-      headlightBracket: { name: "左前大灯支架", oe: "OE 81195-0K110", price: "¥170" },
-      wheelLiner: { name: "左前轮内衬", oe: "OE 53876-0K210", price: "¥260" }
+      bumper: { name: "前保险杠总成", oe: "OE 52119-0K970", price: "¥1,180", guidePrice: "¥1,260", adjacent: "中网格栅、前防撞梁" },
+      headlight: { name: "左前大灯总成", oe: "OE 81150-0K741", price: "¥2,410", guidePrice: "¥2,680", adjacent: "左前翼子板、前保险杠", risk: "低配高赔" },
+      grille: { name: "中网格栅总成", oe: "OE 53101-0K240", price: "¥650", guidePrice: "¥720", adjacent: "前保险杠、散热器格栅" },
+      fender: { name: "左前翼子板", oe: "OE 53812-0K390", price: "¥980", guidePrice: "¥1,080", adjacent: "左前大灯、左前轮眉", risk: "碰撞逻辑待核" },
+      fogLamp: { name: "左前雾灯总成", oe: "OE 81220-0K130", price: "¥420", guidePrice: "¥460", adjacent: "前保险杠、雾灯支架" },
+      frontReinforcement: { name: "前防撞梁", oe: "OE 52021-0K020", price: "¥860", guidePrice: "¥930", adjacent: "前保险杠、吸能盒" },
+      radiatorGrille: { name: "散热器格栅", oe: "OE 53112-0K370", price: "¥540", guidePrice: "¥590", adjacent: "中网格栅、冷凝器" },
+      underShield: { name: "发动机下护板", oe: "OE 51441-0K250", price: "¥390", guidePrice: "¥430", adjacent: "前保险杠下导流板" },
+      headlightBracket: { name: "左前大灯支架", oe: "OE 81195-0K110", price: "¥170", guidePrice: "¥190", adjacent: "左前大灯、翼子板" },
+      wheelLiner: { name: "左前轮内衬", oe: "OE 53876-0K210", price: "¥260", guidePrice: "¥290", adjacent: "左前翼子板、轮眉" }
     };
-    const damageCenterWorks = ["更换", "喷漆", "整形", "拆装", "维修", "低碳"];
+    const escapeDamageDetail = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char]);
+    const damagePartNotes = {
+      bumper: "外观划伤并变形",
+      headlight: "低配高赔待复核",
+      grille: "固定卡扣断裂",
+      fender: "碰撞逻辑待核验",
+      fogLamp: "灯罩与支架待确认"
+    };
+    document.querySelectorAll(".damage-cart-part-row").forEach((row) => {
+      const component = damageCenterPartCatalog[row.dataset.damageItem];
+      const project = row.querySelector(".damage-cart-project");
+      const quote = row.querySelector(".damage-cart-quote");
+      if (!component || !project || !quote) return;
+      row.dataset.damageUnitMaterial = row.dataset.damageMaterial || "0";
+      project.insertAdjacentHTML("beforeend", `<div class="damage-cart-row-fields"><label>数量<input type="number" min="1" value="1" data-damage-line-quantity></label><label>配件备注<input value="${escapeDamageDetail(damagePartNotes[row.dataset.damageItem] || "本次事故损失")}" aria-label="${escapeDamageDetail(component.name)}配件备注"></label><label>询报供<select aria-label="${escapeDamageDetail(component.name)}询报供状态"><option>询价中</option><option selected>已报价</option><option>已供货</option></select></label></div>`);
+      quote.insertAdjacentHTML("beforeend", `<small class="damage-cart-price-meta">厂方指导价 ${component.guidePrice}</small>`);
+    });
+    document.querySelectorAll(".damage-cart-work-row").forEach((row) => {
+      const project = row.querySelector(".damage-cart-project");
+      if (!project) return;
+      const name = project.querySelector("strong")?.textContent || "工时项目";
+      const workType = /喷漆/.test(name) ? "喷漆" : /整形|维修/.test(name) ? "钣金" : "拆装";
+      const degree = workType === "拆装" ? "标准" : "中度";
+      row.dataset.damageUnitLabor = row.dataset.damageLabor || "0";
+      project.insertAdjacentHTML("beforeend", `<div class="damage-cart-row-fields is-work"><label>程度<select aria-label="${escapeDamageDetail(name)}程度"><option selected>${degree}</option><option>轻度</option><option>重度</option></select></label><label>数量<input type="number" min="1" value="1" data-damage-line-quantity></label><label>工时备注<input value="${workType}项目，按协议工时核定" aria-label="${escapeDamageDetail(name)}工时备注"></label></div>`);
+      project.querySelector("small")?.replaceChildren(document.createTextNode(`${workType} · 参考工时`));
+    });
+    document.querySelectorAll("#damageLowCarbonPane .damage-cart-row").forEach((row) => {
+      const project = row.querySelector(".damage-cart-project");
+      if (!project) return;
+      const name = project.querySelector("strong")?.textContent || "低碳项目";
+      project.insertAdjacentHTML("beforeend", `<div class="damage-cart-row-fields"><label>质保<select aria-label="${escapeDamageDetail(name)}质保期限"><option>12个月</option><option>24个月</option><option>36个月</option></select></label><label>服务商<input value="上海绿修汽车科技有限公司" aria-label="${escapeDamageDetail(name)}服务商"></label><label>旧件回收<select aria-label="${escapeDamageDetail(name)}旧件回收状态"><option>待回收</option><option>已回收</option><option>无需回收</option></select></label></div>`);
+    });
+    const renderDamageDetailControl = (field) => {
+      const value = field.value ?? field.options?.[0] ?? "";
+      const attributes = [
+        `class="damage-detail-control"`,
+        `data-damage-detail-field="${escapeDamageDetail(field.key)}"`,
+        field.readonly ? "readonly" : "",
+        field.disabled ? "disabled" : ""
+      ].filter(Boolean).join(" ");
+      let control = "";
+      if (field.type === "select") {
+        control = `<select ${attributes}>${field.options.map((option) => `<option${option === value ? " selected" : ""}>${escapeDamageDetail(option)}</option>`).join("")}</select>`;
+      } else if (field.type === "textarea") {
+        control = `<textarea ${attributes} placeholder="${escapeDamageDetail(field.placeholder || "")}">${escapeDamageDetail(value)}</textarea>`;
+      } else {
+        control = `<input ${attributes} type="${field.type || "text"}" value="${escapeDamageDetail(value)}" placeholder="${escapeDamageDetail(field.placeholder || "")}">`;
+      }
+      if (field.action) {
+        control = `<div class="damage-detail-control-row">${control}<button class="damage-detail-inline-btn" type="button" data-damage-detail-action="${field.action}">${escapeDamageDetail(field.actionLabel)}</button></div>`;
+      }
+      return `<label class="damage-detail-field${field.wide ? " is-wide" : ""}${field.full ? " is-full" : ""}"${field.conditional ? ` data-damage-conditional="${field.conditional}" hidden` : ""}><span class="damage-detail-label${field.required === false ? "" : " is-required"}">${escapeDamageDetail(field.label)}</span>${control}${field.hint ? `<small class="damage-detail-hint">${escapeDamageDetail(field.hint)}</small>` : ""}</label>`;
+    };
+    const renderDamageDetailSection = (section) => `<section class="damage-detail-section"><div class="damage-detail-section-head"><strong>${escapeDamageDetail(section.title)}</strong>${section.meta ? `<span>${escapeDamageDetail(section.meta)}</span>` : ""}</div><div class="damage-detail-grid">${section.fields.map(renderDamageDetailControl).join("")}</div></section>`;
+    const damageDetailSections = [
+      {
+        title: "案件基本信息",
+        fields: [
+          { key: "caseNo", label: "案件号", value: "Z4401000100003100001_9", readonly: true },
+          { key: "damageObject", label: "定损对象", type: "select", options: ["标的车辆 · 沪E20785", "三者车辆 · 沪A7K219"] },
+          { key: "damageOrg", label: "定损机构", type: "select", options: ["上海浦东一部", "上海浦东二部", "上海分公司车损中心"] },
+          { key: "coverage", label: "险别", type: "select", options: ["机动车损失保险", "机动车第三者责任保险", "附加车轮单独损失险"] },
+          { key: "province", label: "所属省份", type: "select", options: ["上海市", "江苏省", "浙江省"] },
+          { key: "city", label: "所属城市", type: "select", options: ["上海市", "苏州市", "杭州市"] },
+          { key: "rescueFee", label: "施救费用（元）", type: "number", value: "380", required: false }
+        ]
+      },
+      {
+        title: "定损信息",
+        fields: [
+          { key: "lossPart", label: "损失部位", value: "前保险杠、左前翼子板、左前雾灯", wide: true },
+          { key: "damageMethod", label: "定损方式", type: "select", options: ["现场定损", "线上图片定损", "视频定损", "远程协同定损", "拆检后定损"] },
+          { key: "waterDamage", label: "是否水淹", type: "select", options: ["否", "是"] },
+          { key: "waterLevel", label: "水淹等级", type: "select", options: ["一级 · 地板以下", "二级 · 座椅下沿", "三级 · 仪表台下沿", "四级 · 仪表台以上", "五级 · 车顶"], conditional: "waterDamage", hint: "确认水位线、进水时长和是否启动发动机；高等级水淹需同步核验电控与动力电池。" },
+          { key: "lossType", label: "损失类型", type: "select", options: ["部分损失", "推定全损", "全损", "新增损失", "非本次事故损失"] },
+          { key: "surveyType", label: "查勘类型", type: "select", options: ["现场查勘", "线上查勘", "远程查勘", "补勘现场"] }
+        ]
+      },
+      {
+        title: "维修信息",
+        fields: [
+          { key: "repairShop", label: "修理厂", value: "上海华星汽车维修有限公司", wide: true },
+          { key: "repairCreditCode", label: "统一社会信用代码", value: "91310115MA1H9X8R2C" },
+          { key: "repairShopType", label: "修理厂类型", type: "select", options: ["合作综合修理厂", "品牌 4S 店", "专修厂", "外修单位"] },
+          { key: "partPolicy", label: "理赔政策 · 配件", type: "select", options: ["原厂件限价", "优先同质件", "修复优先", "按报价核价"] },
+          { key: "laborPolicy", label: "理赔政策 · 工时", type: "select", options: ["协议工时", "区域标准工时", "厂方标准工时", "逐项核定"] }
+        ]
+      },
+      {
+        title: "车辆信息",
+        fields: [
+          { key: "vin", label: "VIN码", value: "LSVAB23E9GY012888", action: "reclassify-vin", actionLabel: "重新定型", wide: true },
+          { key: "plate", label: "车牌号", value: "沪E20785" },
+          { key: "plateType", label: "车牌号种类", type: "select", options: ["小型汽车号牌", "小型新能源汽车", "大型汽车号牌", "临时行驶车号牌"] },
+          { key: "engineNo", label: "发动机号", value: "EA211-987654" },
+          { key: "vehicleAge", label: "车龄区间", type: "select", options: ["0–1年", "1–3年", "3–5年", "5–8年", "8年以上"] },
+          { key: "purchasePrice", label: "新车购置价（元）", type: "number", value: "325800" },
+          { key: "brand", label: "车辆品牌", value: "奥迪" },
+          { key: "manufacturer", label: "生产厂家", value: "一汽-大众汽车有限公司" },
+          { key: "series", label: "车系", value: "奥迪 A6L" },
+          { key: "vehicleGroup", label: "车组", value: "进口/合资乘用车" },
+          { key: "model", label: "车型", value: "2024款 45 TFSI 臻选动感型", wide: true },
+          { key: "structure", label: "车辆结构", type: "select", options: ["承载式三厢轿车", "承载式两厢轿车", "承载式 SUV", "非承载式 SUV", "轻型客车"] }
+        ]
+      }
+    ];
+    if (damageRequiredSections) damageRequiredSections.innerHTML = damageDetailSections.map(renderDamageDetailSection).join("");
+
+    const damagePostFields = [
+      {
+        title: "处理信息",
+        fields: [
+          { key: "fastClaim", label: "是否快赔处理", type: "select", options: ["否", "是"] }
+        ]
+      },
+      {
+        title: "事故保险责任信息",
+        fields: [
+          { key: "damageAccidentType", label: "事故类型", type: "select", options: ["双方事故", "单方事故", "多方事故"] },
+          { key: "damageAccidentDetail", label: "事故详细类型", type: "select", options: ["追尾碰撞", "变道碰撞", "倒车碰撞", "停放受损", "自然灾害"] },
+          { key: "damageLossItem", label: "事故损失项", type: "select", options: ["标的车损", "三者车损", "标的及三者车损"] },
+          { key: "damageConclusion", label: "赔付结论", type: "select", options: ["赔付", "零结", "商业险拒赔", "整案拒赔"] },
+          { key: "damageLiabilityRatio", label: "事故责任系数（%）", type: "number", value: "60" },
+          { key: "damagePaymentMode", label: "赔付方式", type: "select", options: ["按责赔付", "互碰自赔", "各自修车"] },
+          { key: "damageThirdPartyMissing", label: "是否无法找到第三方", type: "select", options: ["否", "是"] },
+          { key: "damageAdas", label: "出险时是否开启智驾", type: "select", options: ["否", "是", "无法确认", "车辆不支持"] }
+        ]
+      },
+      {
+        title: "鉴定信息",
+        fields: [
+          { key: "appraisalEnabled", label: "是否鉴定", type: "select", options: ["否", "是"] },
+          { key: "appraisalOrg", label: "鉴定机构", value: "上海道路交通事故鉴定中心", conditional: "appraisalEnabled", wide: true },
+          { key: "appraisalCreditCode", label: "统一社会信用代码", value: "12310000MB2F01892X", conditional: "appraisalEnabled" },
+          { key: "appraiser", label: "鉴定人", value: "陈立", conditional: "appraisalEnabled" },
+          { key: "appraiserLicense", label: "资格证号", value: "沪司鉴人字20240186", conditional: "appraisalEnabled" }
+        ]
+      }
+    ];
+    if (damagePostSections) damagePostSections.innerHTML = damagePostFields.map(renderDamageDetailSection).join("");
+
+    const syncDamageDetailConditionals = () => {
+      [damageRequiredSections, damagePostSections].forEach((container) => {
+        container?.querySelectorAll("[data-damage-conditional]").forEach((field) => {
+          const sourceKey = field.dataset.damageConditional;
+          const source = document.querySelector(`[data-damage-detail-field="${sourceKey}"]`);
+          field.hidden = source?.value !== "是";
+        });
+      });
+    };
+    syncDamageDetailConditionals();
+    [damageRequiredSections, damagePostSections].forEach((container) => {
+      container?.addEventListener("change", (event) => {
+        if (event.target.matches("[data-damage-detail-field]")) syncDamageDetailConditionals();
+      });
+    });
+    const syncSurveyCatastrophe = () => {
+      const enabled = document.getElementById("surveyCatastropheField")?.value === "是";
+      document.querySelectorAll('[data-survey-conditional="catastrophe"]').forEach((cell) => { cell.hidden = !enabled; });
+    };
+    document.getElementById("surveyCatastropheField")?.addEventListener("change", syncSurveyCatastrophe);
+    syncSurveyCatastrophe();
+    document.addEventListener("click", (event) => {
+      const action = event.target.closest("[data-damage-detail-action]");
+      if (action?.dataset.damageDetailAction !== "reclassify-vin") return;
+      const model = document.querySelector('[data-damage-detail-field="model"]');
+      const vehicleGroup = document.querySelector('[data-damage-detail-field="vehicleGroup"]');
+      if (model) model.value = "2024款 45 TFSI 臻选动感型";
+      if (vehicleGroup) vehicleGroup.value = "进口/合资乘用车";
+      showToast("VIN 重新定型完成，车辆品牌、车系与车型已更新");
+    });
+
+    const damageCenterWorks = ["更换", "拆装", "整形", "喷漆", "维修", "低碳", "旧件回收"];
     const damageCenterParts = {
       front: { name: "前部受损区域", meta: "已自动带出 6 个配件与 5 项工时", components: ["bumper", "headlight", "grille", "frontReinforcement", "radiatorGrille", "underShield"], items: ["bumper", "headlight", "grille", "frontReinforcement", "radiatorGrille", "underShield", "bumperReplace", "bumperPaint", "bumperReshape", "headlightDisassemble", "grilleDisassemble"], keywords: ["前部", "保险杠", "大灯"] },
       leftFront: { name: "左前部位", meta: "已自动带出 10 个配件与 7 项工时", components: ["bumper", "headlight", "grille", "frontReinforcement", "radiatorGrille", "underShield", "fender", "fogLamp", "headlightBracket", "wheelLiner"], items: ["bumper", "headlight", "grille", "frontReinforcement", "radiatorGrille", "underShield", "fender", "fogLamp", "headlightBracket", "wheelLiner", "bumperReplace", "bumperPaint", "bumperReshape", "headlightDisassemble", "grilleDisassemble", "fenderRepair", "fogLampReplace"], keywords: ["左前", "左前大灯", "翼子板"] },
@@ -12108,7 +12370,7 @@
       damageCenterPartCards.innerHTML = part.components.map((componentKey) => {
         const component = damageCenterPartCatalog[componentKey];
         const actions = damageCenterWorks.map((work) => `<button class="damage-center-part-action" type="button" data-damage-component="${componentKey}" data-damage-work="${work}">${work}</button>`).join("");
-        return `<article class="damage-center-part-card${component.risk ? " is-risk" : ""}"><div class="damage-center-part-card-head"><strong>${component.name}${component.risk ? `<span class="damage-center-risk-tag">${component.risk}</span>` : ""}</strong><b>${component.price}</b></div><span class="damage-center-part-meta">${component.oe} · 参考价格</span><div class="damage-center-part-actions">${actions}</div></article>`;
+        return `<article class="damage-center-part-card${component.risk ? " is-risk" : ""}"><div class="damage-center-part-card-head"><strong>${component.name}${component.risk ? `<span class="damage-center-risk-tag">${component.risk}</span>` : ""}</strong><b>${component.price}</b></div><span class="damage-center-part-meta">${component.oe} · 参考价 ${component.price} · 厂方指导价 ${component.guidePrice}</span><span class="damage-center-part-meta">相邻配件：${component.adjacent}</span><div class="damage-center-part-actions">${actions}</div></article>`;
       }).join("");
     };
     const selectDamageCenterPart = (key, statusText) => {
@@ -12171,10 +12433,12 @@
         workCheck.checked = true;
         workCheck.closest(".damage-cart-row").hidden = false;
       }
-      const targetPane = work === "低碳" ? "damageLowCarbonPane" : "damageLaborPane";
+      const targetPane = work === "低碳" ? "damageLowCarbonPane" : work === "旧件回收" ? "damagePartsPane" : "damageLaborPane";
       document.querySelector(`[data-damage-cart-pane="${targetPane}"]`)?.click();
       updateDamageCart();
-      if (damageCenterActionStatus) damageCenterActionStatus.textContent = `已为 ${component?.name || "当前配件"} 选择“${work}”，并同步至${work === "低碳" ? "低碳项目" : "工时项目"}`;
+      if (damageCenterActionStatus) damageCenterActionStatus.textContent = work === "旧件回收"
+        ? `已将 ${component?.name || "当前配件"} 标记为旧件回收，回收状态可在低碳信息中维护`
+        : `已为 ${component?.name || "当前配件"} 选择“${work}”，并同步至${work === "低碳" ? "低碳项目" : "工时项目"}`;
     });
     const searchDamageCenterPart = () => {
       const keyword = damageCenterSearchInput?.value.trim();
@@ -12197,7 +12461,7 @@
     const damageCartAll = document.getElementById("damageCartAll");
     const damageCartTabs = Array.from(document.querySelectorAll(".damage-cart-tab"));
     const damageCartPanels = Array.from(document.querySelectorAll(".damage-cart-panel"));
-    const damageCartChecks = Array.from(document.querySelectorAll(".damage-cart-check"));
+    const getDamageCartChecks = () => Array.from(document.querySelectorAll(".damage-cart-check"));
     const damageSelectedCount = document.getElementById("damageSelectedCount");
     const damageMaterialAmount = document.getElementById("damageMaterialAmount");
     const damageLaborAmount = document.getElementById("damageLaborAmount");
@@ -12211,6 +12475,7 @@
       let labor = 0;
       let outsource = 0;
       let manage = 0;
+      const damageCartChecks = getDamageCartChecks();
       damageCartChecks.forEach((input) => {
         const row = input.closest(".damage-cart-row");
         if (!row) return;
@@ -12251,14 +12516,85 @@
         });
         damageCartPanels.forEach((panel) => panel.classList.toggle("active", panel.id === paneId));
       }));
-      damageCartChecks.forEach((input) => input.addEventListener("change", updateDamageCart));
+      damageCart.addEventListener("change", (event) => {
+        const quantity = event.target.closest("[data-damage-line-quantity]");
+        if (quantity) {
+          const row = quantity.closest(".damage-cart-row");
+          const count = Math.max(Number(quantity.value || 1), 1);
+          if (row?.dataset.damageUnitMaterial) row.dataset.damageMaterial = String(Number(row.dataset.damageUnitMaterial) * count);
+          if (row?.dataset.damageUnitLabor) row.dataset.damageLabor = String(Number(row.dataset.damageUnitLabor) * count);
+          if (row) row.dataset.damageTotal = String(Number(row.dataset.damageMaterial || 0) + Number(row.dataset.damageLabor || 0) + Number(row.dataset.damageOutsource || 0) + Number(row.dataset.damageManage || 0));
+          const unitAmount = Number(row?.dataset.damageUnitMaterial || row?.dataset.damageUnitLabor || 0);
+          const quote = row?.querySelector(".damage-cart-quote b");
+          if (quote && unitAmount) quote.textContent = `${formatDamageAmount(unitAmount)} × ${count}`;
+        }
+        if (event.target.matches(".damage-cart-check, [data-damage-line-quantity]")) updateDamageCart();
+      });
       damageCartAll?.addEventListener("change", () => {
-        damageCartChecks.forEach((input) => { input.checked = damageCartAll.checked; });
+        getDamageCartChecks().forEach((input) => { input.checked = damageCartAll.checked; });
         updateDamageCart();
       });
       updateDamageCart();
       selectDamageCenterPart(damageCenterPartKey);
     }
+    const damageCenterCustom = document.getElementById("damageCenterCustom");
+    const damageShortcutProfiles = {
+      disassemble: { pane: "damageLaborPane", items: ["bumperReplace", "headlightDisassemble", "grilleDisassemble"], message: "已加入常用拆装项" },
+      paint: { pane: "damageLaborPane", items: ["bumperPaint"], message: "已加入常用喷漆项" },
+      repair: { pane: "damageLaborPane", items: ["bumperReshape", "fenderRepair"], message: "已加入常用维修项" },
+      material: { pane: "damageMaterialsPane", items: ["bodyFiller", "paintMaterials"], message: "已加入常用辅料" }
+    };
+    document.querySelectorAll("[data-damage-shortcut]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const shortcut = button.dataset.damageShortcut;
+        document.querySelectorAll("[data-damage-shortcut]").forEach((item) => item.classList.toggle("is-active", item === button));
+        if (shortcut === "custom") {
+          if (damageCenterCustom) damageCenterCustom.hidden = !damageCenterCustom.hidden;
+          return;
+        }
+        if (damageCenterCustom) damageCenterCustom.hidden = true;
+        const profile = damageShortcutProfiles[shortcut];
+        if (!profile) return;
+        profile.items.forEach((itemKey) => {
+          const row = document.querySelector(`[data-damage-item="${itemKey}"]`);
+          const check = row?.querySelector(".damage-cart-check");
+          if (!row || !check) return;
+          row.hidden = false;
+          check.checked = true;
+        });
+        document.querySelector(`[data-damage-cart-pane="${profile.pane}"]`)?.click();
+        updateDamageCart();
+        showToast(profile.message);
+      });
+    });
+    document.getElementById("damageCustomAdd")?.addEventListener("click", () => {
+      const type = document.getElementById("damageCustomType")?.value || "配件";
+      const nameInput = document.getElementById("damageCustomName");
+      const amountInput = document.getElementById("damageCustomAmount");
+      const name = nameInput?.value.trim() || "";
+      const amount = Math.max(Number(amountInput?.value || 0), 0);
+      if (!name) {
+        nameInput?.focus();
+        showToast("请先填写自定义项目名称", "error");
+        return;
+      }
+      const paneId = type === "工时" ? "damageLaborPane" : type === "辅料" ? "damageMaterialsPane" : "damagePartsPane";
+      const tbody = document.querySelector(`#${paneId} tbody`);
+      const amountFields = type === "工时"
+        ? `data-damage-material="0" data-damage-labor="${amount}"`
+        : `data-damage-material="${amount}" data-damage-labor="0"`;
+      const rowClass = type === "工时" ? "damage-cart-work-row" : type === "辅料" ? "damage-cart-material-row" : "damage-cart-part-row";
+      const detailFields = type === "工时"
+        ? `<div class="damage-cart-row-fields is-work"><label>程度<select><option>标准</option><option>轻度</option><option>重度</option></select></label><label>数量<input type="number" min="1" value="1"></label><label>工时备注<input value="自定义工时项目"></label></div>`
+        : type === "配件"
+          ? `<div class="damage-cart-row-fields"><label>数量<input type="number" min="1" value="1"></label><label>配件备注<input value="自定义配件"></label><label>询报供<select><option>询价中</option><option>已报价</option><option>已供货</option></select></label></div>`
+          : "";
+      tbody?.insertAdjacentHTML("beforeend", `<tr class="damage-cart-row ${rowClass} is-selected" data-damage-item="custom-${Date.now()}" ${amountFields} data-damage-outsource="0" data-damage-manage="0" data-damage-total="${amount}"><td><input class="damage-cart-check" type="checkbox" checked aria-label="选择${escapeDamageDetail(name)}"></td><td class="damage-cart-project"><strong>${escapeDamageDetail(name)}</strong><small>自定义${type}</small>${detailFields}</td><td class="damage-cart-quote"><b>${formatDamageAmount(amount)}</b><span>手工录入参考价</span></td><td class="damage-cart-line-total" data-damage-line-total>${formatDamageAmount(amount)}</td></tr>`);
+      document.querySelector(`[data-damage-cart-pane="${paneId}"]`)?.click();
+      updateDamageCart();
+      showToast(`已将自定义${type}“${name}”加入定损单`);
+      if (nameInput) nameInput.value = "";
+    });
     const docLeftCats = document.getElementById("docLeftCats");
     const docMainGrid = document.getElementById("docMainGrid");
     const docUploadBtn = document.getElementById("docUploadBtn");
