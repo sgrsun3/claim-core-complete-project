@@ -9426,21 +9426,24 @@
       flex: 1 1 auto;
     }
 
-    /* 定损中心独立为核心作业页：风险前置，选件与清单保持在同一工作面。 */
+    /* 定损中心独立为核心作业页：整页滚动，上方双图，下方全宽项目列表。 */
+    .workspace.task-active .content.damage-task-active { min-height: 0; }
     #damageCenterPane.tab-pane.active {
-      display: grid;
-      grid-template-rows: auto auto auto;
-      align-content: start;
-      gap: 12px;
+      display: block;
       height: 100%;
-      overflow: auto;
-      padding: 0 0 16px;
+      min-height: 0;
+      max-height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-gutter: stable;
+      padding: 0 4px 72px 0;
     }
     #damageCenterPane > .damage-leakage-panel {
       grid-template-columns: 172px minmax(0, 1fr);
       align-items: start;
       gap: 12px;
-      margin: 0;
+      margin: 0 0 12px;
       padding: 12px 14px;
       border-color: #f0d7ae;
       background: #fffaf2;
@@ -9466,20 +9469,67 @@
     #damageCenterPane .damage-center-shortcuts { min-height: 40px; flex-wrap: wrap; padding: 0 0 10px; border-bottom: 0; }
     #damageCenterPane .damage-center-modes { min-height: 40px; padding: 0; border-top: 1px solid #eef1f6; }
     #damageCenterPane .damage-center-mode { height: 40px; }
-    #damageCenterPane .damage-center-body { grid-template-columns: 336px minmax(0, 1fr); min-height: 432px; border-top: 1px solid #eef1f6; }
-    #damageCenterPane .damage-center-map-pane { padding: 14px 16px 14px 0; border-right: 1px solid #eef1f6; background: transparent; }
-    #damageCenterPane .damage-center-stage { min-height: 320px; align-items: center; background: #fbfcfe; }
+    #damageCenterPane .damage-center-body {
+      grid-template-columns: minmax(320px, .95fr) minmax(300px, 1.05fr);
+      grid-template-areas: "vehicle preview" "projects projects";
+      min-height: 0;
+      border-top: 1px solid #eef1f6;
+    }
+    #damageCenterPane .damage-center-map-pane { grid-area: vehicle; padding: 14px 16px 14px 0; border-right: 1px solid #eef1f6; background: transparent; }
+    #damageCenterPane .damage-center-stage { min-height: 320px; height: 320px; align-items: center; background: #fbfcfe; }
     #damageCenterPane .damage-center-stage .car-map { flex: 0 0 320px; width: 320px; height: 240px; zoom: .8; }
-    #damageCenterPane .damage-center-side { min-height: 432px; padding: 14px 0 14px 16px; }
-    #damageCenterPane .damage-center-selected { height: 100%; grid-template-rows: minmax(0, 1fr) auto; }
-    #damageCenterPane .damage-center-part-cards { grid-template-columns: minmax(0, 1fr); align-content: start; max-height: 398px; padding-right: 6px; }
-    #damageCenterPane .damage-center-part-card { min-height: 64px; display: grid; grid-template-columns: minmax(0, 1fr) 270px; column-gap: 12px; align-items: center; }
-    #damageCenterPane .damage-center-part-card-head, #damageCenterPane .damage-center-part-meta { grid-column: 1; }
-    #damageCenterPane .damage-center-part-actions { grid-column: 2; grid-row: 1 / span 3; margin-top: 0; }
-    #damageCenterPane .damage-center-tree.active { max-height: 432px; }
-    #damageCenterPane .damage-center.is-tree-mode .damage-center-side { min-height: 432px; }
-    #damageCenterPane .damage-center.is-tree-mode .damage-center-tree { max-height: 432px; }
-    #damageCenterPane .damage-center.is-tree-mode .damage-center-selected { grid-template-rows: minmax(0, 1fr) auto; }
+    #damageCenterPane .damage-center-part-preview {
+      grid-area: preview;
+      min-width: 0;
+      height: 320px;
+      margin: 14px 0 14px 16px;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 42px minmax(0, 1fr) 54px;
+      border: 1px solid #e3e9f1;
+      border-radius: 8px;
+      background: #fff;
+    }
+    #damageCenterPane .damage-center-part-preview-head,
+    #damageCenterPane .damage-center-part-preview-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 14px; }
+    #damageCenterPane .damage-center-part-preview-head { border-bottom: 1px solid #eef1f6; color: #26354f; font-size: 12px; font-weight: 600; }
+    #damageCenterPane .damage-center-part-preview-head b { color: #758198; font-size: 11px; font-weight: 500; }
+    #damageCenterPane .damage-center-part-preview-media { min-height: 0; padding: 8px 18px; display: flex; align-items: center; justify-content: center; background: #f8fafc; }
+    #damageCenterPane .damage-center-part-preview-media img { width: 100%; height: 100%; display: block; object-fit: contain; }
+    #damageCenterPane .damage-center-part-preview-foot { border-top: 1px solid #eef1f6; }
+    #damageCenterPane .damage-center-part-preview-foot strong { min-width: 0; overflow: hidden; color: #26354f; font-size: 13px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+    #damageCenterPane .damage-center-part-preview-foot span { flex: 0 0 auto; color: #175dff; font-size: 12px; font-weight: 600; }
+    #damageCenterPane .damage-center-side { grid-area: projects; min-height: 0; padding: 14px 0 18px; border-top: 1px solid #eef1f6; }
+    #damageCenterPane .damage-center-selected { height: auto; grid-template-rows: auto auto; }
+    #damageCenterPane .damage-center-part-cards { grid-template-columns: minmax(0, 1fr); align-content: start; max-height: none; overflow: visible; padding-right: 0; }
+    #damageCenterPane .damage-center-part-card {
+      min-height: 90px;
+      padding: 12px 14px;
+      display: grid;
+      grid-template-columns: minmax(220px, 1.2fr) 132px minmax(320px, 1.4fr);
+      gap: 10px 16px;
+      align-items: center;
+      cursor: pointer;
+      transition: border-color .16s ease, box-shadow .16s ease, background .16s ease;
+    }
+    #damageCenterPane .damage-center-part-card:hover { border-color: #b8ccf7; background: #fbfdff; }
+    #damageCenterPane .damage-center-part-card.is-preview-active { border-color: #7da3ff; background: #f5f8ff; box-shadow: inset 3px 0 0 #175dff; }
+    #damageCenterPane .damage-center-part-card:focus-visible { outline: 2px solid #175dff; outline-offset: 2px; }
+    #damageCenterPane .damage-center-part-main { min-width: 0; display: grid; gap: 4px; }
+    #damageCenterPane .damage-center-part-card-head { min-width: 0; }
+    #damageCenterPane .damage-center-part-card-head strong { white-space: normal; }
+    #damageCenterPane .damage-center-part-price { min-height: 56px; padding: 0 16px; display: grid; align-content: center; gap: 2px; border-right: 1px solid #eef1f6; border-left: 1px solid #eef1f6; }
+    #damageCenterPane .damage-center-part-price span,
+    #damageCenterPane .damage-center-part-price small { color: #758198; font-size: 10px; line-height: 15px; }
+    #damageCenterPane .damage-center-part-price strong { color: #175dff; font-size: 15px; font-weight: 600; line-height: 20px; }
+    #damageCenterPane .damage-center-part-actions { grid-column: 3; grid-row: 1; margin-top: 0; grid-template-columns: repeat(4, minmax(48px, 1fr)); align-content: center; }
+    #damageCenterPane .damage-center-action-status { min-height: 32px; padding-top: 8px; text-align: right; }
+    #damageCenterPane .damage-center-tree.active { max-height: 360px; }
+    #damageCenterPane .damage-center.is-tree-mode .damage-center-body { grid-template-columns: minmax(0, 1fr); grid-template-areas: "preview" "projects"; }
+    #damageCenterPane .damage-center.is-tree-mode .damage-center-part-preview { margin-left: 0; }
+    #damageCenterPane .damage-center.is-tree-mode .damage-center-side { min-height: 0; padding: 14px 0 18px; display: grid; grid-template-columns: 240px minmax(0, 1fr); }
+    #damageCenterPane .damage-center.is-tree-mode .damage-center-tree { max-height: 420px; }
+    #damageCenterPane .damage-center.is-tree-mode .damage-center-selected { min-height: 0; padding: 0 0 0 16px; grid-template-rows: auto auto; }
 
     .damage-task-info-cart { overflow: hidden; border: 1px solid #e1e8eb; border-radius: 8px; background: #fff; }
     .damage-task-info-cart-head { min-height: 44px; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid #eef1f6; }
@@ -9499,8 +9549,8 @@
 
     @media (max-width: 1280px) {
       #damageCenterPane .damage-center-body { grid-template-columns: 304px minmax(0, 1fr); }
-      #damageCenterPane .damage-center-part-card { grid-template-columns: minmax(0, 1fr); }
-      #damageCenterPane .damage-center-part-actions { grid-column: 1; grid-row: auto; margin-top: 8px; }
+      #damageCenterPane .damage-center-part-card { grid-template-columns: minmax(0, 1fr) 124px; }
+      #damageCenterPane .damage-center-part-actions { grid-column: 1 / -1; grid-row: auto; margin-top: 2px; }
       #damageCenterPane > .damage-leakage-panel { grid-template-columns: 1fr; }
       #damageCenterPane > .damage-leakage-panel .damage-leakage-head { padding: 0; border-right: 0; }
     }
@@ -10647,6 +10697,11 @@
                     <span class="damage-center-map-tip">点击受损部位，自动带出关联配件与工时项目</span>
                   </div>
                 </div>
+                <aside class="damage-center-part-preview" aria-label="原厂配件图">
+                  <div class="damage-center-part-preview-head"><span>原厂配件图</span><b id="damageCenterPreviewOe">OE 52119-0K970</b></div>
+                  <div class="damage-center-part-preview-media"><img id="damageCenterPartImage" src="./assets/damage-parts/bumper.jpg" alt="前保险杠总成原厂配件图"></div>
+                  <div class="damage-center-part-preview-foot"><strong id="damageCenterPreviewName">前保险杠总成</strong><span id="damageCenterPreviewPrice">参考价 ¥1,180</span></div>
+                </aside>
                 <div class="damage-center-side">
                   <div class="damage-center-selected" id="damageCenterSelectedView"><div class="damage-center-part-cards" id="damageCenterPartCards"></div><div class="damage-center-action-status" id="damageCenterActionStatus">已同步至下方定损清单</div></div>
                   <div class="damage-center-tree" id="damageCenterTree"><button class="damage-center-tree-row" type="button" data-damage-center-part="root">▾ 车身结构树</button><button class="damage-center-tree-row level-1" type="button" data-damage-center-part="front">▾ 前部总成</button><button class="damage-center-tree-row level-2 active" type="button" data-damage-center-part="front">前保险杠总成</button><button class="damage-center-tree-row level-2" type="button" data-damage-center-part="leftFront">左前大灯总成</button><button class="damage-center-tree-row level-2" type="button" data-damage-center-part="front">中网格栅总成</button><button class="damage-center-tree-row level-2" type="button" data-damage-center-part="front">前防撞梁</button><button class="damage-center-tree-row level-2" type="button" data-damage-center-part="front">散热器格栅</button><button class="damage-center-tree-row level-2" type="button" data-damage-center-part="front">发动机下护板</button><button class="damage-center-tree-row level-1" type="button" data-damage-center-part="leftFront">▾ 左前侧围</button><button class="damage-center-tree-row level-2" type="button" data-damage-center-part="leftFront">左前翼子板</button><button class="damage-center-tree-row level-2" type="button" data-damage-center-part="leftFront">左前雾灯总成</button><button class="damage-center-tree-row level-2" type="button" data-damage-center-part="leftFront">左前大灯支架</button><button class="damage-center-tree-row level-2" type="button" data-damage-center-part="leftSide">左前轮内衬</button><button class="damage-center-tree-row level-1" type="button" data-damage-center-part="rear">▸ 后部总成</button></div>
@@ -12336,17 +12391,21 @@
     const damageCenterTreeRows = Array.from(document.querySelectorAll(".damage-center-tree-row"));
     const damageCenterTree = document.getElementById("damageCenterTree");
     const damageCenterPartCards = document.getElementById("damageCenterPartCards");
+    const damageCenterPartImage = document.getElementById("damageCenterPartImage");
+    const damageCenterPreviewName = document.getElementById("damageCenterPreviewName");
+    const damageCenterPreviewOe = document.getElementById("damageCenterPreviewOe");
+    const damageCenterPreviewPrice = document.getElementById("damageCenterPreviewPrice");
     const damageCenterPartCatalog = {
-      bumper: { name: "前保险杠总成", oe: "OE 52119-0K970", price: "¥1,180", guidePrice: "¥1,260", adjacent: "中网格栅、前防撞梁" },
-      headlight: { name: "左前大灯总成", oe: "OE 81150-0K741", price: "¥2,410", guidePrice: "¥2,680", adjacent: "左前翼子板、前保险杠", risk: "低配高赔" },
-      grille: { name: "中网格栅总成", oe: "OE 53101-0K240", price: "¥650", guidePrice: "¥720", adjacent: "前保险杠、散热器格栅" },
-      fender: { name: "左前翼子板", oe: "OE 53812-0K390", price: "¥980", guidePrice: "¥1,080", adjacent: "左前大灯、左前轮眉", risk: "碰撞逻辑待核" },
-      fogLamp: { name: "左前雾灯总成", oe: "OE 81220-0K130", price: "¥420", guidePrice: "¥460", adjacent: "前保险杠、雾灯支架" },
-      frontReinforcement: { name: "前防撞梁", oe: "OE 52021-0K020", price: "¥860", guidePrice: "¥930", adjacent: "前保险杠、吸能盒" },
-      radiatorGrille: { name: "散热器格栅", oe: "OE 53112-0K370", price: "¥540", guidePrice: "¥590", adjacent: "中网格栅、冷凝器" },
-      underShield: { name: "发动机下护板", oe: "OE 51441-0K250", price: "¥390", guidePrice: "¥430", adjacent: "前保险杠下导流板" },
-      headlightBracket: { name: "左前大灯支架", oe: "OE 81195-0K110", price: "¥170", guidePrice: "¥190", adjacent: "左前大灯、翼子板" },
-      wheelLiner: { name: "左前轮内衬", oe: "OE 53876-0K210", price: "¥260", guidePrice: "¥290", adjacent: "左前翼子板、轮眉" }
+      bumper: { name: "前保险杠总成", oe: "OE 52119-0K970", price: "¥1,180", guidePrice: "¥1,260", adjacent: "中网格栅、前防撞梁", image: "./assets/damage-parts/bumper.jpg" },
+      headlight: { name: "左前大灯总成", oe: "OE 81150-0K741", price: "¥2,410", guidePrice: "¥2,680", adjacent: "左前翼子板、前保险杠", image: "./assets/damage-parts/headlight.jpg", risk: "低配高赔" },
+      grille: { name: "中网格栅总成", oe: "OE 53101-0K240", price: "¥650", guidePrice: "¥720", adjacent: "前保险杠、散热器格栅", image: "./assets/damage-parts/grille.jpg" },
+      fender: { name: "左前翼子板", oe: "OE 53812-0K390", price: "¥980", guidePrice: "¥1,080", adjacent: "左前大灯、左前轮眉", image: "./assets/damage-parts/fender.jpg", risk: "碰撞逻辑待核" },
+      fogLamp: { name: "左前雾灯总成", oe: "OE 81220-0K130", price: "¥420", guidePrice: "¥460", adjacent: "前保险杠、雾灯支架", image: "./assets/damage-parts/fog-lamp.jpg" },
+      frontReinforcement: { name: "前防撞梁", oe: "OE 52021-0K020", price: "¥860", guidePrice: "¥930", adjacent: "前保险杠、吸能盒", image: "./assets/damage-parts/front-reinforcement.jpg" },
+      radiatorGrille: { name: "散热器格栅", oe: "OE 53112-0K370", price: "¥540", guidePrice: "¥590", adjacent: "中网格栅、冷凝器", image: "./assets/damage-parts/radiator-grille.jpg" },
+      underShield: { name: "发动机下护板", oe: "OE 51441-0K250", price: "¥390", guidePrice: "¥430", adjacent: "前保险杠下导流板", image: "./assets/damage-parts/under-shield.jpg" },
+      headlightBracket: { name: "左前大灯支架", oe: "OE 81195-0K110", price: "¥170", guidePrice: "¥190", adjacent: "左前大灯、翼子板", image: "./assets/damage-parts/headlight-bracket.jpg" },
+      wheelLiner: { name: "左前轮内衬", oe: "OE 53876-0K210", price: "¥260", guidePrice: "¥290", adjacent: "左前翼子板、轮眉", image: "./assets/damage-parts/wheel-liner.jpg" }
     };
     const escapeDamageDetail = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char]);
     const damagePartNotes = {
@@ -12548,15 +12607,30 @@
       partsTab?.click();
       updateDamageCart();
     };
+    const showDamageCenterComponent = (componentKey, preferredCard) => {
+      const component = damageCenterPartCatalog[componentKey];
+      if (!component) return;
+      if (damageCenterPartImage) {
+        damageCenterPartImage.src = component.image;
+        damageCenterPartImage.alt = `${component.name}原厂配件图`;
+      }
+      if (damageCenterPreviewName) damageCenterPreviewName.textContent = component.name;
+      if (damageCenterPreviewOe) damageCenterPreviewOe.textContent = component.oe;
+      if (damageCenterPreviewPrice) damageCenterPreviewPrice.textContent = `参考价 ${component.price}`;
+      damageCenterPartCards?.querySelectorAll(".damage-center-part-card").forEach((card) => {
+        card.classList.toggle("is-preview-active", card === preferredCard || (!preferredCard && card.dataset.damageComponent === componentKey));
+      });
+    };
     const renderDamageCenterCards = (part) => {
       if (!damageCenterPartCards) return;
       damageCenterPartCards.innerHTML = part.components.map((componentKey) => {
         const component = damageCenterPartCatalog[componentKey];
         const actions = damageCenterWorks.map((work) => `<button class="damage-center-part-action" type="button" data-damage-component="${componentKey}" data-damage-work="${work}">${work}</button>`).join("");
-        return `<article class="damage-center-part-card${component.risk ? " is-risk" : ""}"><div class="damage-center-part-card-head"><strong>${component.name}${component.risk ? `<span class="damage-center-risk-tag">${component.risk}</span>` : ""}</strong><b>${component.price}</b></div><span class="damage-center-part-meta">${component.oe} · 参考价 ${component.price} · 厂方指导价 ${component.guidePrice}</span><span class="damage-center-part-meta">相邻配件：${component.adjacent}</span><div class="damage-center-part-actions">${actions}</div></article>`;
+        return `<article class="damage-center-part-card${component.risk ? " is-risk" : ""}" data-damage-component="${componentKey}" tabindex="0" role="button" aria-label="查看${component.name}原厂配件图"><div class="damage-center-part-main"><div class="damage-center-part-card-head"><strong>${component.name}${component.risk ? `<span class="damage-center-risk-tag">${component.risk}</span>` : ""}</strong></div><span class="damage-center-part-meta">${component.oe}</span><span class="damage-center-part-meta">相邻配件：${component.adjacent}</span></div><div class="damage-center-part-price"><span>参考价</span><strong>${component.price}</strong><small>厂方指导价 ${component.guidePrice}</small></div><div class="damage-center-part-actions">${actions}</div></article>`;
       }).join("");
+      showDamageCenterComponent(part.components[0]);
     };
-    const selectDamageCenterPart = (key, statusText) => {
+    const selectDamageCenterPart = (key, statusText, sourceControl) => {
       const part = damageCenterParts[key];
       if (!part) return;
       damageCenterPartKey = key;
@@ -12565,8 +12639,10 @@
       renderDamageCenterCards(part);
       if (damageCenterActionStatus) damageCenterActionStatus.textContent = "已同步至下方定损清单，可逐项确认或调整";
       if (damageCenterStatus) damageCenterStatus.textContent = statusText || `已选择${part.name}，自动带出关联配件与工时`;
-      damageCenterMapTags.forEach((item) => item.classList.toggle("active", item.dataset.damageCenterPart === key));
-      damageCenterTreeRows.forEach((item) => item.classList.toggle("active", item.dataset.damageCenterPart === key));
+      const activeMapControl = damageCenterMapTags.includes(sourceControl) ? sourceControl : damageCenterMapTags.find((item) => item.dataset.damageCenterPart === key);
+      const activeTreeControl = damageCenterTreeRows.includes(sourceControl) ? sourceControl : damageCenterTreeRows.find((item) => item.dataset.damageCenterPart === key);
+      damageCenterMapTags.forEach((item) => item.classList.toggle("active", item === activeMapControl));
+      damageCenterTreeRows.forEach((item) => item.classList.toggle("active", item === activeTreeControl));
       syncDamageCartFromPart(part);
     };
     const setDamageCenterMode = (mode) => {
@@ -12583,9 +12659,9 @@
     damageCenterModes.forEach((item) => item.addEventListener("click", () => setDamageCenterMode(item.dataset.damageCenterMode)));
     damageCenterMapTags.forEach((item) => item.addEventListener("click", (event) => {
       event.stopPropagation();
-      selectDamageCenterPart(item.dataset.damageCenterPart);
+      selectDamageCenterPart(item.dataset.damageCenterPart, undefined, item);
     }));
-    damageCenterTreeRows.forEach((item) => item.addEventListener("click", () => selectDamageCenterPart(item.dataset.damageCenterPart)));
+    damageCenterTreeRows.forEach((item) => item.addEventListener("click", () => selectDamageCenterPart(item.dataset.damageCenterPart, undefined, item)));
     const damageCenterWorkItems = {
       "bumper-更换": "bumperReplace", "bumper-喷漆": "bumperPaint", "bumper-整形": "bumperReshape", "bumper-拆装": "bumperReplace", "bumper-维修": "bumperReshape", "bumper-低碳": "bumperLowCarbon",
       "headlight-更换": "headlight", "headlight-喷漆": "headlightDisassemble", "headlight-整形": "headlightDisassemble", "headlight-拆装": "headlightDisassemble", "headlight-维修": "headlightDisassemble", "headlight-低碳": "headlightLowCarbon",
@@ -12599,6 +12675,8 @@
       "wheelLiner-更换": "fenderRepair", "wheelLiner-喷漆": "fenderRepair", "wheelLiner-整形": "fenderRepair", "wheelLiner-拆装": "fenderRepair", "wheelLiner-维修": "fenderRepair", "wheelLiner-低碳": "fenderLowCarbon"
     };
     damageCenterPartCards?.addEventListener("click", (event) => {
+      const partCard = event.target.closest(".damage-center-part-card");
+      if (partCard) showDamageCenterComponent(partCard.dataset.damageComponent, partCard);
       const button = event.target.closest(".damage-center-part-action");
       if (!button) return;
       const componentKey = button.dataset.damageComponent;
@@ -12622,6 +12700,13 @@
       if (damageCenterActionStatus) damageCenterActionStatus.textContent = work === "旧件回收"
         ? `已将 ${component?.name || "当前配件"} 标记为旧件回收，回收状态可在低碳信息中维护`
         : `已为 ${component?.name || "当前配件"} 选择“${work}”，并同步至${work === "低碳" ? "低碳项目" : "工时项目"}`;
+    });
+    damageCenterPartCards?.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      const partCard = event.target.closest(".damage-center-part-card");
+      if (!partCard || event.target.closest(".damage-center-part-action")) return;
+      event.preventDefault();
+      showDamageCenterComponent(partCard.dataset.damageComponent, partCard);
     });
     const searchDamageCenterPart = () => {
       const keyword = damageCenterSearchInput?.value.trim();

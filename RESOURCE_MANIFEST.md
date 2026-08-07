@@ -17,6 +17,21 @@
 | `assets/demo-avatars/claim-contact-1.jpg` | Demo 材料图片一 |
 | `assets/demo-avatars/claim-contact-2.jpg` | Demo 材料图片二 |
 
+## 定损配件参考图
+
+| 文件 | 用途 |
+|---|---|
+| `assets/damage-parts/bumper.jpg` | 前保险杠总成原厂风格参考图 |
+| `assets/damage-parts/headlight.jpg` | 左前大灯总成原厂风格参考图 |
+| `assets/damage-parts/grille.jpg` | 中网格栅总成原厂风格参考图 |
+| `assets/damage-parts/front-reinforcement.jpg` | 前防撞梁原厂风格参考图 |
+| `assets/damage-parts/radiator-grille.jpg` | 散热器格栅原厂风格参考图 |
+| `assets/damage-parts/under-shield.jpg` | 发动机下护板原厂风格参考图 |
+| `assets/damage-parts/fender.jpg` | 左前翼子板原厂风格参考图 |
+| `assets/damage-parts/fog-lamp.jpg` | 左前雾灯总成原厂风格参考图 |
+| `assets/damage-parts/headlight-bracket.jpg` | 左前大灯支架原厂风格参考图 |
+| `assets/damage-parts/wheel-liner.jpg` | 左前轮内衬原厂风格参考图 |
+
 ## 办公区场景
 
 | 文件 | 用途 |
