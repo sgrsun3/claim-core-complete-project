@@ -3068,6 +3068,21 @@
     .sp-autofill-missing-title { font-weight: 700; }
     .sp-autofill-missing-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
     .sp-autofill-missing-item { padding: 2px 7px; border-radius: 4px; background: #fff; color: #9b5b00; font-size: 12px; font-weight: 600; box-shadow: inset 0 0 0 1px #edc16b; }
+    .sp-recognition-card { display: grid; gap: 12px; width: 100%; }
+    .sp-recognition-summary { margin: 0; color: var(--color-text-2); font-size: 13px; line-height: 20px; }
+    .sp-recognition-section { display: grid; gap: 7px; }
+    .sp-recognition-section-title { display: flex; align-items: center; justify-content: space-between; color: var(--color-text-1); font-size: 12px; font-weight: 600; line-height: 18px; }
+    .sp-recognition-section-title small { color: #0f8a5f; font-size: 11px; font-weight: 500; }
+    .sp-recognition-list { display: grid; gap: 6px; }
+    .sp-recognition-file,
+    .sp-recognition-field { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 32px; padding: 6px 9px; border: 1px solid #e1e8eb; border-radius: 6px; background: #f8fafc; }
+    .sp-recognition-file span,
+    .sp-recognition-field span { overflow: hidden; color: #4f5d73; font-size: 12px; line-height: 18px; text-overflow: ellipsis; white-space: nowrap; }
+    .sp-recognition-file b { padding: 2px 6px; border-radius: 4px; background: #eaf1ff; color: #175dff; font-size: 11px; font-weight: 600; line-height: 16px; }
+    .sp-recognition-field b { display: inline-flex; align-items: center; gap: 5px; color: #0f8a5f; font-size: 12px; font-weight: 600; line-height: 18px; }
+    .sp-recognition-field b::before { width: 14px; height: 14px; display: inline-grid; place-items: center; border-radius: 50%; background: #dff7ec; content: "✓"; font-size: 9px; }
+    .sp-recognition-filled { display: flex; align-items: center; gap: 8px; min-height: 36px; padding: 8px 10px; border-left: 3px solid #0ca678; border-radius: 6px; background: #edf9f4; color: #126b50; font-size: 12px; line-height: 18px; }
+    #spChatPane.is-file-dragover { outline: 2px dashed #8baeff; outline-offset: -8px; border-radius: 8px; background: #f5f8ff; }
     .field.flash-highlight {
       outline: 2px solid #ffb84d; outline-offset: 1px; background: #fff8ec !important;
       transition: background .25s, outline .25s;
@@ -9322,12 +9337,7 @@
     .demo-controller-context { min-width: 0; display: flex; align-items: center; gap: 8px; }
     .demo-controller-context span { flex: 0 0 auto; min-height: 20px; display: inline-flex; align-items: center; padding: 0 8px; border-radius: 4px; background: rgba(23, 93, 255, .06); color: #175dff; font-size: 10px; font-weight: 600; line-height: 16px; }
     .demo-controller-context small { overflow: hidden; color: #616161; font-size: 10px; line-height: 16px; text-overflow: ellipsis; white-space: nowrap; }
-    .demo-role-navigation { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 8px; padding: 4px 8px; border-bottom: 1px solid rgba(208, 213, 223, .24); }
-    .demo-role-mode-switch { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 2px; border: 1px solid rgba(208, 213, 223, .34); border-radius: 8px; background: rgba(255, 255, 255, .12); }
-    .demo-role-mode-btn { min-width: 0; min-height: 28px; padding: 0 8px; border: 0; border-radius: 4px; background: transparent; color: #616161; font-size: 10px; font-weight: 500; line-height: 16px; cursor: pointer; }
-    .demo-role-mode-btn:hover { background: rgba(245, 248, 255, .28); color: #175dff; }
-    .demo-role-mode-btn.is-active { background: rgba(231, 238, 255, .48); color: #175dff; box-shadow: inset 0 0 0 1px rgba(139, 174, 255, .42); }
-    .demo-role-mode-btn:focus-visible { outline: 2px solid #175dff; outline-offset: 2px; }
+    .demo-role-navigation { padding: 4px 8px; border-bottom: 1px solid rgba(208, 213, 223, .24); }
     .demo-role-tabs { display: grid; grid-template-columns: repeat(3, minmax(124px, 1fr)); gap: 4px; min-width: 0; overflow-x: auto; scrollbar-width: thin; scrollbar-color: rgba(117, 129, 152, .28) transparent; }
     .demo-role-tab { min-width: 0; min-height: 32px; display: grid; grid-template-columns: auto auto minmax(0, 1fr); grid-template-areas: "type name desc"; align-items: center; gap: 4px; padding: 4px 8px; border: 1px solid rgba(208, 213, 223, .32); border-radius: 8px; background: rgba(255, 255, 255, .14); color: #616161; text-align: left; cursor: pointer; }
     .demo-role-tab[hidden] { display: none; }
@@ -10223,23 +10233,6 @@
       .demo-controller { width: 228px; min-width: 228px; }
     }
 
-    /* 系统级新手引导 */
-    .sys-onboarding { position: fixed; inset: 0; z-index: 9999; }
-    .sys-onboarding[hidden] { display: none; }
-    .sys-onboarding-mask { position: absolute; inset: 0; background: rgba(0,0,0,.55); transition: opacity .2s ease; }
-    .sys-onboarding-card { position: absolute; width: 320px; padding: 20px; border-radius: 12px; background: #fff; box-shadow: 0 12px 36px rgba(0,0,0,.22); transition: top .24s ease, left .24s ease; z-index: 2; }
-    .sys-onboarding-steps { display: flex; gap: 6px; margin-bottom: 14px; }
-    .sys-onboarding-steps span { width: 7px; height: 7px; border-radius: 50%; background: #d0d5df; transition: background .18s ease, width .18s ease; }
-    .sys-onboarding-steps span.is-active { background: #175dff; width: 18px; border-radius: 4px; }
-    .sys-onboarding-steps span.is-done { background: #c5d4ff; }
-    .sys-onboarding-card h3 { margin: 0 0 8px; font-size: 16px; line-height: 22px; font-weight: 600; color: #222; }
-    .sys-onboarding-card p { margin: 0 0 16px; color: #616161; font-size: 13px; line-height: 20px; }
-    .sys-onboarding-actions { display: flex; justify-content: flex-end; gap: 8px; }
-    .sys-onboarding-actions button { height: 32px; padding: 0 14px; border: 1px solid #e1e8eb; border-radius: 6px; background: #fff; color: #616161; font-size: 12px; cursor: pointer; }
-    .sys-onboarding-actions button:hover { background: #f2f4f8; }
-    .sys-onboarding-primary { border-color: #175dff !important; background: #175dff !important; color: #fff !important; }
-    .sys-onboarding-primary:hover { background: #124bd4 !important; }
-    .sys-onboarding-highlight { position: absolute; border: 2px solid #175dff; border-radius: 8px; box-shadow: 0 0 0 4px rgba(23,93,255,.18); pointer-events: none; transition: all .24s ease; z-index: 1; }
   </style>
 </head>
 <body data-active-module="claims">
@@ -10306,59 +10299,29 @@
       </section>
       <section class="demo-controller is-horizontal" id="demoController" aria-label="岗位与任务环节 Demo 控制器">
         <button class="demo-expand-btn" id="demoExpandBtn" type="button" title="展开岗位与任务环节 Demo 控制器" aria-label="展开岗位与任务环节 Demo 控制器" aria-expanded="true" aria-controls="demoController"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 12h10M4 19h16"/><path d="m17 9 3 3-3 3"/></svg></button>
-        <div class="demo-controller-case"><div class="demo-controller-case-info"><span>岗位任务演示</span><strong>案件 Z4401000100003100001</strong></div><div class="demo-controller-context"><span id="demoActiveRoleName">查勘作业岗</span><small id="demoActiveRoleWork">核实事故事实、责任关系与现场证据</small></div><div class="demo-stage-actions"><button class="demo-control-btn" id="demoPrevBtn" type="button" aria-label="上一步" title="上一步">‹</button><span class="demo-stage-count" id="demoStageCount">主流程 1 / 8</span><button class="demo-control-btn is-primary" id="demoNextBtn" type="button">下一步</button></div><button class="demo-collapse-btn" id="demoCollapseBtn" type="button" title="收起 Demo 控制器" aria-label="收起"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="m15 18-6-6 6-6"/></svg></button></div>
+        <div class="demo-controller-case"><div class="demo-controller-case-info"><span>作业 SOP 演示</span><strong>案件 Z4401000100003100001</strong></div><div class="demo-controller-context"><span id="demoActiveRoleName">查勘作业岗</span><small id="demoActiveRoleWork">上传单证、自动识别填入、确认后提交</small></div><div class="demo-stage-actions"><button class="demo-control-btn" id="demoPrevBtn" type="button" aria-label="上一步" title="上一步">‹</button><span class="demo-stage-count" id="demoStageCount">作业流程 1 / 9</span><button class="demo-control-btn is-primary" id="demoNextBtn" type="button">下一步</button></div><button class="demo-collapse-btn" id="demoCollapseBtn" type="button" title="收起 Demo 控制器" aria-label="收起"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="m15 18-6-6 6-6"/></svg></button></div>
         <div class="demo-role-navigation">
-          <div class="demo-role-mode-switch" role="group" aria-label="岗位类型切换">
-            <button class="demo-role-mode-btn is-active" type="button" aria-pressed="true" data-demo-role-mode="work">作业岗流程</button>
-            <button class="demo-role-mode-btn" type="button" aria-pressed="false" data-demo-role-mode="manage">管理岗流程</button>
-          </div>
           <nav class="demo-role-tabs" role="tablist" aria-label="任务环节切换">
             <button class="demo-role-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="demoRoleSurveyWork" data-demo-role-tab="survey-work" data-demo-role-type="work"><small>查勘环节</small><strong>作业岗</strong><span>核实事故与责任</span></button>
-            <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleSurveyManage" data-demo-role-tab="survey-manage" data-demo-role-type="manage" hidden><small>查勘环节</small><strong>管理岗</strong><span>复盘偏差与规则</span></button>
             <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleDamageWork" data-demo-role-tab="damage-work" data-demo-role-type="work"><small>定损环节</small><strong>作业岗</strong><span>核定配件与工时</span></button>
-            <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleDamageManage" data-demo-role-tab="damage-manage" data-demo-role-type="manage" hidden><small>定损环节</small><strong>管理岗</strong><span>纠偏识别与换修</span></button>
             <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleReviewWork" data-demo-role-tab="review-work" data-demo-role-type="work"><small>核赔环节</small><strong>作业岗</strong><span>复核责任与理算</span></button>
-            <button class="demo-role-tab" type="button" role="tab" aria-selected="false" aria-controls="demoRoleReviewManage" data-demo-role-tab="review-manage" data-demo-role-type="manage" hidden><small>核赔环节</small><strong>管理岗</strong><span>优化核赔规则</span></button>
           </nav>
         </div>
         <div class="demo-lifecycle" aria-label="完整案件生命周期">
           <section class="demo-lifecycle-group is-active" id="demoRoleSurveyWork" role="tabpanel" data-demo-role-group="survey-work"><div class="demo-role-brief"><strong>查勘作业岗</strong><div class="demo-role-duty"><span><small>岗位职责</small>核实事故事实、责任关系与现场证据</span><span><small>主要产出</small>查勘结论、损失范围、定损材料</span></div></div><div class="demo-lifecycle-steps">
-            <button class="demo-lifecycle-step is-current" type="button" data-demo-stage="0"><i>1</i><span><strong>首页查看待办</strong><small>异常和高风险任务进入待办</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-stage="1"><i>2</i><span><strong>处理查勘任务</strong><small>人工只确认异常项</small></span></button>
-            <button class="demo-lifecycle-step is-skill" type="button" data-demo-skill="survey" data-demo-task="Z4401000100003100001_3"><i>3</i><span><strong>提交查勘 Skill 反馈</strong><small>将判断偏差提交管理岗复盘</small></span></button>
-          </div></section>
-          <section class="demo-lifecycle-group" id="demoRoleSurveyManage" role="tabpanel" data-demo-role-group="survey-manage"><div class="demo-role-brief"><strong>查勘管理岗</strong><div class="demo-role-duty"><span><small>岗位职责</small>复盘责任判断偏差并维护查勘规则</span><span><small>主要产出</small>纠偏结论、规则更新、Skill 新版本</span></div></div><div class="demo-lifecycle-steps">
-            <button class="demo-lifecycle-step" type="button" data-demo-manager-home="survey"><i>1</i><span><strong>首页查看待办</strong><small>进入 Skill 反馈待办并去处理</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-feedback="survey-liability"><i>2</i><span><strong>查看反馈闭环</strong><small>查看处理结论与关键纠偏节点</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="edit" data-demo-skill-feedback="survey-liability"><i>3</i><span><strong>修改技能</strong><small>用自然语言补充规则与修改目标</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="debug" data-demo-skill-feedback="survey-liability"><i>4</i><span><strong>调试技能</strong><small>对比修改前后并校验测试样本</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="publish" data-demo-skill-feedback="survey-liability"><i>5</i><span><strong>发布技能</strong><small>确认版本、灰度比例与回滚策略</small></span></button>
+            <button class="demo-lifecycle-step is-current" type="button" data-demo-stage="0"><i>1</i><span><strong>上传单证</strong><small>点击回形针或将单证拖入对话</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-stage="1"><i>2</i><span><strong>录入信息</strong><small>Agent 识别字段并自动填入</small></span></button>
+            <button class="demo-lifecycle-step is-success" type="button" data-demo-stage="2"><i>3</i><span><strong>提交查勘</strong><small>校验完成后流转车定损</small></span></button>
           </div></section>
           <section class="demo-lifecycle-group" id="demoRoleDamageWork" role="tabpanel" data-demo-role-group="damage-work"><div class="demo-role-brief"><strong>定损作业岗</strong><div class="demo-role-duty"><span><small>岗位职责</small>识别损失项目并核定配件、工时与金额</span><span><small>主要产出</small>定损单、核价核损输入、风险标记</span></div></div><div class="demo-lifecycle-steps">
-            <button class="demo-lifecycle-step" type="button" data-demo-stage="2"><i>1</i><span><strong>首页查看待办</strong><small>异常和高风险定损任务进入待办</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-stage="3"><i>2</i><span><strong>处理定损任务</strong><small>人工确认无法识别图片</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-stage="4"><i>3</i><span><strong>自动核价核损</strong><small>校验价格、规则与金额</small></span></button>
-            <button class="demo-lifecycle-step is-skill" type="button" data-demo-skill="damage" data-demo-task="Z4401000100003100001_9"><i>4</i><span><strong>提交定损 Skill 反馈</strong><small>将识别或定损偏差提交管理岗</small></span></button>
-          </div></section>
-          <section class="demo-lifecycle-group" id="demoRoleDamageManage" role="tabpanel" data-demo-role-group="damage-manage"><div class="demo-role-brief"><strong>定损管理岗</strong><div class="demo-role-duty"><span><small>岗位职责</small>复盘影像识别、换修判断与金额偏差</span><span><small>主要产出</small>识别规则、换修策略、Skill 新版本</span></div></div><div class="demo-lifecycle-steps">
-            <button class="demo-lifecycle-step" type="button" data-demo-manager-home="damage"><i>1</i><span><strong>首页查看待办</strong><small>进入 Skill 反馈待办并去处理</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-feedback="damage-image"><i>2</i><span><strong>查看反馈闭环</strong><small>查看处理结论与关键纠偏节点</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="edit" data-demo-skill-feedback="damage-image"><i>3</i><span><strong>修改技能</strong><small>用自然语言补充规则与修改目标</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="debug" data-demo-skill-feedback="damage-image"><i>4</i><span><strong>调试技能</strong><small>对比修改前后并校验测试样本</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="publish" data-demo-skill-feedback="damage-image"><i>5</i><span><strong>发布技能</strong><small>确认版本、灰度比例与回滚策略</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-stage="3"><i>1</i><span><strong>查看定损待办</strong><small>进入异常和高风险定损任务</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-stage="4"><i>2</i><span><strong>处理定损任务</strong><small>确认损失、配件与工时</small></span></button>
+            <button class="demo-lifecycle-step is-success" type="button" data-demo-stage="5"><i>3</i><span><strong>提交定损</strong><small>启动自动核价核损</small></span></button>
           </div></section>
           <section class="demo-lifecycle-group" id="demoRoleReviewWork" role="tabpanel" data-demo-role-group="review-work"><div class="demo-role-brief"><strong>核赔作业岗</strong><div class="demo-role-duty"><span><small>岗位职责</small>交叉核验责任、材料、定损与理算结果</span><span><small>主要产出</small>核赔结论、支付指令、结案意见</span></div></div><div class="demo-lifecycle-steps">
-            <button class="demo-lifecycle-step" type="button" data-demo-stage="5"><i>1</i><span><strong>首页查看待办</strong><small>异常和高风险核赔任务进入待办</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-stage="6"><i>2</i><span><strong>处理核赔任务</strong><small>复核重点关注并决策</small></span></button>
-            <button class="demo-lifecycle-step is-skill" type="button" data-demo-skill="review" data-demo-task="Z4401000100003100001_17"><i>3</i><span><strong>提交核赔 Skill 反馈</strong><small>将规则偏差提交管理岗复盘</small></span></button>
-            <button class="demo-lifecycle-step is-success" type="button" data-demo-stage="7"><i>4</i><span><strong>核赔通过并结案</strong><small>归档、支付校验与客户通知</small></span></button>
-          </div></section>
-          <section class="demo-lifecycle-group" id="demoRoleReviewManage" role="tabpanel" data-demo-role-group="review-manage"><div class="demo-role-brief"><strong>核赔管理岗</strong><div class="demo-role-duty"><span><small>岗位职责</small>复盘规则判断与材料交叉校验偏差</span><span><small>主要产出</small>核赔规则、阻断策略、Skill 新版本</span></div></div><div class="demo-lifecycle-steps">
-            <button class="demo-lifecycle-step" type="button" data-demo-manager-home="review"><i>1</i><span><strong>首页查看待办</strong><small>进入 Skill 反馈待办并去处理</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-feedback="review-rule"><i>2</i><span><strong>查看反馈闭环</strong><small>查看处理结论与关键纠偏节点</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="edit" data-demo-skill-feedback="review-rule"><i>3</i><span><strong>修改技能</strong><small>用自然语言补充规则与修改目标</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="debug" data-demo-skill-feedback="review-rule"><i>4</i><span><strong>调试技能</strong><small>对比修改前后并校验测试样本</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-skill-stage="publish" data-demo-skill-feedback="review-rule"><i>5</i><span><strong>发布技能</strong><small>确认版本、灰度比例与回滚策略</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-stage="6"><i>1</i><span><strong>查看核赔待办</strong><small>进入责任与理算异常任务</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-stage="7"><i>2</i><span><strong>处理核赔任务</strong><small>复核责任、材料和金额</small></span></button>
+            <button class="demo-lifecycle-step is-success" type="button" data-demo-stage="8"><i>3</i><span><strong>核赔通过并结案</strong><small>支付校验、归档与通知</small></span></button>
           </div></section>
         </div>
       </section>
@@ -13796,10 +13759,11 @@
       { name: "accidentDetail", label: "事故详细类型", value: "碰撞" },
       { name: "indemnityConclusion", label: "赔付结论", value: "赔付" },
       { name: "indemnityMode", label: "赔付方式", value: "按责赔付" },
-      { name: "disposeStyle", label: "事故处理方式", value: "自行协商" },
+      { name: "liabilityType", label: "责任认定书类型", value: "交警事故认定书" },
+      { name: "disposeStyle", label: "事故处理方式", value: "交管正常处理" },
       { name: "surveyOpinion", label: "查勘说明", value: "追尾碰撞，责任明确，标的车前部受损，三者车后部受损；车辆可正常行驶，建议按责赔付。" }
     ];
-    const autoFillMissingFields = ["三者车辆信息", "事故现场补充影像", "责任认定材料"];
+    const autoFillMissingFields = ["三者车辆信息", "出险驾驶员联系方式", "挂车商业三者险限额（如有）"];
 
     function applyAutoFill() {
       let applied = 0;
@@ -15804,7 +15768,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       event.preventDefault();
       xosHomeSend?.click();
     });
-    if (xosHomeUploadBtn) xosHomeUploadBtn.addEventListener("click", () => spMockUploadDocuments(true));
+    if (xosHomeUploadBtn) xosHomeUploadBtn.addEventListener("click", () => spOpenUploadPicker(true));
     const homeActionPrompts = {
       "manual-case": "手工立案：请提供报案号或车辆信息。",
       "reopen-case": "案件重开：请提供案件号和重开原因。",
@@ -15863,7 +15827,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     document.addEventListener("click", (event) => {
       if (!event.target.closest(".xos-home-third-party")) setThirdPartyMenu(false);
     });
-    if (spUploadBtn) spUploadBtn.addEventListener("click", () => spMockUploadDocuments());
+    if (spUploadBtn) spUploadBtn.addEventListener("click", () => spOpenUploadPicker());
     if (openWorkspaceBtn) {
       openWorkspaceBtn.addEventListener("click", () => setWorkspaceOpen(!workspace?.classList.contains("workspace-open")));
     }
@@ -17288,36 +17252,21 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     const demoStageButtons = Array.from(document.querySelectorAll("[data-demo-stage]"));
     const demoRoleGroups = Array.from(document.querySelectorAll("[data-demo-role-group]"));
     const demoRoleTabs = Array.from(document.querySelectorAll("[data-demo-role-tab]"));
-    const demoRoleModeButtons = Array.from(document.querySelectorAll("[data-demo-role-mode]"));
     const demoActiveRoleName = document.getElementById("demoActiveRoleName");
     const demoActiveRoleWork = document.getElementById("demoActiveRoleWork");
-    const demoSkillButtons = Array.from(document.querySelectorAll("[data-demo-skill]"));
-    const demoManagerHomeButtons = Array.from(document.querySelectorAll("[data-demo-manager-home]"));
-    const demoFeedbackButtons = Array.from(document.querySelectorAll("[data-demo-feedback]"));
-    const demoSkillStageButtons = Array.from(document.querySelectorAll("[data-demo-skill-stage]"));
     const demoLifecyclePending = document.getElementById("demoLifecyclePending");
     const demoLifecycleRisk = document.getElementById("demoLifecycleRisk");
     const demoLifecycleTaskTitle = document.getElementById("demoLifecycleTaskTitle");
     const demoLifecycleTaskReason = document.getElementById("demoLifecycleTaskReason");
     const demoRoleProfiles = {
-      "survey-work": { name: "查勘作业岗", work: "核实事故事实、责任关系与现场证据" },
-      "survey-manage": { name: "查勘管理岗", work: "复盘责任判断偏差并维护查勘规则" },
+      "survey-work": { name: "查勘作业岗", work: "上传单证、自动识别填入、确认后提交" },
       "damage-work": { name: "定损作业岗", work: "识别损失项目并核定配件、工时与金额" },
-      "damage-manage": { name: "定损管理岗", work: "复盘影像识别、换修判断与金额偏差" },
-      "review-work": { name: "核赔作业岗", work: "交叉核验责任、材料、定损与理算结果" },
-      "review-manage": { name: "核赔管理岗", work: "复盘规则判断与材料交叉校验偏差" }
+      "review-work": { name: "核赔作业岗", work: "交叉核验责任、材料、定损与理算结果" }
     };
     const setDemoActiveRole = (roleKey) => {
       const profile = demoRoleProfiles[roleKey] || demoRoleProfiles["survey-work"];
-      const roleMode = roleKey.endsWith("-manage") ? "manage" : "work";
-      demoRoleModeButtons.forEach((button) => {
-        const active = button.dataset.demoRoleMode === roleMode;
-        button.classList.toggle("is-active", active);
-        button.setAttribute("aria-pressed", String(active));
-      });
       demoRoleTabs.forEach((tab) => {
         const active = tab.dataset.demoRoleTab === roleKey;
-        tab.hidden = tab.dataset.demoRoleType !== roleMode;
         tab.classList.toggle("is-active", active);
         tab.setAttribute("aria-selected", String(active));
       });
@@ -17331,21 +17280,18 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     };
     const resetDemoRoleOverview = () => {
       demoStageButtons.forEach((button) => button.classList.remove("is-current"));
-      demoSkillButtons.forEach((button) => button.classList.remove("is-current"));
-      demoManagerHomeButtons.forEach((button) => button.classList.remove("is-current"));
-      demoFeedbackButtons.forEach((button) => button.classList.remove("is-current"));
-      demoSkillStageButtons.forEach((button) => button.classList.remove("is-current"));
       if (demoStageCount) demoStageCount.textContent = "岗位概览";
       if (demoPrevBtn) demoPrevBtn.disabled = true;
       if (demoNextBtn) demoNextBtn.disabled = true;
     };
     const demoStages = [
-      { role: "survey-work", title: "首页查看待办", description: "Agent 只把无法继续处理或高风险的异常项放入待办，并按风险与未决状态排序。", view: "home", task: "Z4401000100003100001_3" },
-      { role: "survey-work", title: "处理查勘任务", description: "查勘 Agent 已完成字段识别；人工只需确认责任依据、损失范围和缺失影像。", view: "task", task: "Z4401000100003100001_3" },
-      { role: "damage-work", title: "首页查看待办", description: "Agent 只把无法继续处理或高风险的定损异常项放入待办，并按风险与未决状态排序。", view: "home", task: "Z4401000100003100001_9" },
+      { role: "survey-work", title: "上传单证", description: "点击回形针或将图片、PDF 直接拖入对话，Agent 自动分类并识别字段。", view: "survey-upload", task: "Z4401000100003100001_3" },
+      { role: "survey-work", title: "录入信息", description: "Agent 将识别结果自动写入查勘表单，作业岗只补充未识别和异常字段。", view: "survey-input", task: "Z4401000100003100001_3" },
+      { role: "survey-work", title: "提交查勘", description: "完成必要字段校验后提交，查勘结论与单证一并流转车定损。", view: "survey-submit", task: "Z4401000100003100001_3" },
+      { role: "damage-work", title: "查看定损待办", description: "Agent 只把无法继续处理或高风险的定损异常项放入待办。", view: "home", task: "Z4401000100003100001_9" },
       { role: "damage-work", title: "处理定损任务", description: "无法识别的损失图片已转人工；确认后将形成定损清单并自动计算金额。", view: "task", task: "Z4401000100003100001_9" },
-      { role: "damage-work", title: "自动核价核损", description: "定损提交后，我自动校验配件价格、工时标准、碰撞逻辑和金额异常。", view: "damage-submit", task: "Z4401000100003100001_9" },
-      { role: "review-work", title: "首页查看待办", description: "Agent 只把无法继续处理或高风险的核赔异常项放入待办，并按风险与未决状态排序。", view: "home", task: "Z4401000100003100001_17" },
+      { role: "damage-work", title: "提交定损", description: "定损提交后，Agent 自动校验配件价格、工时标准、碰撞逻辑和金额异常。", view: "damage-submit", task: "Z4401000100003100001_9" },
+      { role: "review-work", title: "查看核赔待办", description: "Agent 只把无法继续处理或高风险的核赔异常项放入待办。", view: "home", task: "Z4401000100003100001_17" },
       { role: "review-work", title: "处理核赔任务", description: "核赔 Agent 已汇总责任、材料和理算结果；作业岗只复核重点关注项并作出结论。", view: "task", task: "Z4401000100003100001_17" },
       { role: "review-work", title: "核赔通过 · 案件结案", description: "结案 Agent 已完成支付前置校验、结案归档和客户通知，本案生命周期结束。", view: "home", task: null }
     ];
@@ -17415,101 +17361,39 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       filterDemoHomePendingTasks(businessRole, copy[4]);
       sortHomePendingTasks();
     };
-    const applyDemoStage = (index) => {
+    const applyDemoStage = (index, { execute = true } = {}) => {
       demoCurrentStage = Math.max(0, Math.min(index, demoStages.length - 1));
       const stage = demoStages[demoCurrentStage];
-      if (demoStageCount) demoStageCount.textContent = `主流程 ${demoCurrentStage + 1} / ${demoStages.length}`;
+      if (demoStageCount) demoStageCount.textContent = `作业流程 ${demoCurrentStage + 1} / ${demoStages.length}`;
       if (demoPrevBtn) demoPrevBtn.disabled = demoCurrentStage === 0;
       if (demoNextBtn) demoNextBtn.disabled = demoCurrentStage === demoStages.length - 1;
       demoController?.classList.toggle("is-review", stage.role === "review-work");
       demoStageButtons.forEach((button) => button.classList.toggle("is-current", Number(button.dataset.demoStage) === demoCurrentStage));
-      demoSkillButtons.forEach((button) => button.classList.remove("is-current"));
-      demoManagerHomeButtons.forEach((button) => button.classList.remove("is-current"));
-      demoFeedbackButtons.forEach((button) => button.classList.remove("is-current"));
-      demoSkillStageButtons.forEach((button) => button.classList.remove("is-current"));
       setDemoActiveRole(stage.role);
       updateDemoHomePending(stage);
+      if (!execute) {
+        showDemoHome();
+        return;
+      }
       if (stage.view === "home") {
         showDemoHome();
       } else {
         leaveManagementHome();
         const row = allCaseRows().find((item) => item.querySelector(".case-row-main")?.textContent?.trim() === stage.task);
-        if (row) activateCaseRow(row);
+        if (row && row !== document.querySelector(".case-row.active")) activateCaseRow(row);
+        if (stage.view === "survey-upload") window.setTimeout(() => spMockUploadDocuments(), 0);
+        if (stage.view === "survey-input") {
+          window.setTimeout(() => {
+            const applied = applyAutoFill();
+            if (!hasDamageSelection()) damageMap?.querySelector('[data-damage="前"]')?.click();
+            switchPane("taskInfoPane");
+            showToast(`Agent 已录入 ${applied} 项查勘字段，请补充未识别项`);
+          }, 0);
+        }
         if (stage.view === "survey-submit") window.setTimeout(() => spAppendSurveySubmitReceipt(), 0);
         if (stage.view === "damage-submit") window.setTimeout(() => spAppendDamageSubmitReceipt(), 0);
       }
     };
-    const demoSkillProfiles = {
-      survey: { group: "survey-work", task: "Z4401000100003100001_3", title: "作业岗 · 查勘 Skill 反馈", description: "将责任依据、事故经过、损失范围和现场证据的判断差异提交管理岗复盘。" },
-      damage: { group: "damage-work", task: "Z4401000100003100001_9", title: "作业岗 · 定损 Skill 反馈", description: "将四处待识别损伤及低配高赔、碰撞逻辑风险的判断差异提交管理岗复盘。" },
-      review: { group: "review-work", task: "Z4401000100003100001_17", title: "作业岗 · 核赔 Skill 反馈", description: "将规则判断与人工结论差异提交给管理岗复盘。" }
-    };
-    const openDemoSkillFeedback = (skill, showFeedback = true) => {
-      const profile = demoSkillProfiles[skill] || demoSkillProfiles.survey;
-      const row = allCaseRows().find((item) => item.querySelector(".case-row-main")?.textContent?.trim() === profile.task);
-      if (row) activateCaseRow(row);
-      if (demoStageCount) demoStageCount.textContent = "Skill";
-      if (demoPrevBtn) demoPrevBtn.disabled = true;
-      if (demoNextBtn) demoNextBtn.disabled = true;
-      demoController?.classList.toggle("is-review", skill === "review");
-      demoStageButtons.forEach((button) => button.classList.remove("is-current"));
-      demoSkillButtons.forEach((button) => button.classList.toggle("is-current", button.dataset.demoSkill === skill));
-      demoManagerHomeButtons.forEach((button) => button.classList.remove("is-current"));
-      demoFeedbackButtons.forEach((button) => button.classList.remove("is-current"));
-      demoSkillStageButtons.forEach((button) => button.classList.remove("is-current"));
-      setDemoActiveRole(profile.group);
-      if (showFeedback) {
-        openSkillOptimization(skill === "review" ? "review-reject" : "manual-submit", () => showToast(`${profile.title}已提交，管理岗待办已更新`));
-      }
-    };
-    const openDemoManagerHome = (cluster) => {
-      if (demoStageCount) demoStageCount.textContent = "管理";
-      if (demoPrevBtn) demoPrevBtn.disabled = true;
-      if (demoNextBtn) demoNextBtn.disabled = true;
-      demoController?.classList.toggle("is-review", cluster === "review");
-      demoStageButtons.forEach((button) => button.classList.remove("is-current"));
-      demoSkillButtons.forEach((button) => button.classList.remove("is-current"));
-      demoManagerHomeButtons.forEach((button) => button.classList.toggle("is-current", button.dataset.demoManagerHome === cluster));
-      demoFeedbackButtons.forEach((button) => button.classList.remove("is-current"));
-      demoSkillStageButtons.forEach((button) => button.classList.remove("is-current"));
-      setDemoActiveRole(`${cluster}-manage`);
-      showManagementHome(cluster);
-    };
-    const demoSkillStagePrompts = {
-      survey: "把责任判断改成先核对责任依据与变道关系；证据冲突或置信度低于 0.75 时转人工确认。",
-      damage: "补充灯具反光和遮挡场景的识别规则；无法确认维修或更换时，优先要求补拍近景并转人工。",
-      review: "核赔前强制校验上游责任比例变更记录；理算结果与最新责任材料不一致时阻断自动通过。"
-    };
-    const openDemoManagementSkillStage = (button) => {
-      const feedback = getManagementFeedback(button.dataset.demoSkillFeedback);
-      const stage = button.dataset.demoSkillStage;
-      if (!feedback || !stage) return;
-      openDemoManagerHome(feedback.cluster);
-      showManagementFeedbackDialogue(feedback.id);
-      if (stage === "edit") {
-        appendDialogueUserMessage("修改技能");
-        showPromptEditFlow(feedback.id);
-      } else if (stage === "debug") {
-        const prompt = demoSkillStagePrompts[feedback.cluster] || demoSkillStagePrompts.survey;
-        appendDialogueUserMessage(prompt);
-        showPromptDebugResult(feedback.id, prompt);
-      } else if (stage === "publish") {
-        appendDialogueUserMessage("确认发布技能");
-        showPromptPublished(feedback.id);
-      }
-      demoManagerHomeButtons.forEach((item) => item.classList.remove("is-current"));
-      demoFeedbackButtons.forEach((item) => item.classList.remove("is-current"));
-      demoSkillStageButtons.forEach((item) => item.classList.toggle("is-current", item === button));
-      if (demoStageCount) demoStageCount.textContent = stage === "edit" ? "修改技能" : stage === "debug" ? "调试技能" : "发布技能";
-    };
-    const markDemoSkillGap = () => openDemoSkillFeedback("review", false);
-    demoRoleModeButtons.forEach((button) => button.addEventListener("click", () => {
-      const activeRole = demoRoleTabs.find((tab) => tab.classList.contains("is-active"))?.dataset.demoRoleTab || "survey-work";
-      const cluster = activeRole.split("-")[0];
-      const roleMode = button.dataset.demoRoleMode;
-      setDemoActiveRole(`${cluster}-${roleMode === "manage" ? "manage" : "work"}`);
-      resetDemoRoleOverview();
-    }));
     demoRoleTabs.forEach((tab) => tab.addEventListener("click", () => {
       setDemoActiveRole(tab.dataset.demoRoleTab);
       resetDemoRoleOverview();
@@ -17521,21 +17405,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       applyDemoStage(stageIndex);
       if (stageIndex === demoStages.length - 1) showToast("核赔通过，结案 Agent 已完成归档与客户通知");
     }));
-    demoSkillButtons.forEach((button) => button.addEventListener("click", () => openDemoSkillFeedback(button.dataset.demoSkill)));
-    demoManagerHomeButtons.forEach((button) => button.addEventListener("click", () => openDemoManagerHome(button.dataset.demoManagerHome)));
-    demoFeedbackButtons.forEach((button) => button.addEventListener("click", () => {
-      const id = button.dataset.demoFeedback;
-      const feedback = getManagementFeedback(id);
-      if (feedback) {
-        openDemoManagerHome(feedback.cluster);
-        showManagementFeedbackDialogue(id);
-        demoManagerHomeButtons.forEach((item) => item.classList.remove("is-current"));
-        demoFeedbackButtons.forEach((item) => item.classList.toggle("is-current", item === button));
-        if (demoStageCount) demoStageCount.textContent = "反馈";
-      }
-    }));
-    demoSkillStageButtons.forEach((button) => button.addEventListener("click", () => openDemoManagementSkillStage(button)));
-    applyDemoStage(0);
+    applyDemoStage(0, { execute: false });
     if (caseQueryBtn && caseQueryMask) {
       caseQueryBtn.addEventListener("click", () => {
         caseQueryState.type = "task";
@@ -17719,10 +17589,10 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
           const completeSubmit = () => {
             if (activeTaskCluster() === "damage") {
               showToast("定损单已提交，核价核损 Agent 已启动");
-              applyDemoStage(4);
+              applyDemoStage(5);
               return;
             }
-            showToast("查勘已提交，正在校验进入定损所需材料");
+            showToast("查勘已提交，正在校验并流转车定损");
             applyDemoStage(2);
           };
           completeSubmit();
@@ -17730,13 +17600,12 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         }
         const msg = btn.getAttribute("data-toast") || `${btn.textContent.trim()} 操作已受理`;
         if (action === "return" && needsSkillOptimization()) {
-          markDemoSkillGap();
           openSkillOptimization(activeTaskCluster() === "review" ? "review-reject" : "manual-submit", () => showToast(`${msg}，技能不足已反馈`));
           return;
         }
         if (action === "approve" && activeTaskCluster() === "review") {
           spAppendReviewApprovalReceipt();
-          applyDemoStage(7);
+          applyDemoStage(8);
           showToast("核赔通过，结案 Agent 已完成支付前置校验、归档与客户通知");
           return;
         }
@@ -18174,6 +18043,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
 
     let spPendingSurveyHandoff = null;
     let spPendingSurveyDocumentFlow = false;
+    const spSurveyDocumentReadyCases = new Set();
 
     const spRenderSurveySubmitReceipt = () => {
       const needsDocuments = spPendingSurveyDocumentFlow;
@@ -18242,7 +18112,9 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     const spAppendSurveySubmitReceipt = () => {
       if (spActiveTaskContext?.isDamageTask || spActiveTaskContext?.isReviewTask) return;
       const surveyRow = document.querySelector(".case-row.active");
-      spPendingSurveyDocumentFlow = surveyRow?.dataset.workState !== "complete";
+      const caseNo = spActiveTaskContext?.caseNo || "";
+      const hasRequiredDocuments = spSurveyDocumentReadyCases.has(caseNo) || surveyRow?.dataset.workState === "complete";
+      spPendingSurveyDocumentFlow = !hasRequiredDocuments;
       spActiveTaskContext.status = spPendingSurveyDocumentFlow ? "待补充材料单证" : "已流转定损";
       spMessages = spMessages.filter((message) => !["survey-submit-receipt", "survey-document-flow"].includes(message.type));
       spMessages.push({ role: "agent", type: "survey-submit-receipt" });
@@ -18481,16 +18353,51 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
 
     const spAppendMaterialReceipt = (uploaded) => {
       if (!uploaded?.length || !spActiveTaskContext) return;
-      const detail = uploaded.map((file) => `${file.name}（${file.category || inferMaterialCategory(file)}）`).join("、");
-      spMessages.push({ role: "agent", text: `<div class="sp-dialogue-conclusion is-pass"><strong>结论：材料接收成功</strong><span>重新校验中</span></div><p class="sp-dialogue-summary">我已经收到并分类 ${uploaded.length} 份材料：${detail}，正在重新校验责任、损失和流转条件。</p><p class="sp-user-action"><strong>你需要</strong><span>暂时不用操作，我会在校验完成后告诉你结果。</span></p>`, html: true, duration: "00:05" });
-      const shouldEnterDamage = spPendingSurveyDocumentFlow && !spActiveTaskContext.isDamageTask && !spActiveTaskContext.isReviewTask;
-      if (shouldEnterDamage) {
+      spMessages.push({ role: "user", text: `上传材料单证：${uploaded.map((file) => file.name).join("、")}` });
+      const isSurveyUpload = !spActiveTaskContext.isDamageTask && !spActiveTaskContext.isReviewTask && spActiveTaskContext.cluster !== "tracking";
+      const classificationRows = uploaded.map((file) => {
+        const category = file.category || inferMaterialCategory(file);
+        return `<div class="sp-recognition-file"><span title="${spEscape(file.name)}">${spEscape(file.name)}</span><b>${spEscape(category)}</b></div>`;
+      }).join("");
+      let recognitionRows = "";
+      let applied = 0;
+      if (isSurveyUpload) {
+        spSurveyDocumentReadyCases.add(spActiveTaskContext.caseNo || "");
         spPendingSurveyDocumentFlow = false;
-        spMessages.push({ role: "agent", text: '<div class="sp-dialogue-conclusion is-pass"><strong>结论：材料校验通过</strong><span>定损已启动</span></div><p class="sp-dialogue-summary">我已经启动定损 Agent，正在识别损失、配件和工时。</p><p class="sp-user-action"><strong>你需要</strong><span>暂时不用操作，遇到无法识别或风险项时我会提醒你。</span></p>', html: true, duration: "00:03" });
+        applied = applyAutoFill();
+        if (!hasDamageSelection()) damageMap?.querySelector('[data-damage="前"]')?.click();
+        recognitionRows = autoFillPlan.map((item) => `<div class="sp-recognition-field"><span>${spEscape(item.label)}：${spEscape(item.value)}</span><b>已填入</b></div>`).join("");
       }
+      const recognitionSection = isSurveyUpload ? `
+        <section class="sp-recognition-section">
+          <div class="sp-recognition-section-title"><span>识别字段</span><small>${autoFillPlan.length} 项已识别</small></div>
+          <div class="sp-recognition-list">${recognitionRows}</div>
+        </section>
+        <div class="sp-recognition-filled"><strong>已自动填入查勘信息</strong><span>共写入 ${applied} 个表单控件，标的损失部位识别为“前部”。</span></div>
+        <div class="sp-autofill-missing">
+          <div class="sp-autofill-missing-title">还需人工补录</div>
+          <div class="sp-autofill-missing-list">${autoFillMissingFields.map((field) => `<span class="sp-autofill-missing-item">${spEscape(field)}</span>`).join("")}</div>
+        </div>
+      ` : '<div class="sp-recognition-filled"><strong>材料已归档</strong><span>已同步到当前任务材料目录。</span></div>';
+      spMessages.push({
+        role: "agent",
+        html: true,
+        duration: "00:05",
+        text: `
+          <div class="sp-recognition-card">
+            <div class="sp-dialogue-conclusion is-pass"><strong>单证分类与识别完成</strong><span>${isSurveyUpload ? "已自动填入" : "已归档"}</span></div>
+            <p class="sp-recognition-summary">已接收 ${uploaded.length} 份单证。Agent 已完成分类${isSurveyUpload ? "、字段识别和任务信息写入" : "并归档"}。</p>
+            <section class="sp-recognition-section">
+              <div class="sp-recognition-section-title"><span>单证分类</span><small>${uploaded.length} 份已分类</small></div>
+              <div class="sp-recognition-list">${classificationRows}</div>
+            </section>
+            ${recognitionSection}
+            <p class="sp-user-action"><strong>下一步</strong><span>${isSurveyUpload ? "补充未识别字段并核对结果，完成后点击“提交”。" : "继续处理当前任务。"}</span></p>
+          </div>
+        `
+      });
       spSetTab("chat");
       spRenderChat();
-      if (shouldEnterDamage) window.setTimeout(spOpenNextDamageTask, 700);
     };
     let spMockUploadSeed = 0;
     const spMockUploadProfiles = {
@@ -18520,7 +18427,17 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
           || allCaseRows().find((row) => !row.classList.contains("archived"));
         if (activeRow) activateCaseRow(activeRow);
       }
+      if (!spActiveTaskContext) {
+        showToast("请先选择任务后上传单证", "error");
+        return;
+      }
       const cluster = activeRow?.dataset.cluster || spActiveTaskContext?.cluster || "survey";
+      if (cluster === "survey" && spSurveyDocumentReadyCases.has(spActiveTaskContext.caseNo || "")) {
+        spSetTab("chat");
+        spRenderChat();
+        showToast("查勘单证已上传并完成识别");
+        return;
+      }
       const profile = spMockUploadProfiles[cluster] || spMockUploadProfiles.survey;
       const sampleIndex = spMockUploadSeed++;
       const uploaded = profile.map(([name, category, type], index) => ({
@@ -18537,13 +18454,21 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       files.push(...uploaded);
       renderThumbs();
       renderDocPage();
+      spAppendMaterialReceipt(uploaded);
+      showToast(`已模拟上传 ${uploaded.length} 份材料单证`);
+    };
+    const spOpenUploadPicker = (fromHome = false) => {
+      let activeRow = document.querySelector(".case-row.active");
+      if (!activeRow && fromHome) {
+        activeRow = allCaseRows().find((row) => !row.classList.contains("archived") && row.dataset.cluster === "survey")
+          || allCaseRows().find((row) => !row.classList.contains("archived"));
+        if (activeRow) activateCaseRow(activeRow);
+      }
       if (!spActiveTaskContext) {
         showToast("请先选择任务后上传单证", "error");
         return;
       }
-      spMessages.push({ role: "user", text: `上传材料单证：${uploaded.map((file) => file.name).join("、")}` });
-      spAppendMaterialReceipt(uploaded);
-      showToast(`已模拟上传 ${uploaded.length} 份材料单证`);
+      uploadInput?.click();
     };
 
     const spAgentOptions = (selected) => spAgents.map((agent) => `<option ${agent === selected ? "selected" : ""}>${agent}</option>`).join("");
@@ -19059,14 +18984,17 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       spChatPane.addEventListener("dragover", (e) => {
         const uploadArea = e.target.closest("[data-doc-upload]");
         e.preventDefault();
+        spChatPane.classList.add("is-file-dragover");
         if (uploadArea) uploadArea.classList.add("dragover");
       });
       spChatPane.addEventListener("dragleave", (e) => {
         e.target.closest("[data-doc-upload]")?.classList.remove("dragover");
+        if (!spChatPane.contains(e.relatedTarget)) spChatPane.classList.remove("is-file-dragover");
       });
       spChatPane.addEventListener("drop", (e) => {
         const uploadArea = e.target.closest("[data-doc-upload]");
         e.preventDefault();
+        spChatPane.classList.remove("is-file-dragover");
         if (uploadArea) uploadArea.classList.remove("dragover");
         const fileCount = files.length;
         ingestFiles(e.dataTransfer.files);
@@ -19328,98 +19256,5 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     }
   </script>
 
-  <!-- 系统级新手引导 -->
-  <div class="sys-onboarding" id="sysOnboarding" hidden>
-    <div class="sys-onboarding-mask" id="sysOnboardingMask"></div>
-    <div class="sys-onboarding-highlight" id="sysOnboardingHighlight" hidden></div>
-    <div class="sys-onboarding-card" id="sysOnboardingCard">
-      <div class="sys-onboarding-steps" id="sysOnboardingSteps"><span class="is-active"></span><span></span><span></span><span></span></div>
-      <h3 id="sysOnboardingTitle">理赔空间</h3>
-      <p id="sysOnboardingDesc">核心业务工作区，处理查勘、定损、理算等全流程任务。</p>
-      <div class="sys-onboarding-actions">
-        <button type="button" id="sysOnboardingSkip">跳过引导</button>
-        <button type="button" class="sys-onboarding-primary" id="sysOnboardingNext">下一步</button>
-      </div>
-    </div>
-  </div>
-  <script>
-    (function () {
-      var ONBOARDING_KEY = "claim-core-sys-onboarded";
-      var onboardingSteps = [
-        { selector: '[data-global-module="claims"]', title: "理赔空间", desc: "核心业务工作区。左侧为案件列表与任务流程，点击案件可进入查勘/定损详情页；右侧智能伙伴实时推送 Agent 处理进度和异常待办，支持对话式交互确认。左侧 Demo 控制器可按案件生命周期逐步体验完整流程。" },
-        { selector: '[data-global-module="analytics"]', title: "数据分析", desc: "管理岗的数据看板。按岗位（查勘/定损/核赔）生成结构化日报，含 KPI、图表和管理结论。支持成本拆解、渗漏风险减损、行业对标等咨询分析，持续关注的指标可沉淀为个人 Skill 每日推送。左侧 Demo 控制器引导完整 10 步流程。" },
-        { selector: '[data-global-module="digital-employees"]', title: "智能伙伴", desc: "Agent 与技能管理中心。查看所有已接入的数字员工及其运行状态，管理技能库（启用/禁用/分类筛选），支持通过数据分析沉淀的个人 Skill 持续优化。" },
-        { selector: '[data-global-module="agent-office"]', title: "办公区", desc: "Agent 可视化工作台。点击办公场景中的小人可展开操作浮层（定位工位、暂停/继续、完成汇报），点击「与他沟通」进入一对一对话。右侧面板展示任务动态与处理详情。" }
-      ];
-      var currentStep = 0;
-      var overlay = document.getElementById("sysOnboarding");
-      var card = document.getElementById("sysOnboardingCard");
-      var titleEl = document.getElementById("sysOnboardingTitle");
-      var descEl = document.getElementById("sysOnboardingDesc");
-      var highlight = document.getElementById("sysOnboardingHighlight");
-      var stepsBar = document.getElementById("sysOnboardingSteps");
-      var nextBtn = document.getElementById("sysOnboardingNext");
-      var skipBtn = document.getElementById("sysOnboardingSkip");
-
-      function positionCard(step) {
-        var target = document.querySelector(step.selector);
-        if (!target) { highlight.hidden = true; card.style.left = "50%"; card.style.top = "40%"; card.style.transform = "translateX(-50%)"; return; }
-        card.style.transform = "none";
-        var rect = target.getBoundingClientRect();
-        highlight.hidden = false;
-        highlight.style.top = (rect.top - 4) + "px";
-        highlight.style.left = (rect.left - 4) + "px";
-        highlight.style.width = (rect.width + 8) + "px";
-        highlight.style.height = (rect.height + 8) + "px";
-        var cardW = 320;
-        var cardLeft = rect.right + 14;
-        if (cardLeft + cardW > window.innerWidth - 16) cardLeft = rect.left - cardW - 14;
-        if (cardLeft < 16) cardLeft = rect.right + 14;
-        var cardTop = rect.top;
-        if (cardTop + 180 > window.innerHeight - 16) cardTop = window.innerHeight - 196;
-        if (cardTop < 16) cardTop = 16;
-        card.style.top = cardTop + "px";
-        card.style.left = cardLeft + "px";
-      }
-
-      function renderStep() {
-        var step = onboardingSteps[currentStep];
-        titleEl.textContent = step.title;
-        descEl.textContent = step.desc;
-        var dots = stepsBar.querySelectorAll("span");
-        dots.forEach(function (dot, i) {
-          dot.className = i < currentStep ? "is-done" : i === currentStep ? "is-active" : "";
-        });
-        nextBtn.textContent = currentStep === onboardingSteps.length - 1 ? "开始体验" : "下一步";
-        positionCard(step);
-      }
-
-      function showOnboarding() {
-        currentStep = 0;
-        overlay.hidden = false;
-        renderStep();
-      }
-
-      function advanceOnboarding() {
-        currentStep++;
-        if (currentStep >= onboardingSteps.length) { dismissOnboarding(); return; }
-        renderStep();
-      }
-
-      function dismissOnboarding() {
-        overlay.hidden = true;
-      }
-
-      nextBtn.addEventListener("click", advanceOnboarding);
-      skipBtn.addEventListener("click", dismissOnboarding);
-      window.addEventListener("resize", function () { if (!overlay.hidden) positionCard(onboardingSteps[currentStep]); });
-
-      var isOnboarded = false;
-      try { isOnboarded = !!localStorage.getItem(ONBOARDING_KEY); } catch (e) {}
-      function startOnboarding() { overlay.hidden = false; showOnboarding(); }
-      if (document.readyState === 'complete') window.setTimeout(startOnboarding, 800);
-      else window.addEventListener('load', function () { window.setTimeout(startOnboarding, 800); });
-    })();
-  </script>
 </body>
 </html>
