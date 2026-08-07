@@ -9425,6 +9425,50 @@
       min-height: 0;
       flex: 1 1 auto;
     }
+
+    /* 定损中心独立为核心作业页：放大选件、风险与定损清单的可操作面积。 */
+    #damageCenterPane.tab-pane.active {
+      display: grid;
+      grid-template-rows: minmax(520px, 1fr) auto;
+      align-content: start;
+      gap: 16px;
+      height: 100%;
+      overflow: auto;
+      padding: 0 0 16px;
+    }
+    #damageCenterPane .damage-center { min-height: 520px; }
+    #damageCenterPane .damage-center-head { min-height: 52px; }
+    #damageCenterPane .damage-center-head strong { font-size: 16px; }
+    #damageCenterPane .damage-center-body { grid-template-columns: minmax(0, 1.04fr) minmax(420px, .96fr); min-height: 400px; }
+    #damageCenterPane .damage-center-stage { min-height: 370px; }
+    #damageCenterPane .damage-center-stage .car-map { flex-basis: 420px; zoom: 1; }
+    #damageCenterPane .damage-center-part-cards { max-height: 282px; }
+    #damageCenterPane .damage-center-tree.active { max-height: 370px; }
+    #damageCenterPane .damage-center.is-tree-mode .damage-center-side { min-height: 400px; }
+    #damageCenterPane .damage-center.is-tree-mode .damage-center-tree { max-height: 400px; }
+
+    /* Demo 控制器置于整个系统最顶层，品牌栏与作业区随其高度下移。 */
+    body { --claims-demo-height: 0px; }
+    body[data-active-module="claims"] { --claims-demo-height: 144px; }
+    body[data-active-module="claims"].claims-demo-collapsed { --claims-demo-height: 40px; }
+    .demo-controller.is-horizontal {
+      position: fixed;
+      z-index: 300;
+      top: 0;
+      left: 0;
+      width: 100%;
+      margin-left: 0;
+    }
+    .demo-controller.is-horizontal.is-collapsed { width: 100%; margin-left: 0; }
+    .global-module-header {
+      top: var(--claims-demo-height);
+      height: calc(100vh - var(--claims-demo-height));
+    }
+    body[data-active-module="claims"] .workspace {
+      height: calc(100vh - var(--claims-demo-height));
+      flex: 0 0 calc(100vh - var(--claims-demo-height));
+      margin-top: var(--claims-demo-height);
+    }
     .analytics-view .xos-home,
     .analytics-view .xos-home.analytics-home { padding: 24px 32px 20px; }
     .analytics-view .xos-home.analytics-home .xos-home-center {
@@ -10604,6 +10648,7 @@
           <div class="content-tabs" role="tablist" aria-label="车物查勘页面">
             <button class="content-tab ai-review-tab" type="button" id="aiReviewTab" data-pane="aiReviewPane" hidden>AI核赔</button>
             <button class="content-tab active" type="button" data-pane="taskInfoPane">任务信息</button>
+            <button class="content-tab" type="button" id="damageCenterTab" data-pane="damageCenterPane" hidden>定损中心</button>
             <button class="content-tab" type="button" data-pane="caseInfoPane">案件信息</button>
             <button class="content-tab" type="button" id="docTab" data-pane="docPane">材料单证</button>
             <button class="content-tab" type="button" data-pane="flowPane">整案任务流</button>
@@ -10952,6 +10997,8 @@
           </div>
           </div>
           </div>
+
+          <div class="tab-pane" id="damageCenterPane" aria-label="定损中心"></div>
 
           <div class="tab-pane" id="caseInfoPane">
             <section class="section-card">
@@ -12206,11 +12253,13 @@
     const tabPanes = Array.from(document.querySelectorAll(".tab-pane"));
     const vehicleDamageDetail = document.getElementById("vehicleDamageDetail");
     const taskInfoPane = document.getElementById("taskInfoPane");
+    const damageCenterPane = document.getElementById("damageCenterPane");
     if (vehicleDamageDetail && taskInfoPane) taskInfoPane.prepend(vehicleDamageDetail);
     const damageRequiredSections = document.getElementById("damageRequiredSections");
     const damagePostSections = document.getElementById("damagePostSections");
     const damageCart = document.getElementById("damageCart");
     const damageCenter = document.getElementById("damageCenter");
+    if (damageCenterPane && damageCenter && damageCart) damageCenterPane.append(damageCenter, damageCart);
     const damageCenterSearchInput = document.getElementById("damageCenterSearchInput");
     const damageCenterSearchBtn = document.getElementById("damageCenterSearchBtn");
     const damageCenterStatus = document.getElementById("damageCenterStatus");
@@ -17176,9 +17225,12 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       if (aiReviewPane) aiReviewPane.scrollTop = 0;
     };
     const setTaskTabVisibility = (isReviewTask, showDetail = false) => {
+      const isDamageTask = contentContainer?.classList.contains("damage-task-active");
       const tabOrder = isReviewTask
         ? ["docPane", "paymentPane", "aiReviewPane", "taskInfoPane", "caseInfoPane", "flowPane"]
-        : ["aiReviewPane", "taskInfoPane", "caseInfoPane", "docPane", "flowPane", "paymentPane"];
+        : isDamageTask
+          ? ["taskInfoPane", "damageCenterPane", "caseInfoPane", "docPane", "flowPane", "paymentPane", "aiReviewPane"]
+          : ["aiReviewPane", "taskInfoPane", "caseInfoPane", "docPane", "flowPane", "paymentPane"];
       const tabList = document.querySelector(".content-tabs");
       tabOrder.forEach((paneId) => {
         const tab = contentTabs.find((item) => item.dataset.pane === paneId);
@@ -17188,9 +17240,13 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         ? new Set(showDetail
           ? ["aiReviewPane", "caseInfoPane", "docPane", "flowPane", "paymentPane"]
           : ["aiReviewPane", "docPane", "paymentPane"])
-        : new Set(showDetail
-          ? ["taskInfoPane", "caseInfoPane", "docPane", "flowPane", "paymentPane"]
-          : ["taskInfoPane", "docPane", "paymentPane"]);
+        : isDamageTask
+          ? new Set(showDetail
+            ? ["taskInfoPane", "damageCenterPane", "caseInfoPane", "docPane", "flowPane", "paymentPane"]
+            : ["taskInfoPane", "damageCenterPane", "docPane", "paymentPane"])
+          : new Set(showDetail
+            ? ["taskInfoPane", "caseInfoPane", "docPane", "flowPane", "paymentPane"]
+            : ["taskInfoPane", "docPane", "paymentPane"]);
       contentTabs.forEach((tab) => {
         const paneId = tab.dataset.pane;
         tab.hidden = !visiblePanes.has(paneId);
@@ -17389,6 +17445,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     const demoExpandBtn = document.getElementById("demoExpandBtn");
     const setClaimsDemoCollapsed = (collapsed) => {
       demoController?.classList.toggle("is-collapsed", collapsed);
+      document.body.classList.toggle("claims-demo-collapsed", collapsed);
       demoExpandBtn?.setAttribute("aria-expanded", String(!collapsed));
     };
     demoCollapseBtn?.addEventListener("click", () => setClaimsDemoCollapsed(true));
@@ -18610,6 +18667,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         text: `<div class="sp-recognition-card"><div class="sp-dialogue-conclusion is-pass"><strong>${source}完成</strong><span>定损信息已同步</span></div><p class="sp-recognition-summary">已将损失部位、线上图片定损方式，以及对应的配件和工时写入原有字段与定损清单。</p><section class="sp-recognition-section"><div class="sp-recognition-section-title"><span>本次写入</span><small>可继续修改</small></div><div class="sp-recognition-list"><div class="sp-recognition-field"><span>损失部位：前保险杠、左前翼子板、左前雾灯</span><b>已填入</b></div><div class="sp-recognition-field"><span>定损方式：线上图片定损</span><b>已填入</b></div><div class="sp-recognition-field"><span>定损合计：${formatDamageAmount(total)}</span><b>已更新</b></div></div></section><p class="sp-user-action"><strong>下一步</strong><span>我会持续进行防渗漏检查；请处理出现的具体关注项。</span></p></div>`
       });
       openTaskDetails({ shouldRecord: false, scrollToFirst: false });
+      switchPane("damageCenterPane");
       spSetTab("chat");
       spRenderChat();
     };
@@ -18627,6 +18685,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     const spShowDamageLeakageReview = () => {
       if (!spActiveTaskContext?.isDamageTask) return;
       openTaskDetails({ shouldRecord: false, scrollToFirst: false });
+      switchPane("damageCenterPane");
       renderDamageLeakageCheck();
       const status = document.getElementById("damageLeakageStatus")?.textContent || "检测中";
       const items = Array.from(document.querySelectorAll("#damageLeakageList .damage-leakage-item")).map((item) => item.textContent).filter(Boolean);
