@@ -1811,17 +1811,22 @@
     .workspace.task-active .content.tracking-task-active #taskInfoPane > .task-brief-panel,
     .workspace.task-active .content.review-task-active #taskInfoPane > .task-brief-panel { display: block; }
 
-    .workspace.task-active .content.task-focus-open:not(.damage-task-active):not(.review-task-active) #taskInfoPane > .task-brief-panel { display: none !important; }
-    .workspace.task-active .content.task-focus-open:not(.damage-task-active):not(.review-task-active) #taskInfoPane > .task-info-layout { display: block !important; margin: 14px; }
-    .workspace.task-active .content.task-focus-open #taskInfoPane > .task-supplement-panel { display: block !important; }
-    .workspace.task-active .content.task-focus-open .task-info-layout .section-card { display: none; }
-    .workspace.task-active .content.task-focus-open .task-info-layout #anchor-liability-info { display: block; }
     .workspace.task-active .content.task-detail-open:not(.damage-task-active):not(.review-task-active) #taskInfoPane > .task-brief-panel { display: none !important; }
     .workspace.task-active .content.task-detail-open:not(.damage-task-active):not(.review-task-active) #taskInfoPane > .task-info-layout { display: block !important; margin: 14px; }
-    .workspace.task-active .content.task-detail-open #taskInfoPane > .task-supplement-panel { display: block !important; }
+    .workspace.task-active .content.task-detail-open #taskInfoPane > .task-supplement-panel { display: none !important; }
     .workspace.task-active .content.task-detail-open #anchor-agent-judgement,
     .workspace.task-active .content.task-detail-open #anchor-report-info { display: block; }
     .workspace.task-active .content.task-detail-open #taskInfoPane > .task-overview-grid { display: grid; }
+    .is-task-supplement-highlight {
+      position: relative;
+      z-index: 1;
+      border-color: #8baeff !important;
+      background: #f5f8ff !important;
+      box-shadow: 0 0 0 2px rgba(23, 93, 255, .16);
+    }
+    .is-task-supplement-highlight .damage-detail-label { color: #175dff; }
+    .damage-cart-row.is-task-supplement-highlight { box-shadow: inset 3px 0 #175dff, inset 0 0 0 1px #b9cdff; }
+    .damage-cart-row.is-task-supplement-highlight > td { background: #f5f8ff; }
     .sp-task-dialogue-section { padding: 14px 16px; border-top: 1px solid #e9edf3; }
     .sp-task-dialogue-section:first-of-type { border-top: 0; }
     .sp-task-dialogue-label { display: block; margin-bottom: 9px; color: #6f7784; font-size: 12px; font-weight: 650; line-height: 18px; }
@@ -9294,26 +9299,50 @@
     .demo-control-btn:disabled { background: rgba(245, 246, 250, .48); }
     .demo-control-btn.is-primary { background: #175dff; }
 
-    /* 岗位 × 任务环节横向 Demo 控制器：轻量浮层，避免遮挡主工作区。 */
+    /* 岗位 × 任务环节横向 Demo 控制器：位于系统顶部文档流中，不覆盖主工作区。 */
     .demo-controller.is-horizontal {
-      inset: 10px 10px auto calc(var(--global-module-width) + 10px);
-      width: auto;
+      position: relative;
+      inset: auto;
+      width: calc(100% - var(--global-module-width));
       min-width: 0;
+      flex: 0 0 auto;
+      margin-left: var(--global-module-width);
       max-height: 144px;
-      border-color: rgba(139, 174, 255, .24);
-      border-radius: 10px;
+      border-width: 0 0 1px;
+      border-color: rgba(139, 174, 255, .28);
+      border-radius: 0;
       background: rgba(246, 249, 255, .38);
-      box-shadow: 0 4px 12px rgba(31, 45, 61, .06), inset 0 1px 0 rgba(255, 255, 255, .48);
+      box-shadow: 0 3px 10px rgba(31, 45, 61, .045), inset 0 1px 0 rgba(255, 255, 255, .48);
       -webkit-backdrop-filter: blur(20px) saturate(108%);
       backdrop-filter: blur(20px) saturate(108%);
-      transition: max-height .2s ease, width .2s ease, min-width .2s ease;
+      transition: max-height .2s ease, height .2s ease;
     }
     .demo-controller.is-horizontal.is-collapsed {
-      right: auto;
-      bottom: auto;
-      width: 40px;
-      min-width: 40px;
+      inset: auto;
+      width: calc(100% - var(--global-module-width));
+      min-width: 0;
       height: 40px;
+      margin-left: var(--global-module-width);
+      border-bottom: 1px solid rgba(139, 174, 255, .2);
+      background: rgba(246, 249, 255, .26);
+      box-shadow: 0 2px 7px rgba(31, 45, 61, .035);
+      overflow: hidden;
+      backdrop-filter: blur(18px) saturate(106%);
+    }
+    .demo-controller.is-horizontal.is-collapsed .demo-expand-btn {
+      position: static;
+      width: 100%;
+      height: 40px;
+      justify-content: flex-start;
+      gap: 8px;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      color: #616b7a;
+      font-size: 11px;
+      backdrop-filter: none;
     }
     .demo-controller.is-horizontal .demo-controller-case {
       grid-template-columns: auto minmax(140px, 1fr) auto auto;
@@ -9372,8 +9401,6 @@
     .demo-controller.is-horizontal .demo-control-btn { height: 24px; min-width: 24px; padding: 0 6px; font-size: 10px; }
 
     @media (max-width: 1280px) {
-      .demo-controller.is-horizontal { left: calc(var(--global-module-width) + 8px); right: 8px; }
-      .demo-controller.is-horizontal.is-collapsed { right: auto; }
       .demo-controller.is-horizontal .demo-controller-case { gap: 8px; }
       .demo-controller-context small { max-width: 280px; }
       .demo-controller.is-horizontal .demo-controller-case-info strong { display: none; }
@@ -9382,6 +9409,11 @@
     .workspace {
       width: calc(100% - var(--global-module-width));
       margin-left: var(--global-module-width);
+    }
+    .demo-controller.is-horizontal + .workspace {
+      height: auto;
+      min-height: 0;
+      flex: 1 1 auto;
     }
     .analytics-view .xos-home,
     .analytics-view .xos-home.analytics-home { padding: 24px 32px 20px; }
@@ -10298,8 +10330,8 @@
         <iframe class="agent-office-frame" src="about:blank" data-src="claim_core_star_office_home.html" title="办公区：左侧办公区与右侧任务详情"></iframe>
       </section>
       <section class="demo-controller is-horizontal" id="demoController" aria-label="岗位与任务环节 Demo 控制器">
-        <button class="demo-expand-btn" id="demoExpandBtn" type="button" title="展开岗位与任务环节 Demo 控制器" aria-label="展开岗位与任务环节 Demo 控制器" aria-expanded="true" aria-controls="demoController"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 12h10M4 19h16"/><path d="m17 9 3 3-3 3"/></svg></button>
-        <div class="demo-controller-case"><div class="demo-controller-case-info"><span>作业 SOP 演示</span><strong>案件 Z4401000100003100001</strong></div><div class="demo-controller-context"><span id="demoActiveRoleName">查勘作业岗</span><small id="demoActiveRoleWork">上传单证、自动识别填入、确认后提交</small></div><div class="demo-stage-actions"><button class="demo-control-btn" id="demoPrevBtn" type="button" aria-label="上一步" title="上一步">‹</button><span class="demo-stage-count" id="demoStageCount">作业流程 1 / 9</span><button class="demo-control-btn is-primary" id="demoNextBtn" type="button">下一步</button></div><button class="demo-collapse-btn" id="demoCollapseBtn" type="button" title="收起 Demo 控制器" aria-label="收起"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="m15 18-6-6 6-6"/></svg></button></div>
+        <button class="demo-expand-btn" id="demoExpandBtn" type="button" title="展开岗位与任务环节 Demo 控制器" aria-label="展开岗位与任务环节 Demo 控制器" aria-expanded="true" aria-controls="demoController"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg><span>展开作业 SOP 演示</span></button>
+        <div class="demo-controller-case"><div class="demo-controller-case-info"><span>作业 SOP 演示</span><strong>案件 Z4401000100003100001</strong></div><div class="demo-controller-context"><span id="demoActiveRoleName">查勘作业岗</span><small id="demoActiveRoleWork">上传单证、自动识别填入、确认后提交</small></div><div class="demo-stage-actions"><button class="demo-control-btn" id="demoPrevBtn" type="button" aria-label="上一步" title="上一步">‹</button><span class="demo-stage-count" id="demoStageCount">作业流程 1 / 9</span><button class="demo-control-btn is-primary" id="demoNextBtn" type="button">下一步</button></div><button class="demo-collapse-btn" id="demoCollapseBtn" type="button" title="收起顶部 Demo 控制器" aria-label="收起顶部 Demo 控制器"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="m6 15 6-6 6 6"/></svg></button></div>
         <div class="demo-role-navigation">
           <nav class="demo-role-tabs" role="tablist" aria-label="任务环节切换">
             <button class="demo-role-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="demoRoleSurveyWork" data-demo-role-tab="survey-work" data-demo-role-type="work"><small>查勘环节</small><strong>作业岗</strong><span>核实事故与责任</span></button>
@@ -10858,7 +10890,7 @@
               <div class="damage-detail-grid">
                 <label class="damage-detail-field"><span class="damage-detail-label is-required">事故类型</span><select class="damage-detail-control field" data-autofill="accidentType"><option>单方</option><option>双方</option><option>多方</option></select></label>
                 <label class="damage-detail-field"><span class="damage-detail-label is-required">事故详细类型</span><select class="damage-detail-control field" data-autofill="accidentDetail"><option>碰撞</option><option>火烧</option><option>自然灾害</option></select></label>
-                <label class="damage-detail-field"><span class="damage-detail-label is-required">事故损失项</span><select class="damage-detail-control field"><option>标的车损</option><option>三者车损</option><option>车上人员</option><option>第三者人伤</option><option>车载货物</option><option>其他财产</option></select></label>
+                <label class="damage-detail-field"><span class="damage-detail-label is-required">事故损失项</span><select class="damage-detail-control field" id="accidentLossItemField"><option>标的车损</option><option>三者车损</option><option>车上人员</option><option>第三者人伤</option><option>车载货物</option><option>其他财产</option></select></label>
                 <label class="damage-detail-field"><span class="damage-detail-label is-required">赔付结论</span><select class="damage-detail-control field" data-autofill="indemnityConclusion"><option>赔付</option><option>零结</option><option>商业险拒赔</option><option>整案拒赔</option><option>注销/报案注销</option></select></label>
                 <label class="damage-detail-field survey-field-attention"><span class="damage-detail-label is-required">事故责任系数</span><div class="progress-wrap risk-field-control"><input class="coef-slider" id="liabilityCoefSlider" type="range" min="0" max="100" value="60"><div class="progress-track"><div class="progress-fill" id="liabilityCoefFill">60%</div></div><span class="risk-field-tag">风险关注</span></div></label>
                 <label class="damage-detail-field"><span class="damage-detail-label is-required">赔付方式</span><select class="damage-detail-control field" data-autofill="indemnityMode"><option>按责赔付</option><option>互碰自赔</option><option>各自修车</option></select></label>
@@ -15948,7 +15980,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const status = row.querySelector(".case-row-meta b")?.textContent?.trim() || "处理中";
       const dispatchedAt = row.querySelector(".case-row-meta em")?.textContent?.trim() || "-";
       const taskInsight = {
-        survey: { summary: "查勘 Agent 已读取 Xwork 视频报案、现场影像和事故信息并生成查勘上下文；视频无法可靠确定责任依据、事故经过、标的/三者损失范围及现场证据完整性，已集中为人工确认项。", focus: "当前关注：补齐责任、事故事实、损失范围与现场影像证据" },
+        survey: { summary: "查勘 Agent 已读取 Xwork 视频报案、现场影像和事故信息并生成查勘上下文；责任认定书类型、事故责任系数、事故损失项、查勘说明和标的损失部位仍需人工确认。", focus: "当前关注：补齐查勘表单中的 5 个原字段" },
         damage: { summary: "定损 Agent 已接收查勘结论并完成影像解析、损失部位匹配与初步报价带入；左前 45 度远景、雾灯近景和车头下部影像仍不足以判断部分隐藏损失，已明确列出对应配件与工时确认项。", focus: "当前关注：确认图片无法识别的损失项与高风险配件", progress: { value: 46, title: "定损 Agent 处理中", note: "已完成影像解析与损失部位匹配，正在生成定损单。" } },
         tracking: { summary: "Agent 已完成客户触达、历史材料归类和当前节点梳理；案件暂受责任材料回传与收款关系核验影响，材料完整后可继续推进。", focus: "当前关注：材料回传进度与收款关系" },
         review: { summary: "Agent 已完成承保、保险责任、单证和理算结果的自动核验，并持续检查支付对象与风险规则；存在差异的材料需由人工确认后更新核赔结论。", focus: "当前关注：核赔结论、理算金额与责任材料一致性" }
@@ -15993,22 +16025,22 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     };
     const taskSupplementProfiles = {
       survey: {
-        summary: "查勘 Agent 已完成可识别信息归集；以下为视频或现有影像无法可靠确认的事故事实、损失范围与材料证据，补充后可继续提交查勘结论。",
+        summary: "查勘 Agent 已完成可识别信息归集；以下字段均来自当前查勘表单，补充后将同步写回对应原字段。",
         items: [
-          { key: "liabilityType", title: "责任认定依据", note: "视频无法确认责任划分依据，请选择已取得的材料类型。", kind: "待人工确认", control: "select", placeholder: "请选择责任依据", options: ["交警责任认定书", "事故认定协议", "现场协商记录", "暂未取得"] },
-          { key: "liabilityRatio", title: "责任比例确认", note: "当前 60% 为初判结果，需结合责任材料确认或修正。", kind: "待人工确认", control: "select", placeholder: "请选择责任比例", options: ["全责", "主责 70%", "同责 50%", "次责 30%", "暂无法确定"] },
-          { key: "accidentNarrative", title: "事故经过关键事实", note: "视频片段未完整覆盖碰撞前后过程，需补充碰撞方向、车速或避让情况。", kind: "待人工补充", control: "text", placeholder: "例如：前车变道后发生追尾" },
-          { key: "damageParts", title: "标的及三者损失范围", note: "现有影像仅能初步识别标的车损，三者是否受损及具体部位需确认。", kind: "待人工补充", control: "text", placeholder: "例如：标的前保险杠；三者后保险杠" },
-          { key: "sceneEvidence", title: "现场证据完整性", note: "缺少碰撞接触面、全景位置关系或三者受损近景时，请在对话中上传补拍图片。", kind: "待人工补充", control: "select", placeholder: "请选择现场证据情况", options: ["现场影像完整", "缺少接触面近景", "缺少全景位置关系", "缺少三者受损影像", "待补拍上传"] }
+          { key: "liabilityType", title: "责任认定书类型", note: "现有材料无法可靠确认，请选择查勘表单中的责任认定书类型。", kind: "待人工确认", control: "select", placeholder: "请选择责任认定书类型", options: ["交警事故认定书", "交警事故证明", "自行协商协议书", "法院判决书", "仲裁文书", "无责任认定材料"], targets: ["#liabilityTypeField"] },
+          { key: "liabilityRatio", title: "事故责任系数", note: "当前初判为 60%，需结合责任材料确认或修正。", kind: "待人工确认", control: "select", placeholder: "请选择事故责任系数", options: ["100%", "70%", "60%", "50%", "30%", "0%"], targets: ["#liabilityCoefSlider"] },
+          { key: "accidentLossItem", title: "事故损失项", note: "现有影像无法完整确认本次事故涉及的损失项目。", kind: "待人工确认", control: "select", placeholder: "请选择事故损失项", options: ["标的车损", "三者车损", "车上人员", "第三者人伤", "车载货物", "其他财产"], targets: ["#accidentLossItemField"] },
+          { key: "surveyOpinion", title: "查勘说明", note: "请补充查勘表单要求的事故核验结论和处理意见。", kind: "待人工补充", control: "text", placeholder: "填写查勘说明", targets: ["#surveyOpinionField"] },
+          { key: "damageParts", title: "标的损失部位", note: "请结合现场影像确认查勘表单中的标的车辆损失部位。", kind: "待人工确认", control: "select", placeholder: "请选择标的损失部位", options: ["左前", "前", "右前", "左侧", "右侧", "车顶", "底部", "左后", "后", "右后"], targets: ["#damagePartField"] }
         ]
       },
       damage: {
         summary: "定损 Agent 已自动带入可识别的配件和工时。以下为 Agent 无法从图片可靠判断的损失项：请结合缩略图确认疑似配件或补拍 / 拆检结论，再纳入定损清单。",
         items: [
-          { key: "fenderHandling", title: "左前翼子板处置方式", note: "图片仅拍到左前 45 度远景，变形边界未完整入镜。", evidenceLabel: "左前 45 度远景", possible: "疑似钣金变形、漆面损伤；可能整形维修或更换。", kind: "待人工确认", control: "select", placeholder: "请选择处置方式", options: ["整形修复", "更换", "维修"] },
-          { key: "fogLampDamage", title: "左前雾灯及支架损伤", note: "雾灯近景有强反光，灯罩裂纹和支架连接点不可见。", evidenceLabel: "左前雾灯近景", possible: "疑似灯罩裂纹或支架松脱；可能更换灯罩、总成及支架。", kind: "待人工确认", control: "select", placeholder: "请选择损伤判断", options: ["更换总成及支架", "更换灯罩", "维修", "无损伤"] },
-          { key: "bumperInnerDamage", title: "前保险杠内衬与吸能盒", note: "图片缺少车头下部与拆检视角，内部结构完全不可见。", evidenceLabel: "车头下部照片缺失", possible: "可能涉及内衬、吸能盒、固定卡扣等隐藏损失。", kind: "待人工补充", control: "select", placeholder: "请选择拆检结论", options: ["无需拆检", "拆检无损", "内衬或卡扣损坏", "吸能盒损坏", "待补拍 / 拆检"] },
-          { key: "wheelArchDamage", title: "左前轮眉与翼子板衬板", note: "左前轮遮挡轮眉和衬板，无法看到固定件及内侧损伤。", evidenceLabel: "左前轮区域遮挡", possible: "可能涉及轮眉、翼子板衬板或固定件损坏。", kind: "待人工确认", control: "select", placeholder: "请选择损伤判断", options: ["更换", "维修", "无损伤", "待补拍确认"] }
+          { key: "fenderHandling", title: "左前翼子板处置方式", note: "图片仅拍到左前 45 度远景，变形边界未完整入镜。", evidenceLabel: "左前 45 度远景", possible: "疑似钣金变形、漆面损伤；可能整形维修或更换。", kind: "待人工确认", control: "select", placeholder: "请选择处置方式", options: ["整形修复", "更换", "维修"], targets: ['[data-damage-item="fender"]', '[data-damage-item="fenderRepair"]'] },
+          { key: "fogLampDamage", title: "左前雾灯及支架损伤", note: "雾灯近景有强反光，灯罩裂纹和支架连接点不可见。", evidenceLabel: "左前雾灯近景", possible: "疑似灯罩裂纹或支架松脱；可能更换灯罩、总成及支架。", kind: "待人工确认", control: "select", placeholder: "请选择损伤判断", options: ["更换总成及支架", "更换灯罩", "维修", "无损伤"], targets: ['[data-damage-item="fogLamp"]', '[data-damage-item="fogLampReplace"]'] },
+          { key: "bumperInnerDamage", title: "前保险杠内衬与吸能盒", note: "图片缺少车头下部与拆检视角，内部结构完全不可见。", evidenceLabel: "车头下部照片缺失", possible: "可能涉及内衬、吸能盒、固定卡扣等隐藏损失。", kind: "待人工补充", control: "select", placeholder: "请选择拆检结论", options: ["无需拆检", "拆检无损", "内衬或卡扣损坏", "吸能盒损坏", "待补拍 / 拆检"], targets: ['[data-damage-item="bumper"]', '[data-damage-item="frontReinforcement"]'] },
+          { key: "wheelArchDamage", title: "左前轮眉与翼子板衬板", note: "左前轮遮挡轮眉和衬板，无法看到固定件及内侧损伤。", evidenceLabel: "左前轮区域遮挡", possible: "可能涉及轮眉、翼子板衬板或固定件损坏。", kind: "待人工确认", control: "select", placeholder: "请选择损伤判断", options: ["更换", "维修", "无损伤", "待补拍确认"], targets: ['[data-damage-item="wheelLiner"]'] }
         ]
       },
       tracking: {
@@ -16028,6 +16060,66 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     };
     const taskSupplementDrafts = new Map();
     const escapeTaskSupplementValue = (value) => String(value || "").replace(/[&<>'"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char]);
+    const getActiveTaskSupplementProfile = () => {
+      const cluster = document.querySelector(".case-row.active")?.dataset.cluster || spActiveTaskContext?.cluster || "survey";
+      return taskSupplementProfiles[cluster] || taskSupplementProfiles.survey;
+    };
+    const clearTaskSupplementHighlights = () => {
+      document.querySelectorAll(".is-task-supplement-highlight").forEach((element) => element.classList.remove("is-task-supplement-highlight"));
+    };
+    const resolveTaskSupplementHighlightTarget = (element) => element?.closest(".damage-detail-field, .survey-damage-field, .damage-cart-row") || element;
+    const highlightTaskSupplementFields = (keys = null, { scrollToFirst = false } = {}) => {
+      clearTaskSupplementHighlights();
+      const profile = getActiveTaskSupplementProfile();
+      const selectedItems = Array.isArray(keys) && keys.length
+        ? profile.items.filter((item) => keys.includes(item.key))
+        : profile.items;
+      const targets = selectedItems.flatMap((item) => (item.targets || []).flatMap((selector) => Array.from(document.querySelectorAll(selector))))
+        .map(resolveTaskSupplementHighlightTarget)
+        .filter(Boolean);
+      [...new Set(targets)].forEach((target) => {
+        target.classList.add("is-task-supplement-highlight");
+        const section = target.closest(".section-card");
+        if (section?.classList.contains("collapsed")) syncSectionState(section, true);
+      });
+      const firstTarget = targets[0];
+      if (scrollToFirst && firstTarget) {
+        const damagePane = firstTarget.closest(".damage-cart-pane");
+        if (damagePane?.id) document.querySelector(`[data-damage-cart-pane="${damagePane.id}"]`)?.click();
+        window.requestAnimationFrame(() => firstTarget.scrollIntoView({ behavior: "smooth", block: "center" }));
+      }
+      return firstTarget;
+    };
+    const syncTaskSupplementValueToDetail = (field, value) => {
+      const selectTargets = {
+        liabilityType: "#liabilityTypeField",
+        accidentLossItem: "#accidentLossItemField"
+      };
+      if (selectTargets[field]) {
+        const target = document.querySelector(selectTargets[field]);
+        const option = target && Array.from(target.options || []).find((item) => item.value === value || item.textContent.trim() === value);
+        if (target && option) target.value = option.value;
+        return;
+      }
+      if (field === "liabilityRatio") {
+        const target = document.getElementById("liabilityCoefSlider");
+        const ratio = Number.parseInt(value, 10);
+        if (target && Number.isFinite(ratio)) {
+          target.value = String(ratio);
+          target.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+        return;
+      }
+      if (field === "surveyOpinion") {
+        const target = document.getElementById("surveyOpinionField");
+        if (target) target.value = value;
+        return;
+      }
+      if (field === "damageParts" && value) {
+        const target = damageMap?.querySelector(`[data-damage="${CSS.escape(value)}"]`);
+        if (target && !target.classList.contains("active")) target.click();
+      }
+    };
     const refreshTaskSupplementStatus = () => {
       if (!taskSupplementPanel || !taskSupplementCount) return;
       const controls = Array.from(taskSupplementPanel.querySelectorAll("[data-task-supplement-field]"));
@@ -16097,6 +16189,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const draft = taskSupplementDrafts.get(draftKey) || {};
       draft[field] = target.value.trim();
       taskSupplementDrafts.set(draftKey, draft);
+      syncTaskSupplementValueToDetail(field, draft[field]);
       refreshTaskSupplementStatus();
     };
     document.addEventListener("input", (event) => saveTaskSupplementField(event.target));
@@ -16201,6 +16294,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const file = files.find((item) => item.damageEvidenceField === field);
       if (!file) return;
       setWorkspaceOpen(true);
+      clearTaskSupplementHighlights();
       contentContainer?.classList.remove("task-detail-open", "task-focus-open");
       setTaskDetailActionLabel(false);
       activeDocCategory = "线上单证未分类";
@@ -16221,26 +16315,14 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       });
     };
     const openTaskSupplementField = (field) => {
-      if (!field || !taskSupplementPanel) return;
-      const cluster = document.querySelector(".case-row.active")?.dataset.cluster || spActiveTaskContext?.cluster;
-      const control = taskSupplementPanel.querySelector(`[data-task-supplement-field="${field}"]`);
-      const fieldLabel = control?.closest(".task-supplement-item")?.querySelector(".task-supplement-item-head strong")?.textContent?.trim() || "待补充信息";
-      setWorkspaceOpen(true);
-      taskSupplementPanel.classList.remove("is-collapsed");
-      taskSupplementToggle?.setAttribute("aria-expanded", "true");
-      switchPane(cluster === "review" ? "aiReviewPane" : "taskInfoPane");
+      if (!field) return;
+      const item = getActiveTaskSupplementProfile().items.find((candidate) => candidate.key === field);
+      const fieldLabel = item?.title || "待补充信息";
+      openTaskDetails({ keys: [field], shouldRecord: false, scrollToFirst: true });
       recordTaskActionConversation(
         `处理：${fieldLabel}`,
-        `已在右侧定位“${fieldLabel}”。你可以直接填写或选择，保存后我会继续校验案件结论。`
+        `已在右侧完整任务详情中高亮“${fieldLabel}”原字段。完成填写后可返回任务概览继续处理。`
       );
-      window.requestAnimationFrame(() => {
-        const item = control?.closest(".task-supplement-item");
-        if (!control || !item) return;
-        item.classList.add("is-target");
-        item.scrollIntoView({ behavior: "smooth", block: "center" });
-        control.focus({ preventScroll: true });
-        window.setTimeout(() => item.classList.remove("is-target"), 2200);
-      });
     };
     const openProblemDocument = (key) => {
       const profile = reviewProblemProfiles[key];
@@ -16249,6 +16331,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       const file = files.find((item) => item.reviewProblemKey === key);
       if (!file) return;
       setWorkspaceOpen(true);
+      clearTaskSupplementHighlights();
       contentContainer?.classList.remove("task-detail-open", "task-focus-open");
       setTaskDetailActionLabel(false);
       activeDocCategory = "线上单证未分类";
@@ -16267,23 +16350,21 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         window.setTimeout(() => card.classList.remove("is-problem"), 3000);
       });
     };
-    const openTaskDetails = () => {
+    const openTaskDetails = ({ keys = null, shouldRecord = true, scrollToFirst = true } = {}) => {
       setWorkspaceOpen(true);
-      const activePaneId = tabPanes.find((pane) => pane.classList.contains("active"))?.id;
       contentContainer?.classList.remove("task-focus-open");
       contentContainer?.classList.add("task-detail-open");
       setTaskDetailActionLabel(true);
       const isReviewTask = document.querySelector(".case-row.active")?.dataset.cluster === "review";
       setTaskTabVisibility(isReviewTask, true);
-      const paneId = activePaneId && contentTabs.some((tab) => tab.dataset.pane === activePaneId && !tab.hidden)
-        ? activePaneId
-        : (isReviewTask ? "docPane" : "taskInfoPane");
-      switchPane(paneId);
-      recordTaskActionConversation("查看任务详情", "已在右侧展开完整任务详情，并保留当前案件上下文。");
+      switchPane(isReviewTask ? "docPane" : "taskInfoPane");
+      if (!isReviewTask) highlightTaskSupplementFields(keys, { scrollToFirst });
+      if (shouldRecord) recordTaskActionConversation("查看任务详情", "已在右侧展开完整任务详情，并高亮待补充信息对应的原字段。");
     };
     const openTaskOverview = () => {
       setWorkspaceOpen(true);
       const activePaneId = tabPanes.find((pane) => pane.classList.contains("active"))?.id;
+      clearTaskSupplementHighlights();
       contentContainer?.classList.remove("task-detail-open", "task-focus-open");
       setTaskDetailActionLabel(false);
       const isReviewTask = document.querySelector(".case-row.active")?.dataset.cluster === "review";
@@ -17120,6 +17201,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       contentContainer?.classList.toggle("damage-task-active", isDamageTask);
       contentContainer?.classList.toggle("tracking-task-active", isTrackingTask);
       contentContainer?.classList.toggle("review-task-active", isReviewTask);
+      clearTaskSupplementHighlights();
       contentContainer?.classList.remove("task-focus-open", "task-detail-open");
       spActiveTaskContext = { caseNo, status, cluster: row.dataset.cluster || "survey", isDamageTask, isTrackingTask, isReviewTask };
       setTaskDetailActionLabel(false);
@@ -17571,7 +17653,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     applyClusterFilter();
 
     document.querySelectorAll(".bottom-action-bar .action-btn").forEach((btn) => {
-      if (btn.id === "openDrawerBtn" || btn.id === "openSurveyDrawerBtn" || btn.id === "openZeroDrawerBtn" || btn.id === "openBigCaseDrawerBtn" || btn.id === "openTransferBtn" || btn.id === "autoFillBtn") return;
+      if (btn.id === "openDrawerBtn" || btn.id === "openSurveyDrawerBtn" || btn.id === "openZeroDrawerBtn" || btn.id === "openBigCaseDrawerBtn" || btn.id === "openTransferBtn" || btn.id === "autoFillBtn" || btn.id === "taskDetailActionBtn") return;
       btn.addEventListener("click", () => {
         const action = btn.dataset.taskAction;
         const requireDamage = btn.getAttribute("data-require-damage") === "1";
@@ -17592,7 +17674,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
               applyDemoStage(5);
               return;
             }
-            showToast("查勘已提交，正在校验并流转车定损");
+            showToast("查勘提交成功，即将进入定损环节");
             applyDemoStage(2);
           };
           completeSubmit();
@@ -17938,12 +18020,13 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
             <p class="sp-dialogue-summary">我已经核对视频报案、责任依据和现场影像，可确认的字段与材料已写入查勘结论。</p>
           <section class="sp-task-dialogue-confirm">
             <strong>注意事项</strong>
-            <p class="sp-dialogue-blocker">目前卡在责任依据、事故经过、损失范围和现场证据，现有材料不足以支持继续流转。</p>
+            <p class="sp-dialogue-blocker">以下内容均对应查勘表单原字段，完成确认后可继续提交。</p>
             <ul class="sp-task-dialogue-confirm-list">
-            <li><span><strong>责任依据与比例</strong><small>需核对责任材料。</small></span><button class="sp-task-supplement-open" type="button" data-task-supplement-open="liabilityType">去处理</button></li>
-            <li><span><strong>事故经过</strong><small>缺少完整碰撞过程。</small></span><button class="sp-task-supplement-open" type="button" data-task-supplement-open="accidentNarrative">去处理</button></li>
-            <li><span><strong>损失范围</strong><small>三者损失和标的边界不明确。</small></span><button class="sp-task-supplement-open" type="button" data-task-supplement-open="damageParts">去处理</button></li>
-            <li><span><strong>现场证据</strong><small>缺少接触面、全景或三者近景。</small></span><button class="sp-task-supplement-open" type="button" data-task-supplement-open="sceneEvidence">去处理</button></li>
+            <li><span><strong>责任认定书类型</strong><small>需核对已取得的责任材料。</small></span><button class="sp-task-supplement-open" type="button" data-task-supplement-open="liabilityType">去处理</button></li>
+            <li><span><strong>事故责任系数</strong><small>当前初判 60%，需人工确认。</small></span><button class="sp-task-supplement-open" type="button" data-task-supplement-open="liabilityRatio">去处理</button></li>
+            <li><span><strong>事故损失项</strong><small>需确认本次事故涉及的损失项目。</small></span><button class="sp-task-supplement-open" type="button" data-task-supplement-open="accidentLossItem">去处理</button></li>
+            <li><span><strong>查勘说明</strong><small>需补充核验结论和处理意见。</small></span><button class="sp-task-supplement-open" type="button" data-task-supplement-open="surveyOpinion">去处理</button></li>
+            <li><span><strong>标的损失部位</strong><small>需结合现场影像确认。</small></span><button class="sp-task-supplement-open" type="button" data-task-supplement-open="damageParts">去处理</button></li>
             </ul>
           </section>
           </section>
@@ -18046,14 +18129,13 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     const spSurveyDocumentReadyCases = new Set();
 
     const spRenderSurveySubmitReceipt = () => {
-      const needsDocuments = spPendingSurveyDocumentFlow;
       return `
         <div class="sp-message">
           <div class="sp-task-dialogue sp-task-submit-result">
-            <div class="sp-dialogue-conclusion ${needsDocuments ? "is-blocked" : "is-pass"}"><strong>结论：${needsDocuments ? "材料校验不通过" : "查勘提交成功"}</strong><span>${needsDocuments ? "定损未启动" : "已进入定损"}</span></div>
-            <p class="sp-dialogue-summary">我已经保存查勘结论，并完成进入定损所需的材料校验。</p>
-            ${needsDocuments ? '<p class="sp-dialogue-blocker">目前卡在标的受损近景和三者损失材料不完整。</p>' : '<p class="sp-agent-result">材料满足条件，定损 Agent 正在识别损失、配件和工时。</p>'}
-            <p class="sp-user-action"><strong>你需要</strong><span>${needsDocuments ? "在本对话上传标的受损近景、三者损失照片，以及维修报价或初步定损单（如有）。我会自动分类并重新校验。" : "暂时不用操作；遇到无法判断的图片时我会提醒你。"}</span></p>
+            <div class="sp-dialogue-conclusion is-pass"><strong>结论：查勘提交成功</strong><span>即将进入定损</span></div>
+            <p class="sp-dialogue-summary">查勘结论、责任信息和材料单证已提交成功，系统即将进入定损环节。</p>
+            <p class="sp-agent-result">当前仍停留在查勘任务，定损任务生成后会在对话中继续提示。</p>
+            <p class="sp-user-action"><strong>你需要</strong><span>暂时不用操作。</span></p>
             ${spAgentMeta()}
           </div>
         </div>
@@ -18093,35 +18175,15 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       </div>
     `;
 
-    const spOpenNextDamageTask = () => {
-      const surveyRow = document.querySelector(".case-row.active");
-      const surveyPlate = surveyRow?.querySelector(".case-row-sub")?.textContent?.split("｜")[0]?.trim();
-      const damageRows = allCaseRows().filter((row) => row.dataset.cluster === "damage" && !row.classList.contains("archived"));
-      const nextDamageRow = damageRows.find((row) => row.dataset.workState === "running" && row.querySelector(".case-row-sub")?.textContent?.includes(surveyPlate))
-        || damageRows.find((row) => row.dataset.workState === "running")
-        || damageRows.find((row) => row.dataset.workState === "attention");
-      if (!nextDamageRow) return;
-      spPendingSurveyHandoff = { sourceCaseNo: spActiveTaskContext?.caseNo || "当前查勘任务" };
-      if (spInput) spInput.placeholder = "输入任务处理要求";
-      clusterState.filter = "damage";
-      caseClusterBar?.querySelectorAll(".case-cluster").forEach((button) => button.classList.toggle("active", button.dataset.cluster === "damage"));
-      applyClusterFilter();
-      activateCaseRow(nextDamageRow);
-    };
-
     const spAppendSurveySubmitReceipt = () => {
       if (spActiveTaskContext?.isDamageTask || spActiveTaskContext?.isReviewTask) return;
-      const surveyRow = document.querySelector(".case-row.active");
-      const caseNo = spActiveTaskContext?.caseNo || "";
-      const hasRequiredDocuments = spSurveyDocumentReadyCases.has(caseNo) || surveyRow?.dataset.workState === "complete";
-      spPendingSurveyDocumentFlow = !hasRequiredDocuments;
-      spActiveTaskContext.status = spPendingSurveyDocumentFlow ? "待补充材料单证" : "已流转定损";
+      spPendingSurveyDocumentFlow = false;
+      spActiveTaskContext.status = "查勘已提交";
       spMessages = spMessages.filter((message) => !["survey-submit-receipt", "survey-document-flow"].includes(message.type));
       spMessages.push({ role: "agent", type: "survey-submit-receipt" });
       spSetTab("chat");
       spRenderAll();
-      if (spInput && spPendingSurveyDocumentFlow) spInput.placeholder = "请上传定损图片，或直接拖入本对话";
-      if (!spPendingSurveyDocumentFlow) window.setTimeout(spOpenNextDamageTask, 800);
+      if (spInput) spInput.placeholder = "输入任务处理要求";
     };
 
     const spAppendDamageSubmitReceipt = () => {
