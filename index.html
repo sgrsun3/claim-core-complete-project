@@ -9426,26 +9426,81 @@
       flex: 1 1 auto;
     }
 
-    /* 定损中心独立为核心作业页：放大选件、风险与定损清单的可操作面积。 */
+    /* 定损中心独立为核心作业页：风险前置，选件与清单保持在同一工作面。 */
     #damageCenterPane.tab-pane.active {
       display: grid;
-      grid-template-rows: minmax(520px, 1fr) auto;
+      grid-template-rows: auto auto auto;
       align-content: start;
-      gap: 16px;
+      gap: 12px;
       height: 100%;
       overflow: auto;
       padding: 0 0 16px;
     }
-    #damageCenterPane .damage-center { min-height: 520px; }
-    #damageCenterPane .damage-center-head { min-height: 52px; }
-    #damageCenterPane .damage-center-head strong { font-size: 16px; }
-    #damageCenterPane .damage-center-body { grid-template-columns: minmax(0, 1.04fr) minmax(420px, .96fr); min-height: 400px; }
-    #damageCenterPane .damage-center-stage { min-height: 370px; }
-    #damageCenterPane .damage-center-stage .car-map { flex-basis: 420px; zoom: 1; }
-    #damageCenterPane .damage-center-part-cards { max-height: 282px; }
-    #damageCenterPane .damage-center-tree.active { max-height: 370px; }
-    #damageCenterPane .damage-center.is-tree-mode .damage-center-side { min-height: 400px; }
-    #damageCenterPane .damage-center.is-tree-mode .damage-center-tree { max-height: 400px; }
+    #damageCenterPane > .damage-leakage-panel {
+      grid-template-columns: 172px minmax(0, 1fr);
+      align-items: start;
+      gap: 12px;
+      margin: 0;
+      padding: 12px 14px;
+      border-color: #f0d7ae;
+      background: #fffaf2;
+    }
+    #damageCenterPane > .damage-leakage-panel .damage-leakage-head {
+      min-height: 28px;
+      padding-right: 12px;
+      border-right: 1px solid #f0dfc2;
+    }
+    #damageCenterPane > .damage-leakage-panel .damage-leakage-list {
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 4px 16px;
+    }
+    #damageCenterPane .damage-center {
+      min-height: 0;
+      overflow: visible;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+    #damageCenterPane .damage-center-head { display: none; }
+    #damageCenterPane .damage-center-search { max-width: 420px; margin: 0 0 10px; }
+    #damageCenterPane .damage-center-shortcuts { min-height: 40px; flex-wrap: wrap; padding: 0 0 10px; border-bottom: 0; }
+    #damageCenterPane .damage-center-modes { min-height: 40px; padding: 0; border-top: 1px solid #eef1f6; }
+    #damageCenterPane .damage-center-mode { height: 40px; }
+    #damageCenterPane .damage-center-body { grid-template-columns: 336px minmax(0, 1fr); min-height: 432px; border-top: 1px solid #eef1f6; }
+    #damageCenterPane .damage-center-map-pane { padding: 14px 16px 14px 0; border-right: 1px solid #eef1f6; background: transparent; }
+    #damageCenterPane .damage-center-stage { min-height: 320px; align-items: center; background: #fbfcfe; }
+    #damageCenterPane .damage-center-stage .car-map { flex: 0 0 320px; width: 320px; height: 240px; zoom: .8; }
+    #damageCenterPane .damage-center-side { min-height: 432px; padding: 14px 0 14px 16px; }
+    #damageCenterPane .damage-center-selected { height: 100%; grid-template-rows: auto auto minmax(0, 1fr) auto; }
+    #damageCenterPane .damage-center-part-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; max-height: 360px; padding-right: 6px; }
+    #damageCenterPane .damage-center-part-card { min-height: 140px; }
+    #damageCenterPane .damage-center-tree.active { max-height: 432px; }
+    #damageCenterPane .damage-center.is-tree-mode .damage-center-side { min-height: 432px; }
+    #damageCenterPane .damage-center.is-tree-mode .damage-center-tree { max-height: 432px; }
+    #damageCenterPane .damage-center.is-tree-mode .damage-center-selected { grid-template-rows: auto minmax(0, 1fr) auto; }
+
+    .damage-task-info-cart { overflow: hidden; border: 1px solid #e1e8eb; border-radius: 8px; background: #fff; }
+    .damage-task-info-cart-head { min-height: 44px; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid #eef1f6; }
+    .damage-task-info-cart-head strong { position: relative; padding-left: 10px; color: #26354f; font-size: 14px; font-weight: 600; line-height: 20px; }
+    .damage-task-info-cart-head strong::before { position: absolute; top: 3px; bottom: 3px; left: 0; width: 3px; border-radius: 3px; background: #175dff; content: ""; }
+    .damage-task-info-cart-head span { color: #758198; font-size: 11px; line-height: 16px; }
+    .damage-task-info-cart-head b { margin: 0 2px; color: #175dff; font-weight: 600; }
+    .damage-task-info-cart-list { display: grid; max-height: 264px; overflow: auto; }
+    .damage-task-info-cart-row { min-height: 38px; display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 6px 16px; border-bottom: 1px solid #f0f2f6; }
+    .damage-task-info-cart-row:last-child { border-bottom: 0; }
+    .damage-task-info-cart-row span { color: #758198; font-size: 11px; line-height: 16px; }
+    .damage-task-info-cart-row strong { overflow: hidden; color: #33425a; font-size: 12px; font-weight: 500; line-height: 18px; text-overflow: ellipsis; white-space: nowrap; }
+    .damage-task-info-cart-row b { color: #26354f; font-size: 12px; font-weight: 600; line-height: 18px; }
+    .damage-task-info-cart-foot { display: flex; align-items: center; justify-content: flex-end; gap: 16px; min-height: 42px; padding: 0 16px; border-top: 1px solid #eef1f6; background: #fafcff; }
+    .damage-task-info-cart-foot span { color: #758198; font-size: 11px; line-height: 16px; }
+    .damage-task-info-cart-foot strong { margin-left: 4px; color: #175dff; font-size: 14px; font-weight: 600; line-height: 20px; }
+
+    @media (max-width: 1280px) {
+      #damageCenterPane .damage-center-body { grid-template-columns: 304px minmax(0, 1fr); }
+      #damageCenterPane .damage-center-part-cards { grid-template-columns: minmax(0, 1fr); }
+      #damageCenterPane > .damage-leakage-panel { grid-template-columns: 1fr; }
+      #damageCenterPane > .damage-leakage-panel .damage-leakage-head { padding: 0; border-right: 0; }
+    }
 
     /* Demo 控制器置于整个系统最顶层，品牌栏与作业区随其高度下移。 */
     body { --claims-demo-height: 0px; }
@@ -10542,6 +10597,11 @@
           </div>
           <section class="vehicle-damage-detail" id="vehicleDamageDetail">
             <div class="damage-required-sections" id="damageRequiredSections" aria-label="车定损必要信息"></div>
+            <section class="damage-task-info-cart" id="damageTaskInfoCart" aria-label="任务信息中的定损清单">
+              <div class="damage-task-info-cart-head"><strong>定损清单</strong><span>已同步 <b id="damageTaskInfoSelectedCount">0</b> 项</span></div>
+              <div class="damage-task-info-cart-list" id="damageTaskInfoCartList"></div>
+              <div class="damage-task-info-cart-foot"><span>定损合计<strong id="damageTaskInfoTotalAmount">¥0</strong></span></div>
+            </section>
             <section class="damage-center" id="damageCenter" aria-label="定损中心">
               <div class="damage-center-head"><strong>定损中心</strong></div>
               <div class="damage-center-search"><input id="damageCenterSearchInput" type="search" placeholder="输入配件名称或 OE 号" /><button id="damageCenterSearchBtn" type="button" title="搜索配件" aria-label="搜索配件"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg></button></div>
@@ -12259,7 +12319,9 @@
     const damagePostSections = document.getElementById("damagePostSections");
     const damageCart = document.getElementById("damageCart");
     const damageCenter = document.getElementById("damageCenter");
+    const damageLeakagePanel = document.getElementById("damageLeakagePanel");
     if (damageCenterPane && damageCenter && damageCart) damageCenterPane.append(damageCenter, damageCart);
+    if (damageCenterPane && damageLeakagePanel) damageCenterPane.prepend(damageLeakagePanel);
     const damageCenterSearchInput = document.getElementById("damageCenterSearchInput");
     const damageCenterSearchBtn = document.getElementById("damageCenterSearchBtn");
     const damageCenterStatus = document.getElementById("damageCenterStatus");
@@ -12470,7 +12532,7 @@
       leftSide: { name: "左侧部位", meta: "已自动带出 3 个配件与 2 项工时", components: ["fender", "fogLamp", "wheelLiner"], items: ["fender", "fogLamp", "wheelLiner", "fenderRepair", "fogLampReplace"], keywords: ["左侧", "翼子板"] },
       rear: { name: "后部受损区域", meta: "已自动带出相关配件与工时，待进一步确认", components: ["bumper"], items: ["bumper", "bumperPaint"], keywords: ["后部", "后保险杠"] }
     };
-    let damageCenterPartKey = "front";
+    let damageCenterPartKey = "leftFront";
     const syncDamageCartFromPart = (part) => {
       const itemKeys = new Set(part.items);
       document.querySelectorAll("[data-damage-item]").forEach((row) => {
@@ -12586,8 +12648,33 @@
     const damageOutsourceAmount = document.getElementById("damageOutsourceAmount");
     const damageManageAmount = document.getElementById("damageManageAmount");
     const damageTotalAmount = document.getElementById("damageTotalAmount");
+    const damageTaskInfoCartList = document.getElementById("damageTaskInfoCartList");
+    const damageTaskInfoSelectedCount = document.getElementById("damageTaskInfoSelectedCount");
+    const damageTaskInfoTotalAmount = document.getElementById("damageTaskInfoTotalAmount");
     const damageWorkflowState = { repairOrderRecognized: false, paymentDocumentRecognized: false };
     const formatDamageAmount = (amount) => `¥${Number(amount).toLocaleString("zh-CN")}`;
+    const renderDamageTaskInfoCart = (selected, total) => {
+      if (!damageTaskInfoCartList) return;
+      const paneLabels = {
+        damagePartsPane: "配件",
+        damageLaborPane: "工时",
+        damageMaterialsPane: "辅料",
+        damageLowCarbonPane: "低碳"
+      };
+      const rows = getDamageCartChecks()
+        .filter((input) => input.checked)
+        .map((input) => {
+          const row = input.closest(".damage-cart-row");
+          const project = row?.querySelector(".damage-cart-project > strong")?.textContent?.trim() || "定损项目";
+          const paneId = row?.closest(".damage-cart-panel")?.id || "";
+          return `<div class="damage-task-info-cart-row"><span>${paneLabels[paneId] || "项目"}</span><strong title="${escapeDamageDetail(project)}">${escapeDamageDetail(project)}</strong><b>${formatDamageAmount(Number(row?.dataset.damageTotal || 0))}</b></div>`;
+        });
+      damageTaskInfoCartList.innerHTML = rows.length
+        ? rows.join("")
+        : '<div class="damage-task-info-cart-row"><span>待补充</span><strong>尚未选择定损项目</strong><b>¥0</b></div>';
+      if (damageTaskInfoSelectedCount) damageTaskInfoSelectedCount.textContent = String(selected);
+      if (damageTaskInfoTotalAmount) damageTaskInfoTotalAmount.textContent = formatDamageAmount(total);
+    };
     const updateDamageCart = () => {
       let selected = 0;
       let material = 0;
@@ -12624,6 +12711,7 @@
         damageCartAll.checked = selected === damageCartChecks.length;
         damageCartAll.indeterminate = selected > 0 && selected < damageCartChecks.length;
       }
+      renderDamageTaskInfoCart(selected, total);
       renderDamageLeakageCheck();
     };
     function renderDamageLeakageCheck() {
