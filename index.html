@@ -7604,6 +7604,16 @@
     .damage-center-shortcuts > span { margin-right: 4px; color: #758198; font-size: 11px; white-space: nowrap; }
     .damage-center-shortcuts button { min-height: 28px; padding: 0 10px; border: 1px solid #d0d5df; border-radius: 4px; background: #fff; color: #526178; font-size: 11px; cursor: pointer; }
     .damage-center-shortcuts button:hover, .damage-center-shortcuts button.is-active { border-color: #175dff; background: #f1f6ff; color: #175dff; }
+    .damage-leakage-panel { display: grid; gap: 7px; margin: 10px 16px 0; padding: 10px 12px; border: 1px solid #dce5f0; border-radius: 6px; background: #fbfcff; }
+    .damage-leakage-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .damage-leakage-head strong { color: #36435a; font-size: 12px; font-weight: 600; }
+    .damage-leakage-status { display: inline-flex; align-items: center; min-height: 20px; padding: 0 7px; border-radius: 10px; background: #eef7f0; color: #28733e; font-size: 11px; }
+    .damage-leakage-status.is-risk { background: #fff4e8; color: #bd6718; }
+    .damage-leakage-list { display: grid; gap: 4px; }
+    .damage-leakage-item { display: flex; align-items: flex-start; gap: 7px; color: #637087; font-size: 11px; line-height: 17px; }
+    .damage-leakage-item::before { flex: 0 0 auto; width: 5px; height: 5px; margin-top: 6px; border-radius: 50%; background: #51a66e; content: ""; }
+    .damage-leakage-item.is-risk { color: #9a5a1b; }
+    .damage-leakage-item.is-risk::before { background: #e28a2d; }
     .damage-center-custom { display: grid; grid-template-columns: 104px minmax(0, 1fr) 92px auto; gap: 8px; padding: 10px 16px; border-bottom: 1px solid #eef1f6; background: #fafcff; }
     .damage-center-custom[hidden] { display: none !important; }
     .damage-center-custom select, .damage-center-custom input { min-width: 0; height: 30px; padding: 0 8px; border: 1px solid #d0d5df; border-radius: 4px; outline: 0; background: #fff; color: #26354f; font-size: 11px; }
@@ -10331,7 +10341,7 @@
       </section>
       <section class="demo-controller is-horizontal" id="demoController" aria-label="岗位与任务环节 Demo 控制器">
         <button class="demo-expand-btn" id="demoExpandBtn" type="button" title="展开岗位与任务环节 Demo 控制器" aria-label="展开岗位与任务环节 Demo 控制器" aria-expanded="true" aria-controls="demoController"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg><span>展开作业 SOP 演示</span></button>
-        <div class="demo-controller-case"><div class="demo-controller-case-info"><span>作业 SOP 演示</span><strong>案件 Z4401000100003100001</strong></div><div class="demo-controller-context"><span id="demoActiveRoleName">查勘作业岗</span><small id="demoActiveRoleWork">上传单证、自动识别填入、确认后提交</small></div><div class="demo-stage-actions"><button class="demo-control-btn" id="demoPrevBtn" type="button" aria-label="上一步" title="上一步">‹</button><span class="demo-stage-count" id="demoStageCount">作业流程 1 / 9</span><button class="demo-control-btn is-primary" id="demoNextBtn" type="button">下一步</button></div><button class="demo-collapse-btn" id="demoCollapseBtn" type="button" title="收起顶部 Demo 控制器" aria-label="收起顶部 Demo 控制器"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="m6 15 6-6 6 6"/></svg></button></div>
+        <div class="demo-controller-case"><div class="demo-controller-case-info"><span>作业 SOP 演示</span><strong>案件 Z4401000100003100001</strong></div><div class="demo-controller-context"><span id="demoActiveRoleName">查勘作业岗</span><small id="demoActiveRoleWork">上传单证、自动识别填入、确认后提交</small></div><div class="demo-stage-actions"><button class="demo-control-btn" id="demoPrevBtn" type="button" aria-label="上一步" title="上一步">‹</button><span class="demo-stage-count" id="demoStageCount">作业流程 1 / 12</span><button class="demo-control-btn is-primary" id="demoNextBtn" type="button">下一步</button></div><button class="demo-collapse-btn" id="demoCollapseBtn" type="button" title="收起顶部 Demo 控制器" aria-label="收起顶部 Demo 控制器"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="m6 15 6-6 6 6"/></svg></button></div>
         <div class="demo-role-navigation">
           <nav class="demo-role-tabs" role="tablist" aria-label="任务环节切换">
             <button class="demo-role-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="demoRoleSurveyWork" data-demo-role-tab="survey-work" data-demo-role-type="work"><small>查勘环节</small><strong>作业岗</strong><span>核实事故与责任</span></button>
@@ -10346,14 +10356,17 @@
             <button class="demo-lifecycle-step is-success" type="button" data-demo-stage="2"><i>3</i><span><strong>提交查勘</strong><small>校验完成后流转车定损</small></span></button>
           </div></section>
           <section class="demo-lifecycle-group" id="demoRoleDamageWork" role="tabpanel" data-demo-role-group="damage-work"><div class="demo-role-brief"><strong>定损作业岗</strong><div class="demo-role-duty"><span><small>岗位职责</small>识别损失项目并核定配件、工时与金额</span><span><small>主要产出</small>定损单、核价核损输入、风险标记</span></div></div><div class="demo-lifecycle-steps">
-            <button class="demo-lifecycle-step" type="button" data-demo-stage="3"><i>1</i><span><strong>查看定损待办</strong><small>进入异常和高风险定损任务</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-stage="4"><i>2</i><span><strong>处理定损任务</strong><small>确认损失、配件与工时</small></span></button>
-            <button class="demo-lifecycle-step is-success" type="button" data-demo-stage="5"><i>3</i><span><strong>提交定损</strong><small>启动自动核价核损</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-stage="3"><i>1</i><span><strong>上传维修工单</strong><small>识别配件与工时，自动填入定损单</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-stage="4"><i>2</i><span><strong>查看车损图片</strong><small>在材料单证中核对原始车损影像</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-stage="5"><i>3</i><span><strong>录入定损信息</strong><small>支持语音和快捷方式补充损失</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-stage="6"><i>4</i><span><strong>查看风险提示</strong><small>实时检查配件、工时和金额渗漏</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-stage="7"><i>5</i><span><strong>上传支付单证</strong><small>识别支付信息并自动回填</small></span></button>
+            <button class="demo-lifecycle-step is-success" type="button" data-demo-stage="8"><i>6</i><span><strong>提交定损</strong><small>完成防渗漏校验后提交</small></span></button>
           </div></section>
           <section class="demo-lifecycle-group" id="demoRoleReviewWork" role="tabpanel" data-demo-role-group="review-work"><div class="demo-role-brief"><strong>核赔作业岗</strong><div class="demo-role-duty"><span><small>岗位职责</small>交叉核验责任、材料、定损与理算结果</span><span><small>主要产出</small>核赔结论、支付指令、结案意见</span></div></div><div class="demo-lifecycle-steps">
-            <button class="demo-lifecycle-step" type="button" data-demo-stage="6"><i>1</i><span><strong>查看核赔待办</strong><small>进入责任与理算异常任务</small></span></button>
-            <button class="demo-lifecycle-step" type="button" data-demo-stage="7"><i>2</i><span><strong>处理核赔任务</strong><small>复核责任、材料和金额</small></span></button>
-            <button class="demo-lifecycle-step is-success" type="button" data-demo-stage="8"><i>3</i><span><strong>核赔通过并结案</strong><small>支付校验、归档与通知</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-stage="9"><i>1</i><span><strong>查看核赔待办</strong><small>进入责任与理算异常任务</small></span></button>
+            <button class="demo-lifecycle-step" type="button" data-demo-stage="10"><i>2</i><span><strong>处理核赔任务</strong><small>复核责任、材料和金额</small></span></button>
+            <button class="demo-lifecycle-step is-success" type="button" data-demo-stage="11"><i>3</i><span><strong>核赔通过并结案</strong><small>支付校验、归档与通知</small></span></button>
           </div></section>
         </div>
       </section>
@@ -10495,7 +10508,12 @@
                 <button type="button" data-damage-shortcut="repair">常用维修</button>
                 <button type="button" data-damage-shortcut="material">常用辅料</button>
                 <button type="button" data-damage-shortcut="custom">自定义添加</button>
+                <button type="button" id="damageVoiceEntryBtn">语音录入</button>
               </div>
+              <section class="damage-leakage-panel" id="damageLeakagePanel" aria-live="polite" aria-label="定损防渗漏实时检测">
+                <div class="damage-leakage-head"><strong>防渗漏实时检测</strong><span class="damage-leakage-status" id="damageLeakageStatus">检测中</span></div>
+                <div class="damage-leakage-list" id="damageLeakageList"></div>
+              </section>
               <div class="damage-center-custom" id="damageCenterCustom" hidden>
                 <select id="damageCustomType" aria-label="自定义项目类型"><option>配件</option><option>工时</option><option>辅料</option></select>
                 <input id="damageCustomName" type="text" placeholder="输入项目名称" aria-label="自定义项目名称">
@@ -11254,7 +11272,7 @@
                 <textarea class="xos-home-input" id="xosHomeInput" placeholder="随心输入"></textarea>
                 <div class="xos-home-toolbar">
                   <div class="xos-home-tools"><button class="xos-home-icon-btn" id="xosHomeUploadBtn" type="button" title="上传"><svg class="dialog-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></button></div>
-                  <div class="xos-home-tools"><button class="xos-home-icon-btn" type="button" title="语音输入"><svg class="dialog-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="6" height="11" x="9" y="2" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 19v3"/></svg></button><button class="xos-home-send" id="xosHomeSend" type="button" title="开始"><span>开始</span><svg class="dialog-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button></div>
+                  <div class="xos-home-tools"><button class="xos-home-icon-btn" id="xosHomeVoiceBtn" type="button" title="语音录入" aria-label="语音录入定损信息"><svg class="dialog-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="6" height="11" x="9" y="2" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 19v3"/></svg></button><button class="xos-home-send" id="xosHomeSend" type="button" title="开始"><span>开始</span><svg class="dialog-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button></div>
                 </div>
               </div>
             </div>
@@ -11290,7 +11308,7 @@
                   <button class="sp-icon-btn" id="spUploadBtn" type="button" title="上传"><svg class="dialog-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></button>
                 </div>
                 <div class="sp-tool-right">
-                  <button class="sp-icon-btn" type="button" title="语音输入"><svg class="dialog-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="6" height="11" x="9" y="2" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 19v3"/></svg></button>
+                  <button class="sp-icon-btn" id="spVoiceBtn" type="button" title="语音输入" aria-label="语音录入定损信息"><svg class="dialog-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="6" height="11" x="9" y="2" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 19v3"/></svg></button>
                   <button class="sp-send" id="spSendBtn" type="button" title="发送"><span>发送</span><svg class="dialog-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button>
                 </div>
               </div>
@@ -12370,7 +12388,13 @@
     syncDamageDetailConditionals();
     [damageRequiredSections, damagePostSections].forEach((container) => {
       container?.addEventListener("change", (event) => {
-        if (event.target.matches("[data-damage-detail-field]")) syncDamageDetailConditionals();
+        if (event.target.matches("[data-damage-detail-field]")) {
+          syncDamageDetailConditionals();
+          renderDamageLeakageCheck();
+        }
+      });
+      container?.addEventListener("input", (event) => {
+        if (event.target.matches("[data-damage-detail-field]")) renderDamageLeakageCheck();
       });
     });
     const syncSurveyCatastrophe = () => {
@@ -12513,6 +12537,7 @@
     const damageOutsourceAmount = document.getElementById("damageOutsourceAmount");
     const damageManageAmount = document.getElementById("damageManageAmount");
     const damageTotalAmount = document.getElementById("damageTotalAmount");
+    const damageWorkflowState = { repairOrderRecognized: false, paymentDocumentRecognized: false };
     const formatDamageAmount = (amount) => `¥${Number(amount).toLocaleString("zh-CN")}`;
     const updateDamageCart = () => {
       let selected = 0;
@@ -12550,7 +12575,41 @@
         damageCartAll.checked = selected === damageCartChecks.length;
         damageCartAll.indeterminate = selected > 0 && selected < damageCartChecks.length;
       }
+      renderDamageLeakageCheck();
     };
+    function renderDamageLeakageCheck() {
+      const list = document.getElementById("damageLeakageList");
+      const status = document.getElementById("damageLeakageStatus");
+      if (!list || !status) return;
+      const selected = (key) => Boolean(document.querySelector(`[data-damage-item="${key}"] .damage-cart-check`)?.checked);
+      const findings = [];
+      if (!damageWorkflowState.repairOrderRecognized) {
+        findings.push("待上传维修工单后，系统会核对识别出的配件与工时是否完整回填。");
+      }
+      if (selected("headlight")) {
+        findings.push("左前大灯总成已命中既有“低配高赔”标记，请核验配置、OE 号和厂方指导价。");
+      }
+      if (selected("fender") && !selected("fenderRepair")) {
+        findings.push("左前翼子板已列入定损单，尚未匹配“左前翼子板维修”工时。");
+      }
+      if (selected("frontReinforcement") && !damageWorkflowState.repairOrderRecognized) {
+        findings.push("前防撞梁属于隐损关联项，请以维修工单或拆检图片确认后再核定。");
+      }
+      if (damageWorkflowState.paymentDocumentRecognized) {
+        const payment = document.querySelector(".payment-record");
+        const paymentAmount = Number(payment?.querySelector(".payment-amount-field")?.value || 0);
+        const damageAmount = Number(String(damageTotalAmount?.textContent || "").replace(/[^\d.]/g, ""));
+        if (Math.abs(paymentAmount - damageAmount) > 0.01) {
+          findings.push("支付单证金额与当前定损清单金额不一致，请复核支付金额后提交。");
+        }
+      }
+      const riskCount = findings.length;
+      status.textContent = riskCount ? `发现 ${riskCount} 项关注` : "未发现渗漏";
+      status.classList.toggle("is-risk", Boolean(riskCount));
+      list.innerHTML = riskCount
+        ? findings.map((item) => `<div class="damage-leakage-item is-risk">${escapeDamageDetail(item)}</div>`).join("")
+        : '<div class="damage-leakage-item">配件、工时、定损金额与支付金额已完成同步核验。</div>';
+    }
     if (damageCart) {
       damageCartTabs.forEach((tab) => tab.addEventListener("click", () => {
         const paneId = tab.dataset.damageCartPane;
@@ -12612,6 +12671,7 @@
         showToast(profile.message);
       });
     });
+    document.getElementById("damageVoiceEntryBtn")?.addEventListener("click", () => spApplyDamageQuickEntry({ source: "语音录入" }));
     document.getElementById("damageCustomAdd")?.addEventListener("click", () => {
       const type = document.getElementById("damageCustomType")?.value || "配件";
       const nameInput = document.getElementById("damageCustomName");
@@ -13408,6 +13468,7 @@
       const countLabel = document.getElementById("paymentObjectCount");
       if (totalLabel) totalLabel.textContent = formatCalculationAmount(total);
       if (countLabel) countLabel.textContent = `${countedRecords.length} 个`;
+      renderDamageLeakageCheck();
     }
 
     function setPaymentRecordValues(record, values = {}) {
@@ -13991,6 +14052,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     const xosHomeInput = document.getElementById("xosHomeInput");
     const xosHomeSend = document.getElementById("xosHomeSend");
     const xosHomeUploadBtn = document.getElementById("xosHomeUploadBtn");
+    const xosHomeVoiceBtn = document.getElementById("xosHomeVoiceBtn");
     const xosHomeDialogue = document.getElementById("xosHomeDialogue");
     const xosHomeDialogueThread = document.getElementById("xosHomeDialogueThread");
     const xosHomeBrief = document.getElementById("xosHomeBrief");
@@ -14008,6 +14070,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
     let activeAnalyticsTopic = null;
     const spBody = document.querySelector(".sp-body");
     const spUploadBtn = document.getElementById("spUploadBtn");
+    const spVoiceBtn = document.getElementById("spVoiceBtn");
     const workspace = document.querySelector(".workspace");
     const openWorkspaceBtn = document.getElementById("openWorkspaceBtn");
     const homeWorkspaceToggleBtn = document.getElementById("homeWorkspaceToggleBtn");
@@ -15801,6 +15864,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       xosHomeSend?.click();
     });
     if (xosHomeUploadBtn) xosHomeUploadBtn.addEventListener("click", () => spOpenUploadPicker(true));
+    if (xosHomeVoiceBtn) xosHomeVoiceBtn.addEventListener("click", () => spApplyDamageQuickEntry({ source: "语音录入" }));
     const homeActionPrompts = {
       "manual-case": "手工立案：请提供报案号或车辆信息。",
       "reopen-case": "案件重开：请提供案件号和重开原因。",
@@ -15860,6 +15924,7 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       if (!event.target.closest(".xos-home-third-party")) setThirdPartyMenu(false);
     });
     if (spUploadBtn) spUploadBtn.addEventListener("click", () => spOpenUploadPicker());
+    if (spVoiceBtn) spVoiceBtn.addEventListener("click", () => spApplyDamageQuickEntry({ source: "语音录入" }));
     if (openWorkspaceBtn) {
       openWorkspaceBtn.addEventListener("click", () => setWorkspaceOpen(!workspace?.classList.contains("workspace-open")));
     }
@@ -17370,9 +17435,12 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       { role: "survey-work", title: "上传单证", description: "点击回形针或将图片、PDF 直接拖入对话，Agent 自动分类并识别字段。", view: "survey-upload", task: "Z4401000100003100001_3" },
       { role: "survey-work", title: "录入信息", description: "Agent 将识别结果自动写入查勘表单，作业岗只补充未识别和异常字段。", view: "survey-input", task: "Z4401000100003100001_3" },
       { role: "survey-work", title: "提交查勘", description: "完成必要字段校验后提交，查勘结论与单证一并流转车定损。", view: "survey-submit", task: "Z4401000100003100001_3" },
-      { role: "damage-work", title: "查看定损待办", description: "Agent 只把无法继续处理或高风险的定损异常项放入待办。", view: "home", task: "Z4401000100003100001_9" },
-      { role: "damage-work", title: "处理定损任务", description: "无法识别的损失图片已转人工；确认后将形成定损清单并自动计算金额。", view: "task", task: "Z4401000100003100001_9" },
-      { role: "damage-work", title: "提交定损", description: "定损提交后，Agent 自动校验配件价格、工时标准、碰撞逻辑和金额异常。", view: "damage-submit", task: "Z4401000100003100001_9" },
+      { role: "damage-work", title: "上传维修工单", description: "点击回形针或将维修工单拖入对话；Agent 识别配件、工时并回填定损清单。", view: "damage-work-order", task: "Z4401000100003100001_9" },
+      { role: "damage-work", title: "查看车损图片", description: "在材料单证中核对车损原图，确认损失边界与拆检依据。", view: "damage-images", task: "Z4401000100003100001_9" },
+      { role: "damage-work", title: "录入定损信息", description: "可以语音直接录入，也可通过常用项目和结构树快速补充。", view: "damage-input", task: "Z4401000100003100001_9" },
+      { role: "damage-work", title: "查看风险提示", description: "系统实时检查配件、工时、金额和支付信息的潜在渗漏。", view: "damage-risk", task: "Z4401000100003100001_9" },
+      { role: "damage-work", title: "上传支付单证", description: "识别支付对象、金额和账户信息，并自动填入支付信息。", view: "damage-payment", task: "Z4401000100003100001_9" },
+      { role: "damage-work", title: "提交定损", description: "完成防渗漏校验后提交定损单，继续进入自动核价核损。", view: "damage-submit", task: "Z4401000100003100001_9" },
       { role: "review-work", title: "查看核赔待办", description: "Agent 只把无法继续处理或高风险的核赔异常项放入待办。", view: "home", task: "Z4401000100003100001_17" },
       { role: "review-work", title: "处理核赔任务", description: "核赔 Agent 已汇总责任、材料和理算结果；作业岗只复核重点关注项并作出结论。", view: "task", task: "Z4401000100003100001_17" },
       { role: "review-work", title: "核赔通过 · 案件结案", description: "结案 Agent 已完成支付前置校验、结案归档和客户通知，本案生命周期结束。", view: "home", task: null }
@@ -17473,6 +17541,11 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
           }, 0);
         }
         if (stage.view === "survey-submit") window.setTimeout(() => spAppendSurveySubmitReceipt(), 0);
+        if (stage.view === "damage-work-order") window.setTimeout(() => spMockDamageRepairOrderUpload(), 0);
+        if (stage.view === "damage-images") window.setTimeout(() => spShowDamageImageReview(), 0);
+        if (stage.view === "damage-input") window.setTimeout(() => spApplyDamageQuickEntry({ source: "快捷录入" }), 0);
+        if (stage.view === "damage-risk") window.setTimeout(() => spShowDamageLeakageReview(), 0);
+        if (stage.view === "damage-payment") window.setTimeout(() => spMockDamagePaymentDocumentUpload(), 0);
         if (stage.view === "damage-submit") window.setTimeout(() => spAppendDamageSubmitReceipt(), 0);
       }
     };
@@ -18254,6 +18327,13 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
         `;
       }).join("");
       spChatPane.scrollTop = spChatPane.scrollHeight;
+      if (xosHome?.classList.contains("task-dialogue-mode") && spMessages.some((message) => message.role === "user")) {
+        window.requestAnimationFrame(() => {
+          const latestAgentMessage = Array.from(spChatPane.querySelectorAll(".sp-message")).reverse()
+            .find((message) => !message.classList.contains("user"));
+          latestAgentMessage?.scrollIntoView({ block: "start" });
+        });
+      }
     };
 
     const spGuideSchemas = {
@@ -18413,8 +18493,189 @@ if (docInfoCloseBtn) docInfoCloseBtn.addEventListener("click", closeDocInfoModal
       if (typeof showToast === "function") showToast(`已在对话中打开：${title}`);
     };
 
+    const spDamageRepairOrderLines = {
+      parts: ["前保险杠总成 × 1", "左前翼子板 × 1", "左前雾灯总成 × 1"],
+      labor: ["前保险杠总成 - 更换", "左前翼子板 - 维修", "左前雾灯总成 - 更换"],
+      cartItems: ["bumper", "fender", "fogLamp", "bumperReplace", "fenderRepair", "fogLampReplace"]
+    };
+    const spDamageTotalValue = () => Number(String(damageTotalAmount?.textContent || "").replace(/[^\d.]/g, "")) || 0;
+    const spFillDamageEstimateFromRepairOrder = () => {
+      spDamageRepairOrderLines.cartItems.forEach((itemKey) => {
+        const row = document.querySelector(`[data-damage-item="${itemKey}"]`);
+        const check = row?.querySelector(".damage-cart-check");
+        if (!row || !check) return;
+        row.hidden = false;
+        check.checked = true;
+      });
+      const lossPart = document.querySelector('[data-damage-detail-field="lossPart"]');
+      const damageMethod = document.querySelector('[data-damage-detail-field="damageMethod"]');
+      const lossType = document.querySelector('[data-damage-detail-field="lossType"]');
+      if (lossPart) lossPart.value = "前保险杠、左前翼子板、左前雾灯";
+      if (damageMethod) damageMethod.value = "线上图片定损";
+      if (lossType) lossType.value = "部分损失";
+      damageWorkflowState.repairOrderRecognized = true;
+      document.querySelector('[data-damage-cart-pane="damagePartsPane"]')?.click();
+      updateDamageCart();
+      return spDamageTotalValue();
+    };
+    const spAppendDamageRepairOrderReceipt = (uploaded) => {
+      if (!spActiveTaskContext?.isDamageTask) return;
+      spMessages.push({ role: "user", text: `上传维修工单：${uploaded.map((file) => file.name).join("、")}` });
+      const total = spFillDamageEstimateFromRepairOrder();
+      const classificationRows = uploaded.map((file) => `<div class="sp-recognition-file"><span title="${spEscape(file.name)}">${spEscape(file.name)}</span><b>${spEscape(file.category || inferMaterialCategory(file))}</b></div>`).join("");
+      spMessages.push({
+        role: "agent",
+        html: true,
+        duration: "00:06",
+        text: `
+          <div class="sp-recognition-card">
+            <div class="sp-dialogue-conclusion is-pass"><strong>维修工单识别完成</strong><span>已回填定损单</span></div>
+            <p class="sp-recognition-summary">已从维修工单中识别出 3 项配件和 3 项工时，并写入原有定损清单。</p>
+            <section class="sp-recognition-section"><div class="sp-recognition-section-title"><span>单证分类</span><small>${uploaded.length} 份已分类</small></div><div class="sp-recognition-list">${classificationRows}</div></section>
+            <section class="sp-recognition-section"><div class="sp-recognition-section-title"><span>识别配件</span><small>已填入</small></div><div class="sp-recognition-list">${spDamageRepairOrderLines.parts.map((item) => `<div class="sp-recognition-field"><span>${item}</span><b>已填入</b></div>`).join("")}</div></section>
+            <section class="sp-recognition-section"><div class="sp-recognition-section-title"><span>识别工时</span><small>已填入</small></div><div class="sp-recognition-list">${spDamageRepairOrderLines.labor.map((item) => `<div class="sp-recognition-field"><span>${item}</span><b>已填入</b></div>`).join("")}</div></section>
+            <div class="sp-recognition-filled"><strong>定损清单已同步</strong><span>当前定损合计 ${formatDamageAmount(total)}；仍可在定损中心逐项核对。</span></div>
+            <p class="sp-user-action"><strong>下一步</strong><span>查看车损图片，确认损失边界和处理方式。</span></p>
+          </div>`
+      });
+      spSetTab("chat");
+      spRenderChat();
+    };
+    const spFillPaymentFromDocument = () => {
+      const record = document.querySelector(".payment-record");
+      if (!record) return 0;
+      const total = spDamageTotalValue();
+      setPaymentRecordValues(record, {
+        item: "车辆维修赔款",
+        amount: total.toFixed(2),
+        payeeType: "代理索赔修理厂",
+        payee: "上海华星汽车维修有限公司"
+      });
+      const rows = Array.from(record.querySelectorAll(".payment-grid tr"));
+      const bankClass = rows[2]?.querySelector("select.field");
+      const bankName = rows[2]?.querySelector("input.field");
+      const bankDetail = rows[3]?.querySelector("input.field");
+      const account = rows[4]?.querySelector("input.field");
+      const companyAccount = rows[3]?.querySelectorAll('input[type="radio"]')[1];
+      if (bankClass) bankClass.value = "股份制银行";
+      if (bankName) bankName.value = "招商银行上海浦东支行";
+      if (bankDetail) bankDetail.value = "招商银行上海浦东支行营业部";
+      if (account) account.value = "6214 **** **** 0186";
+      if (companyAccount) companyAccount.checked = true;
+      const selected = record.querySelector(".payment-record-select");
+      if (selected) selected.checked = true;
+      damageWorkflowState.paymentDocumentRecognized = true;
+      updatePaymentSummary();
+      return total;
+    };
+    const spAppendDamagePaymentReceipt = (uploaded) => {
+      if (!spActiveTaskContext?.isDamageTask) return;
+      spMessages.push({ role: "user", text: `上传支付单证：${uploaded.map((file) => file.name).join("、")}` });
+      const total = spFillPaymentFromDocument();
+      const classificationRows = uploaded.map((file) => `<div class="sp-recognition-file"><span title="${spEscape(file.name)}">${spEscape(file.name)}</span><b>${spEscape(file.category || inferMaterialCategory(file))}</b></div>`).join("");
+      spMessages.push({
+        role: "agent",
+        html: true,
+        duration: "00:05",
+        text: `
+          <div class="sp-recognition-card">
+            <div class="sp-dialogue-conclusion is-pass"><strong>支付单证识别完成</strong><span>已回填支付信息</span></div>
+            <p class="sp-recognition-summary">已识别支付对象、赔付项目、金额和账户信息，并与当前定损清单进行核对。</p>
+            <section class="sp-recognition-section"><div class="sp-recognition-section-title"><span>单证分类</span><small>${uploaded.length} 份已分类</small></div><div class="sp-recognition-list">${classificationRows}</div></section>
+            <section class="sp-recognition-section"><div class="sp-recognition-section-title"><span>识别结果</span><small>已填入</small></div><div class="sp-recognition-list">
+              <div class="sp-recognition-field"><span>支付对象：代理索赔修理厂 / 上海华星汽车维修有限公司</span><b>已填入</b></div>
+              <div class="sp-recognition-field"><span>赔付项目：车辆维修赔款 · ${formatDamageAmount(total)}</span><b>已填入</b></div>
+              <div class="sp-recognition-field"><span>开户行：招商银行上海浦东支行 · 6214 **** **** 0186</span><b>已填入</b></div>
+            </div></section>
+            <div class="sp-recognition-filled"><strong>支付信息已同步</strong><span>支付金额已按当前定损合计回填，可继续提交定损。</span></div>
+            <p class="sp-user-action"><strong>下一步</strong><span>查看风险提示，确认没有待处理的防渗漏项后提交。</span></p>
+          </div>`
+      });
+      switchPane("paymentPane");
+      spSetTab("chat");
+      spRenderChat();
+    };
+    const spApplyDamageQuickEntry = ({ source = "快捷录入" } = {}) => {
+      if (!spActiveTaskContext?.isDamageTask) {
+        showToast("请先打开定损任务", "error");
+        return;
+      }
+      const transcript = "前保险杠总成更换，左前翼子板维修，左前雾灯总成更换";
+      spMessages.push({ role: "user", text: source === "语音录入" ? `语音录入：${transcript}` : "快捷录入：前保险杠、左前翼子板、左前雾灯" });
+      const total = spFillDamageEstimateFromRepairOrder();
+      spMessages.push({
+        role: "agent",
+        html: true,
+        duration: "00:04",
+        text: `<div class="sp-recognition-card"><div class="sp-dialogue-conclusion is-pass"><strong>${source}完成</strong><span>定损信息已同步</span></div><p class="sp-recognition-summary">已将损失部位、线上图片定损方式，以及对应的配件和工时写入原有字段与定损清单。</p><section class="sp-recognition-section"><div class="sp-recognition-section-title"><span>本次写入</span><small>可继续修改</small></div><div class="sp-recognition-list"><div class="sp-recognition-field"><span>损失部位：前保险杠、左前翼子板、左前雾灯</span><b>已填入</b></div><div class="sp-recognition-field"><span>定损方式：线上图片定损</span><b>已填入</b></div><div class="sp-recognition-field"><span>定损合计：${formatDamageAmount(total)}</span><b>已更新</b></div></div></section><p class="sp-user-action"><strong>下一步</strong><span>我会持续进行防渗漏检查；请处理出现的具体关注项。</span></p></div>`
+      });
+      openTaskDetails({ shouldRecord: false, scrollToFirst: false });
+      spSetTab("chat");
+      spRenderChat();
+    };
+    const spShowDamageImageReview = () => {
+      if (!spActiveTaskContext?.isDamageTask) return;
+      ensureDamageEvidenceDocuments();
+      activeDocCategory = "线上单证未分类";
+      switchPane("docPane");
+      renderDocPage();
+      spMessages.push({ role: "user", text: "查看车损图片" });
+      spMessages.push({ role: "agent", html: true, text: `<div class="sp-recognition-card"><div class="sp-dialogue-conclusion is-pass"><strong>已定位车损图片</strong><span>材料单证已打开</span></div><p class="sp-recognition-summary">右侧已展示现有车损原图。请结合图片核对左前翼子板、左前雾灯和保险杠内部的损伤边界。</p><p class="sp-user-action"><strong>你需要</strong><span>点击缩略图查看原图；无法确认的部位会继续留在实时风险提示中。</span></p></div>` });
+      spSetTab("chat");
+      spRenderChat();
+    };
+    const spShowDamageLeakageReview = () => {
+      if (!spActiveTaskContext?.isDamageTask) return;
+      openTaskDetails({ shouldRecord: false, scrollToFirst: false });
+      renderDamageLeakageCheck();
+      const status = document.getElementById("damageLeakageStatus")?.textContent || "检测中";
+      const items = Array.from(document.querySelectorAll("#damageLeakageList .damage-leakage-item")).map((item) => item.textContent).filter(Boolean);
+      spMessages.push({ role: "user", text: "查看风险提示" });
+      spMessages.push({ role: "agent", html: true, text: `<div class="sp-recognition-card"><div class="sp-dialogue-conclusion ${items.some((item) => /待上传|低配高赔|尚未|隐损|不一致/.test(item)) ? "is-blocked" : "is-pass"}"><strong>防渗漏检查：${spEscape(status)}</strong><span>实时更新</span></div><section class="sp-recognition-section"><div class="sp-recognition-section-title"><span>当前检查结果</span><small>${items.length} 条</small></div><div class="sp-recognition-list">${items.map((item) => `<div class="sp-recognition-field"><span>${spEscape(item)}</span><b>关注</b></div>`).join("")}</div></section><p class="sp-user-action"><strong>下一步</strong><span>每次修改定损信息、清单或支付信息后，这里都会自动重新检查。</span></p></div>` });
+      spSetTab("chat");
+      spRenderChat();
+    };
+    const spMockDamageFiles = (entries) => entries.map(([name, category, type], index) => ({
+      id: `damage-mock-${Date.now()}-${index}`,
+      name,
+      category,
+      selected: false,
+      rotate: 0,
+      flipX: 1,
+      flipY: 1,
+      type,
+      url: type === "image" ? "assets/car-top-view.png" : ""
+    }));
+    const spMockDamageRepairOrderUpload = () => {
+      if (!spActiveTaskContext?.isDamageTask) return;
+      const uploaded = spMockDamageFiles([["维修工单.pdf", "公用单证", "pdf"]]);
+      files.push(...uploaded);
+      renderThumbs();
+      renderDocPage();
+      spAppendDamageRepairOrderReceipt(uploaded);
+      showToast("维修工单已上传并完成识别");
+    };
+    const spMockDamagePaymentDocumentUpload = () => {
+      if (!spActiveTaskContext?.isDamageTask) return;
+      const uploaded = spMockDamageFiles([["维修支付单证.pdf", "支付-姓名", "pdf"]]);
+      files.push(...uploaded);
+      renderThumbs();
+      renderDocPage();
+      spAppendDamagePaymentReceipt(uploaded);
+      showToast("支付单证已上传并完成识别");
+    };
+
     const spAppendMaterialReceipt = (uploaded) => {
       if (!uploaded?.length || !spActiveTaskContext) return;
+      const materialNames = uploaded.map((file) => file.name || "").join(" ");
+      if (spActiveTaskContext.isDamageTask && /支付|收款|转账|银行回单/.test(materialNames)) {
+        spAppendDamagePaymentReceipt(uploaded);
+        return;
+      }
+      if (spActiveTaskContext.isDamageTask && /维修.*(?:工单|报价)|工单|维修报价/.test(materialNames)) {
+        spAppendDamageRepairOrderReceipt(uploaded);
+        return;
+      }
       spMessages.push({ role: "user", text: `上传材料单证：${uploaded.map((file) => file.name).join("、")}` });
       const isSurveyUpload = !spActiveTaskContext.isDamageTask && !spActiveTaskContext.isReviewTask && spActiveTaskContext.cluster !== "tracking";
       const classificationRows = uploaded.map((file) => {
